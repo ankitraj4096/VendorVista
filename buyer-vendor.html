@@ -13,421 +13,288 @@
       --primary: #58c061;
       --primary-dark: #357138;
       --secondary: #fffef7;
+      --accent: #fbe27a;
       --card-bg: #f7fdf6;
       --border: #dbeadb;
-      --shadow: 0 6px 28px rgba(41, 88, 40, 0.12);
-      --text-dark: #232c1e;
-      --text-light: #526a3b;
       --button: #26c485;
       --button-text: #fff;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
     }
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
     }
     body {
-      font-family: 'Poppins', Arial, sans-serif;
       margin: 0; padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
       min-height: 100vh;
-    }
-    header.navbar {
-      max-width: 100vw;
-      padding: 18px 7vw;
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       align-items: center;
+    }
+    /* Navbar at top */
+    header.navbar {
+      width: 100vw;
+      left: 0; right: 0;
+      padding: 15px 0;
       background: var(--primary);
       color: #fff;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: sticky;
       top: 0;
-      z-index: 101;
-      border-bottom-left-radius: 13px;
-      border-bottom-right-radius: 13px;
-      box-shadow: 0 4px 16px rgba(66,130,42,.15);
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
     }
-    .navbar nav {
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
       display: flex;
-      gap: 2vw;
+      justify-content: space-between;
+      align-items: center;
     }
-    .navbar a {
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
       color: #fff;
       text-decoration: none;
       font-weight: 700;
-      font-size: 1.08rem;
-      padding-bottom: 1px;
+      font-size: 1.05rem;
+      padding-bottom: 2px;
       border-bottom: 2.5px solid transparent;
-      transition: color 0.14s, border 0.14s;
+      transition: color 0.2s, border-bottom-color 0.2s;
+      position: relative;
     }
-    .navbar a:hover, .navbar a.active {
-      color: #fbe27a;
-      border-bottom-color: #fbe27a;
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
 
     main.container {
       max-width: 900px;
-      margin: 36px auto 60px auto;
-      padding: 0 15px;
-    }
-    .vendor-header {
+      width: 95%;
+      margin: 44px auto 60px auto;
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      border-radius: 1.3em;
+      padding: 36px 36px 48px 36px;
       display: flex;
-      gap: 24px;
-      align-items: center;
-      margin-bottom: 30px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 28px;
     }
-    .vendor-image {
+    header.page-header {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    section.vendor-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      align-items: center;
+    }
+    .vendor-photo {
       width: 110px;
       height: 110px;
       border-radius: 50%;
-      border: 4px solid var(--primary);
+      background-color: #d1f1bd;
+      border: 3.2px solid var(--primary);
+      box-shadow: 0 8px 24px #b7e9a266;
       object-fit: cover;
-      box-shadow: 0 7px 30px #b2e7a027;
       flex-shrink: 0;
     }
-    .vendor-info {
-      flex: 1;
-      min-width: 240px;
+    .vendor-details {
+      flex: 1 1 250px;
+      min-width: 250px;
     }
     .vendor-name {
       font-family: 'Montserrat', sans-serif;
-      font-size: 2rem;
       color: var(--primary-dark);
-      font-weight: 800;
-      margin: 0 0 10px 0;
+      font-size: 1.9rem;
+      font-weight: 900;
+      margin: 0 0 6px 0;
     }
-    .rating {
-      color: var(--primary);
-      font-weight: 700;
-      font-size: 1.05rem;
+    .vendor-contact {
+      font-size: 1rem;
+      color: var(--text-light);
       margin-bottom: 8px;
+      user-select: text;
     }
-    .rating i {
+    .vendor-contact i {
+      margin-right: 6px;
       color: var(--primary);
-      vertical-align: middle;
-      margin-right: 2px;
     }
-    .badges {
-      display: flex;
-      gap: 14px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-    .badge {
-      background: var(--primary);
-      color: #fff;
-      padding: 6px 14px;
-      border-radius: 14px;
-      font-weight: 700;
+    .vendor-location,
+    .vendor-hours {
       font-size: 0.95rem;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      user-select: none;
-    }
-    .badge.hygiene {
-      background: #afd375;
-      color: #356127;
-    }
-    .locations {
       color: var(--text-light);
-      font-size: 1rem;
       margin-bottom: 6px;
-    }
-    .open-hours {
-      font-weight: 700;
-      color: var(--primary-dark);
-      font-size: 1.05rem;
-      letter-spacing: 0.7px;
-      margin-bottom: 12px;
-    }
-
-    .actions-row {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-      margin-bottom: 30px;
-    }
-    .action-btn {
-      flex: 1 1 120px;
-      background: var(--button);
-      color: var(--button-text);
-      font-weight: 700;
-      border: none;
-      border-radius: 1.2em;
-      padding: 14px 0;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: background 0.24s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
       user-select: none;
     }
-    .action-btn:hover {
-      background: #1fa471;
-    }
-    .action-btn svg {
-      font-size: 1.3rem;
-      vertical-align: middle;
-    }
-
-    .story-section {
-      background: var(--card-bg);
-      padding: 26px 28px 28px 28px;
-      border-radius: 1.2em;
-      box-shadow: var(--shadow);
-      max-width: 100%;
-      margin-bottom: 36px;
-      font-size: 1rem;
-      color: var(--text-light);
-      line-height: 1.55;
-      position: relative;
-    }
-    .story-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.35rem;
-      margin-bottom: 12px;
-      color: var(--primary-dark);
-    }
-    .story-content.collapsed {
-      max-height: 68px;
-      overflow: hidden;
-      transition: max-height 0.5s ease;
-      position: relative;
-    }
-    .story-content.collapsed::after {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 28px;
-      background: linear-gradient(transparent, var(--card-bg));
-      pointer-events: none;
-    }
-    .read-more-btn {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1rem;
-      margin-top: 10px;
-      background: none;
+    button.contact-btn {
+      margin-top: 16px;
+      background: var(--primary);
+      color: var(--button-text);
       border: none;
-      color: var(--primary);
+      padding: 12px 28px;
+      border-radius: 1.3em;
+      font-weight: 700;
+      font-size: 1.1rem;
+      font-family: 'Montserrat', sans-serif;
       cursor: pointer;
-      padding: 0;
+      box-shadow: 0 5px 22px #afd37555;
+      transition: background 0.28s ease;
+      user-select: none;
     }
-    .read-more-btn:hover {
-      text-decoration: underline;
+    button.contact-btn:hover,
+    button.contact-btn:focus-visible {
+      background: var(--accent);
+      color: var(--text-dark);
+      outline: none;
     }
-
-    .menu-section {
-      max-width: 100%;
+    section.produce-list-section {
+      border-radius: 1.1em;
+      box-shadow: var(--shadow);
+      background: var(--card-bg);
+      padding: 28px 28px 32px 28px;
     }
-    .menu-title {
+    section.produce-list-section h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 1.5rem;
-      margin-bottom: 24px;
+      font-size: 1.6rem;
       color: var(--primary-dark);
+      margin-bottom: 18px;
     }
-    .menu-list {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 28px 40px;
-      margin-bottom: 40px;
+    ul.produce-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
     }
-    .menu-item {
-      background: var(--card-bg);
-      padding: 20px 18px 18px 18px;
-      border-radius: 1.2em;
-      box-shadow: var(--shadow);
+    ul.produce-list li {
+      background: #e9f6d5;
+      border-radius: 1em;
+      box-shadow: 0 5px 20px #b7e9a270;
+      padding: 14px 20px;
+      flex: 1 1 calc(33% - 24px);
+      min-width: 160px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      user-select: none;
+      cursor: default;
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: box-shadow 0.2s ease, transform 0.22s ease;
-      position: relative;
+      gap: 6px;
     }
-    .menu-item:hover {
-      box-shadow: 0 12px 42px #97e8c5d4, 0 2.5px 18px #afd37567;
-      transform: translateY(-3px) scale(1.02);
-      z-index: 3;
-    }
-    .menu-item-title {
-      font-size: 1.14rem;
-      font-weight: 700;
-      color: #21662e;
-      font-family: 'Montserrat', sans-serif;
-      margin-bottom: 8px;
-    }
-    .menu-item-desc {
-      font-size: 0.97rem;
+    span.produce-desc {
+      font-weight: 400;
+      font-size: 0.9rem;
       color: var(--text-light);
-      margin-bottom: 13px;
-      min-height: 40px;
-    }
-    .menu-item-price {
-      font-weight: 700;
-      color: var(--button);
-      font-size: 1.1rem;
-      margin-bottom: 12px;
-    }
-    .customize-btn {
-      padding: 8px 24px;
-      background: var(--button);
-      color: var(--button-text);
-      border: none;
-      border-radius: 1.1em;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 2px 16px #26c48544;
-      transition: background 0.22s ease;
-      align-self: start;
-    }
-    .customize-btn:hover {
-      background: #1fa471;
     }
 
-    /* Responsive */
-    @media (max-width: 700px) {
-      .menu-list {
-        grid-template-columns: 1fr;
+    @media (max-width: 650px) {
+      main.container {
+        padding: 24px 20px 36px 20px;
+        width: 95%;
+        margin: 30px auto 50px auto;
       }
-      .vendor-header {
-        justify-content: center;
+      section.vendor-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
       }
-      .vendor-info {
-        max-width: 100%;
+      .vendor-details {
+        min-width: auto;
       }
-    }
-    @media (max-width: 420px) {
-      header.navbar {
-        font-size: 1.05rem;
-        padding: 16px 12px;
+      ul.produce-list {
+        flex-direction: column;
+      }
+      ul.produce-list li {
+        flex: none;
+        min-width: auto;
+      }
+      button.contact-btn {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
-
-<header class="navbar">
-  StreetSymphony - Vendor Profile
-  <nav>
-    <a href="buyer-dashboard.html">Dashboard</a>
-    <a href="buyer-street-food.html">Street Food</a>
-    <a href="buyer-fresh-produce.html">Produce</a>
-    <a href="shared-live-map.html">Map</a>
-    <a href="shared-stories-feed.html">Stories</a>
-    <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
-  </nav>
-</header>
-
-<main class="container">
-
-  <section class="vendor-header">
-    <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=facearea&w=200&q=80" alt="Vendor Image" class="vendor-image" />
-    <div class="vendor-info">
-      <h1 class="vendor-name">Sharma Chaat</h1>
-      <div class="rating" aria-label="Rating: 4.8 out of 5 stars">
-        <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-half"></i>
-        4.8 (234 reviews)
-      </div>
-      <div class="badges" aria-label="Vendor badges">
-        <div class="badge hygiene" title="Certified Clean and Hygienic">
-          <i class="bi bi-patch-check-fill"></i> Clean
-        </div>
-        <div class="badge">
-          <i class="bi bi-fire"></i> Popular
-        </div>
-      </div>
-      <div class="locations"><i class="bi bi-geo-alt"></i> 0.5 km away</div>
-      <div class="open-hours">Open: 6 AM - 11 PM</div>
-      <div class="actions-row">
-        <button class="action-btn" aria-label="Call vendor"><i class="bi bi-telephone-fill"></i> Call</button>
-        <button class="action-btn" aria-label="Chat with vendor"><i class="bi bi-chat-dots-fill"></i> Chat</button>
-        <button class="action-btn" aria-label="Get directions"><i class="bi bi-compass-fill"></i> Directions</button>
-      </div>
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="buyer-dashboard.html">Dashboard</a>
+        <a href="buyer-fresh-produce.html">Produce</a>
+        <a href="buyer-vendor.html" class="active" aria-current="page">Favorite Vendors</a>
+        <a href="buyer-exchange.html">Ingredient Swap</a>
+        <a href="shared-live-map.html">Map</a>
+        <a href="shared-stories-feed.html">Stories</a>
+        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
     </div>
-  </section>
+  </header>
 
-  <section class="story-section" aria-label="Vendor story">
-    <h2 class="story-title">Our Story</h2>
-    <p class="story-content collapsed" id="storyContent">
-      Sharma Chaat started as a humble family stall more than 25 years ago, dedicated to serving authentic and hygienic chaat dishes. Our recipes are handed down through generations, and we pride ourselves on fresh ingredients, clean preparation spaces, and friendly service. Over the years, we have grown but never compromised on the quality and trust our customers expect. Come taste the tradition!
-    </p>
-    <button class="read-more-btn" id="readMoreBtn" aria-expanded="false" aria-controls="storyContent">Read More</button>
-  </section>
+  <main class="container" role="main" aria-label="Vendor profile and produce offerings">
+    <header class="page-header" tabindex="0">Vendor Profile</header>
 
-  <section class="menu-section" aria-label="Menu">
-    <h2 class="menu-title">Menu</h2>
-    <div class="menu-list" id="menuList">
-      <article class="menu-item" tabindex="0">
-        <h3 class="menu-item-title">Pani Puri</h3>
-        <p class="menu-item-desc">Crispy puris stuffed with spicy tamarind water, chickpeas, and potatoes.</p>
-        <div class="menu-item-price">₹30</div>
-        <button class="customize-btn" aria-label="Add Pani Puri to cart">Add to Cart</button>
-      </article>
-      <article class="menu-item" tabindex="0">
-        <h3 class="menu-item-title">Bhel Puri</h3>
-        <p class="menu-item-desc">Puffed rice with tangy tamarind sauce, sev, chopped onions, and coriander.</p>
-        <div class="menu-item-price">₹40</div>
-        <button class="customize-btn" aria-label="Add Bhel Puri to cart">Add to Cart</button>
-      </article>
-      <article class="menu-item" tabindex="0">
-        <h3 class="menu-item-title">Vada Pav</h3>
-        <p class="menu-item-desc">Fried potato fritter stuffed in a soft bun with spicy chutneys.</p>
-        <div class="menu-item-price">₹25</div>
-        <button class="customize-btn" aria-label="Add Vada Pav to cart">Add to Cart</button>
-      </article>
-      <!-- Add more menu items as needed -->
-    </div>
-  </section>
-</main>
+    <section class="vendor-info">
+      <img
+        src="https://images.unsplash.com/photo-1504595403659-9088ce801e29?auto=format&fit=crop&w=200&q=80"
+        alt="Vendor profile picture"
+        class="vendor-photo"
+      />
+      <div class="vendor-details">
+        <h1 class="vendor-name">Green Valley Farm</h1>
+        <div class="vendor-contact"><i class="bi bi-envelope-fill"></i> greenvalley@example.com</div>
+        <div class="vendor-contact"><i class="bi bi-telephone-fill"></i> +91 98765 43210</div>
+        <div class="vendor-location"><i class="bi bi-geo-alt-fill"></i> Near Sadar Bazaar, Delhi</div>
+        <div class="vendor-hours"><i class="bi bi-clock-history"></i> Mon-Sun 7:00 AM - 8:00 PM</div>
+        <button class="contact-btn" type="button" onclick="alert('Contact vendor feature coming soon')">Contact Vendor</button>
+      </div>
+    </section>
 
-<script>
-  // Toggle read more/less for story
-  const readMoreBtn = document.getElementById('readMoreBtn');
-  const storyContent = document.getElementById('storyContent');
-
-  readMoreBtn.addEventListener('click', () => {
-    if(storyContent.classList.contains('collapsed')) {
-      storyContent.classList.remove('collapsed');
-      readMoreBtn.textContent = 'Read Less';
-      readMoreBtn.setAttribute('aria-expanded', 'true');
-    } else {
-      storyContent.classList.add('collapsed');
-      readMoreBtn.textContent = 'Read More';
-      readMoreBtn.setAttribute('aria-expanded', 'false');
-    }
-  });
-
-  // Add to Cart buttons
-  document.querySelectorAll('.customize-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      btn.textContent = 'Added!';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Add to Cart';
-        btn.disabled = false;
-      }, 1200);
-    });
-  });
-
-  // Placeholder button event for call/chat/directions
-  document.querySelectorAll('.action-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      alert(`Feature '${btn.textContent.trim()}' coming soon!`);
-    });
-  });
-</script>
-
+    <section class="produce-list-section" aria-label="Produce offerings by vendor">
+      <h2>Available Produce</h2>
+      <ul class="produce-list">
+        <li>
+          Tomatoes
+          <span class="produce-desc">Organic, locally grown</span>
+        </li>
+        <li>
+          Onions
+          <span class="produce-desc">Fresh from the seasonal harvest</span>
+        </li>
+        <li>
+          Carrots
+          <span class="produce-desc">Sweet, crunchy, and naturally grown</span>
+        </li>
+        <li>
+          Spinach
+          <span class="produce-desc">Rich in nutrients and freshness</span>
+        </li>
+        <!-- Add more produce as fetched from backend -->
+      </ul>
+    </section>
+  </main>
 </body>
 </html>

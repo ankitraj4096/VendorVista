@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Fresh Produce Marketplace | StreetSymphony</title>
+  <title>Fresh Produce Market | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
@@ -14,320 +14,219 @@
       --primary-dark: #357138;
       --secondary: #fffef7;
       --accent: #fbe27a;
-      --card-bg: #edfdef;
-      --border: #d2e5cc;
-      --shadow: 0 6px 34px rgba(41, 88, 40, 0.12);
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
       --button: #26c485;
       --button-text: #fff;
+      --button-hover: #1fa471;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
       --text-dark: #232c1e;
       --text-light: #526a3b;
     }
-    * { box-sizing: border-box; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
     body {
-      font-family: 'Poppins', Arial, sans-serif;
       margin: 0;
       padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
       min-height: 100vh;
-    }
-    header.navbar {
-      max-width: 100vw;
-      padding: 18px 7vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: var(--primary);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.3rem;
-      position: sticky;
-      top: 0;
-      z-index: 101;
-      border-bottom-left-radius: 13px;
-      border-bottom-right-radius: 13px;
-      box-shadow: 0 4px 16px rgba(66,130,42,.11);
-    }
-    .navbar nav {
-      display: flex;
-      gap: 2vw;
-    }
-    .navbar a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.08rem;
-      padding-bottom: 1px;
-      border-bottom: 2.5px solid transparent;
-      transition: color 0.14s, border 0.14s;
-    }
-    .navbar a.active,
-    .navbar a:hover { color: var(--accent); border-bottom: 2.5px solid var(--accent);}
-    .produce-hero {
-      max-width: 1100px;
-      margin: 36px auto 18px auto;
-      padding: 0 7vw;
-    }
-    .hero-title {
-      font-size: 2.2rem;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      color: var(--primary-dark);
-      margin-bottom: 6px;
-      letter-spacing: 1.6px;
-    }
-    .hero-sub {
-      color: var(--text-light);
-      font-size: 1.1rem;
-      margin-bottom: 14px;
-      max-width: 540px;
-    }
-    .searchbar-row {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      align-items: center;
-      margin-top: 15px;
-    }
-    .produce-search {
-      flex: 1 1 240px;
-      font-size: 1.09rem;
-      padding: 12px 18px;
-      border-radius: 1.13em;
-      border: 1.7px solid var(--border);
-      background: #fff;
-      color: var(--text-dark);
-      margin-right: 5px;
-    }
-    .filter-chip {
-      background: var(--accent);
-      color: #6a691b;
-      font-weight: 700;
-      padding: 7px 16px;
-      border: none;
-      border-radius: 2em;
-      font-size: 1.03em;
-      cursor: pointer;
-      margin-right: 5px;
-      display: flex;
-      gap:7px;
-      align-items:center;
-      box-shadow:0 1.5px 8px #ffe39222;
-      transition: background 0.14s, color 0.13s;
-    }
-    .filter-chip.active, .filter-chip:hover {
-      background: var(--primary); color: #fff;
-    }
-    .category-row {
-      display: flex;
-      gap: 18px;
-      margin: 24px 0 33px 6px;
-      flex-wrap: wrap;
-    }
-    .category-btn {
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      font-size: 1.07em;
-      padding: 8px 22px;
-      border-radius: 2em;
-      border: none;
-      margin-bottom: 6px;
-      letter-spacing: 0.3px;
-      box-shadow: 0 2px 9px #aef3b61b;
-      transition: background 0.15s, color 0.13s;
-      cursor:pointer;
-    }
-    .category-btn.active,
-    .category-btn:hover { background: var(--accent); color:var(--text-dark);}
-    /* Product Grid */
-    .produce-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-      gap: 35px 28px;
-      max-width: 1100px;
-      margin: 0 auto 55px auto;
-      padding: 0 7vw;
-    }
-    .produce-card {
-      background: var(--card-bg);
-      border-radius: 1.2em;
-      box-shadow: var(--shadow);
-      padding: 23px 21px 16px 21px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 2px solid var(--border);
-      position:relative;
-      transition: box-shadow 0.13s, transform 0.12s, border-color 0.13s;
-      z-index:1;
     }
-    .produce-card:hover {
-      box-shadow: 0 13px 40px #97e8c536, 0 2.5px 16px #afd37535;
-      transform: scale(1.027);
-      border-color: var(--primary);
-      z-index:5;
-    }
-    .produce-img {
-      width: 70px; height: 70px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 3px solid var(--primary);
-      background: #bbf7b2;
-      margin-bottom: 10px;
-    }
-    .produce-title {
-      font-size: 1.14em;
+    /* Navbar at top */
+    header.navbar {
+      width: 100vw;
+      left: 0; right: 0;
+      padding: 15px 0;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      color: #226b36;
-      font-family: 'Montserrat',sans-serif;
-      margin-bottom: 3px;
-      text-align:center;
-      letter-spacing: 0.3px;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
     }
-    .produce-meta {
-      font-size: .96em;
-      color: #51613e;
-      margin: 6px 0 2px 0;
-      text-align:center;
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .produce-price {
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
+      color: #fff;
+      text-decoration: none;
       font-weight: 700;
-      color: var(--button);
-      margin-bottom: 2px;
-      font-size: 1.12em;
+      font-size: 1.05rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
+      position: relative;
     }
-    .distance {
-      color: #8ba894;
-      font-size: 0.96em;
-      padding-left: 7px;
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
-    .add-btn {
-      margin-top:11px;
-      background: var(--button);
+
+    main.container {
+      max-width: 900px;
+      width: 95%;
+      margin: 44px auto 60px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    header.page-header {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    button.btn-back {
+      align-self: flex-start;
+      background: var(--primary);
+      border: none;
       color: var(--button-text);
-      font-family: inherit;
-      border:none;
-      border-radius:1.1em;
-      padding:8px 26px;
-      font-weight:700;
-      font-size:1em;
-      cursor:pointer;
-      box-shadow:0 2px 15px #26c48529;
-      transition: background 0.15s;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      padding: 10px 26px;
+      border-radius: 1.3em;
+      cursor: pointer;
+      box-shadow: 0 5px 18px #58c061bb;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
     }
-    .add-btn:hover { background:#1fa471; }
-    /* Responsive */
-    @media (max-width: 900px) {
-      .produce-hero, .produce-grid { padding: 0 2vw;}
+    button.btn-back:hover,
+    button.btn-back:focus-visible {
+      background: var(--button-hover);
+      outline: none;
     }
-    @media (max-width: 650px) {
-      header.navbar { font-size: 1rem; padding:13px 3vw;}
-      .hero-title { font-size:1.25rem;}
+
+    .produce-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+      gap: 20px;
     }
+
+    article.produce-card {
+      background: #daffe1;
+      border-radius: 1em;
+      box-shadow: 0 7px 24px #8dd78470;
+      padding: 18px 14px 22px 14px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+    article.produce-card:hover,
+    article.produce-card:focus-within {
+      background: #c7f18f;
+      outline: none;
+    }
+    article.produce-card h3 {
+      color: var(--primary-dark);
+      font-weight: 700;
+      margin: 0;
+      font-size: 1.2rem;
+    }
+    article.produce-card p {
+      margin: 0;
+      color: var(--text-dark);
+      font-size: 0.95rem;
+      flex-grow: 1;
+      user-select: none;
+    }
+    article.produce-card .vendor-name {
+      font-size: 0.85rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
     @media (max-width: 480px) {
-      .produce-hero, .produce-grid { padding:0 1vw;}
+      main.container {
+        margin: 20px 14px 40px 14px;
+        padding: 0;
+        width: 100%;
+      }
+      .produce-grid {
+        grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+      }
+      button.btn-back {
+        padding: 9px 22px;
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-  <header class="navbar">
-    StreetSymphony
-    <nav>
-      <a href="buyer-dashboard.html">Dashboard</a>
-      <a href="buyer-street-food.html">Street Food</a>
-      <a href="buyer-fresh-produce.html" class="active">Produce</a>
-      <a href="shared-live-map.html">Map</a>
-      <a href="shared-stories-feed.html">Stories</a>
-      <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
-    </nav>
+  <!-- Wide-top Navbar -->
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="buyer-dashboard.html">Dashboard</a>
+        <a href="buyer-fresh-produce.html" class="active" aria-current="page">Produce</a>
+        <a href="buyer-vendor.html">Favorite Vendors</a>
+        <a href="buyer-exchange.html">Ingredient Swap</a>
+        <a href="shared-live-map.html">Map</a>
+        <a href="shared-stories-feed.html">Stories</a>
+        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
+    </div>
   </header>
 
-  <section class="produce-hero">
-    <div class="hero-title">
-      Fresh Produce Marketplace
-    </div>
-    <div class="hero-sub">
-      Buy seasonal veggies, fruits, and local farm goods from producers in your area. Search, filter, and place orders with confidence.
-    </div>
-    <div class="searchbar-row">
-      <input class="produce-search" id="produceSearch" placeholder="Search for produce…">
-      <button class="filter-chip active"><i class="bi bi-geo"></i> 5km</button>
-      <button class="filter-chip"><i class="bi bi-geo"></i> 10km</button>
-      <button class="filter-chip"><i class="bi bi-funnel-fill"></i> Price</button>
-      <button class="filter-chip"><i class="bi bi-patch-check-fill"></i> Verified Farm</button>
-    </div>
-    <div class="category-row">
-      <button class="category-btn active">Vegetables</button>
-      <button class="category-btn">Fruits</button>
-      <button class="category-btn">Grains</button>
-      <button class="category-btn">Dairy</button>
-      <button class="category-btn">Others</button>
-    </div>
-  </section>
+  <main class="container" role="main" aria-label="Fresh produce marketplace">
+    <header class="page-header" tabindex="0">Fresh Produce Marketplace</header>
 
-  <main>
-    <section class="produce-grid" id="produceList">
-      <!-- Example produce cards: Replace or generate with real data/JS -->
-      <div class="produce-card">
-        <img src="https://images.unsplash.com/photo-1502741338009-cac2772e18bc?auto=format&fit=facearea&w=240&q=80" class="produce-img" alt="Tomatoes">
-        <div class="produce-title">Tomatoes</div>
-        <div class="produce-price">₹40/kg</div>
-        <div class="produce-meta">Kumar Farm <span class="distance"><i class="bi bi-geo-alt"></i> 2.1 km</span></div>
-        <button class="add-btn">Add</button>
-      </div>
-      <div class="produce-card">
-        <img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=facearea&w=240&q=80" class="produce-img" alt="Onions">
-        <div class="produce-title">Onions</div>
-        <div class="produce-price">₹30/kg</div>
-        <div class="produce-meta">Singh Farm <span class="distance"><i class="bi bi-geo-alt"></i> 1.8 km</span></div>
-        <button class="add-btn">Add</button>
-      </div>
-      <div class="produce-card">
-        <img src="https://images.unsplash.com/photo-1506089676908-3592f7389d4d?auto=format&fit=facearea&w=240&q=80" class="produce-img" alt="Potatoes">
-        <div class="produce-title">Potatoes</div>
-        <div class="produce-price">₹25/kg</div>
-        <div class="produce-meta">Local Market <span class="distance"><i class="bi bi-geo-alt"></i> 0.9 km</span></div>
-        <button class="add-btn">Add</button>
-      </div>
-      <div class="produce-card">
-        <img src="https://images.unsplash.com/photo-1515548211365-512f3e4e0be8?auto=format&fit=facearea&w=240&q=80" class="produce-img" alt="Carrots">
-        <div class="produce-title">Carrots</div>
-        <div class="produce-price">₹60/kg</div>
-        <div class="produce-meta">Organic Farm <span class="distance"><i class="bi bi-geo-alt"></i> 3.2 km</span></div>
-        <button class="add-btn">Add</button>
-      </div>
-      <!-- Add more cards as needed -->
+    <button class="btn-back" onclick="window.location.href='buyer-dashboard.html';" aria-label="Back to Dashboard">
+      <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
+    </button>
+
+    <section class="produce-grid" id="produceGrid" tabindex="0" aria-live="polite">
+      <!-- Example produce cards -->
+      <article class="produce-card" tabindex="0" role="button" aria-label="Tomatoes offered by Green Valley Farm">
+        <h3>Tomatoes</h3>
+        <p>Fresh, juicy and locally sourced from Green Valley Farm.</p>
+        <div class="vendor-name"><i class="bi bi-shop"></i> Green Valley Farm</div>
+      </article>
+      <article class="produce-card" tabindex="0" role="button" aria-label="Onions offered by Nature's Basket">
+        <h3>Onions</h3>
+        <p>Organic onions harvested this season, from Nature’s Basket.</p>
+        <div class="vendor-name"><i class="bi bi-shop"></i> Nature’s Basket</div>
+      </article>
+      <article class="produce-card" tabindex="0" role="button" aria-label="Carrots offered by Fresh Harvest">
+        <h3>Carrots</h3>
+        <p>Bunch of sweet, crunchy carrots from Fresh Harvest farms.</p>
+        <div class="vendor-name"><i class="bi bi-shop"></i> Fresh Harvest</div>
+      </article>
+      <!-- Add more produce cards dynamically here -->
     </section>
   </main>
-
-  <script>
-    // Category filter
-    document.querySelectorAll('.category-btn').forEach(btn => {
-      btn.onclick = function() {
-        document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        // TODO: Load/filter products by category
-      };
-    });
-    // Filter chips
-    document.querySelectorAll('.filter-chip').forEach(btn => {
-      btn.onclick = function() {
-        document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-        // TODO: Filter products by distance, price, etc.
-      };
-    });
-    // Add buttons
-    document.querySelectorAll('.add-btn').forEach(btn => {
-      btn.onclick = function() {
-        this.innerText = "Added!";
-        this.disabled = true;
-        setTimeout(() => { this.innerText = "Add"; this.disabled = false; }, 900);
-      };
-    });
-    // Optionally, implement live search as you develop further!
-  </script>
 </body>
 </html>
