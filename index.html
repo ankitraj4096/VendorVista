@@ -202,15 +202,16 @@
   </main>
 
   <script>
-    // Event handlers for navigation buttons
+    // Update navigation buttons to go to login with role param
     document.getElementById('buyerBtn').addEventListener('click', () => {
-      window.location.href = "buyer-dashboard.html";
-    });
-    document.getElementById('vendorBtn').addEventListener('click', () => {
-      window.location.href = "vendor-dashboard.html";
+      window.location.href = "login.html?role=buyer";
     });
 
-    // Optional: Make entire cards clickable (for UX)
+    document.getElementById('vendorBtn').addEventListener('click', () => {
+      window.location.href = "login.html?role=vendor";
+    });
+
+    // Optional: Make entire cards clickable (UX)
     ['buyer-card', 'vendor-card'].forEach(id => {
       const card = document.getElementById(id);
       card.addEventListener('click', () => {
