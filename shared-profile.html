@@ -66,7 +66,6 @@
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
-
     main.container {
       max-width: 720px;
       margin: 36px auto 72px auto;
@@ -79,7 +78,6 @@
       flex-direction: column;
       gap: 48px;
     }
-
     .profile-header {
       display: flex;
       align-items: center;
@@ -126,7 +124,6 @@
       box-shadow: 0 4px 14px rgba(88, 192, 97, 0.5);
       user-select: none;
     }
-
     .badge-container {
       margin-top: 18px;
       display: flex;
@@ -149,7 +146,6 @@
     .badge i {
       font-size: 1.1rem;
     }
-
     section.profile-edit {
       max-width: 460px;
       margin: 0 auto;
@@ -211,7 +207,6 @@
     button.save-btn:hover {
       background: var(--button-hover);
     }
-
     .role-switcher {
       display: flex;
       align-items: center;
@@ -235,7 +230,6 @@
       outline: 2px solid var(--primary);
       outline-offset: 3px;
     }
-
     /* Logout button */
     .logout-row {
       display: flex;
@@ -260,8 +254,6 @@
     #logoutBtn:hover {
       background: #225905;
     }
-
-    /* Responsive */
     @media (max-width: 520px) {
       main.container {
         padding: 24px 26px;
@@ -300,7 +292,6 @@
       <a href="shared-profile.html" class="active"><i class="bi bi-person-circle"></i></a>
     </nav>
   </header>
-
   <main class="container" role="main" aria-labelledby="profileTitle">
     <section class="profile-header">
       <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Profile Picture" class="profile-pic" id="profilePic" />
@@ -315,7 +306,6 @@
         </div>
       </div>
     </section>
-
     <section class="profile-edit" aria-label="Edit user profile">
       <h2>Edit Your Profile</h2>
       <form class="edit-form" id="editProfileForm" novalidate>
@@ -338,7 +328,6 @@
         <button type="submit" class="save-btn">Save Changes</button>
       </form>
     </section>
-
     <section class="role-switcher" aria-label="Switch user role">
       <label for="roleBuyer">
         <input type="radio" name="role" id="roleBuyer" value="buyer" checked />
@@ -349,13 +338,11 @@
         Vendor
       </label>
     </section>
-
     <!-- Logout Button Row -->
     <section class="logout-row">
       <button id="logoutBtn"><i class="bi bi-power"></i> Logout</button>
     </section>
   </main>
-
   <script>
     // Simulated user data - in real app this comes from backend or authentication
     let userProfile = {
@@ -384,18 +371,15 @@
     function renderProfile() {
       profileName.textContent = userProfile.name;
       profileEmail.textContent = userProfile.email;
-
       // Populate form inputs
       nameInput.value = userProfile.name;
       emailInput.value = userProfile.email;
       phoneInput.value = userProfile.phone;
       addressInput.value = userProfile.address;
-
       // Set role radio buttons
       roleRadios.forEach(radio => {
         radio.checked = (radio.value === userProfile.role);
       });
-
       // Update role badge text and icon
       if (userProfile.role === 'buyer') {
         roleBadge.innerHTML = '<i class="bi bi-person-badge-fill"></i> Buyer';
@@ -406,8 +390,7 @@
         roleBadge.style.background = 'var(--accent)';
         roleBadge.style.color = '#684d00';
       }
-
-      // Render badges (skip empty/incomplete ones)
+      // Render badges (skip empty/incomplete)
       badgesContainer.innerHTML = '';
       userProfile.badges.forEach(badge => {
         if (!badge.text || !badge.icon) return;
@@ -420,10 +403,9 @@
       });
     }
 
-    // Form submit handler - validation and update
+    // Save changes form
     editForm.addEventListener('submit', function (evt) {
       evt.preventDefault();
-      // Simple validation
       if (!nameInput.value.trim() || !emailInput.value.trim()) {
         alert('Please fill in required fields.');
         return;
@@ -432,25 +414,27 @@
         alert('Phone number must be 10 digits.');
         return;
       }
-
-      // Update user profile object
       userProfile.name = nameInput.value.trim();
       userProfile.email = emailInput.value.trim();
       userProfile.phone = phoneInput.value.trim();
       userProfile.address = addressInput.value.trim();
-
       renderProfile();
-
       alert('Profile updated successfully!');
     });
 
-    // Role switcher change handler
+    // Role switcher: immediately redirect to correct dashboard
     roleRadios.forEach(radio => {
       radio.addEventListener('change', () => {
         if (radio.checked) {
           userProfile.role = radio.value;
           renderProfile();
-          alert(`Switched role to: ${radio.value === 'buyer' ? 'Buyer' : 'Vendor'}. Please navigate to your dashboard.`);
+          // Save role for future nav/redirect checks
+          try { localStorage.setItem("role", userProfile.role); } catch (e) {}
+          if (radio.value === "vendor") {
+            window.location.href = "vendor-dashboard.html";
+          } else {
+            window.location.href = "buyer-dashboard.html";
+          }
         }
       });
     });
@@ -458,13 +442,22 @@
     // Logout logic with confirm dialog
     document.getElementById('logoutBtn').onclick = function () {
       if (confirm('Are you sure you want to log out?')) {
-        // In a real app, clear auth/session here (e.g., firebase.auth().signOut()).
-        window.location.href = "index.html"; // Redirect to landing page
+        // In a real app, clear auth/session state here
+        try { localStorage.removeItem("role"); } catch(e){}
+        window.location.href = "index.html";
       }
     };
 
     // Initial render
     renderProfile();
+    // On load, check and set role radio from localStorage if available
+    try {
+      const storedRole = localStorage.getItem("role");
+      if (storedRole && userProfile.role !== storedRole) {
+        userProfile.role = storedRole;
+        renderProfile();
+      }
+    } catch(e){}
   </script>
 </body>
 </html>

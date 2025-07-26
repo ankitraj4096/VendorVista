@@ -5,9 +5,9 @@
   <title>Vendor Dashboard | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet"/>
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
   <style>
     :root {
       --primary: #58c061;
@@ -23,17 +23,18 @@
       --text-light: #4a6040;
       --sidebar-bg: #edfdef;
       --sidebar-highlight: #afd375;
+      --modal-bg: #f9fef7;
       --sidebar-width: 220px;
     }
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       background: var(--secondary);
       color: var(--text-dark);
       font-family: 'Poppins', Arial, sans-serif;
       min-height: 100vh;
       display: flex;
     }
+    /* Sidebar */
     .sidebar {
       background: var(--sidebar-bg);
       width: var(--sidebar-width);
@@ -46,7 +47,7 @@
       position: sticky;
       top: 0;
       height: 100vh;
-      box-shadow: 3px 0 22px #d6f2cd08;
+      box-shadow: 3px 0 22px #d6fdfd08;
       z-index: 11;
     }
     .sidebar .logo {
@@ -72,9 +73,8 @@
       color: var(--text-dark);
       font-weight: 600;
       font-size: 1.07rem;
-      padding: 13px 0px 13px 33px;
+      padding: 13px 0 13px 33px;
       border-radius: 0 26px 26px 0;
-      background: none;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -94,19 +94,19 @@
     }
     .sidebar .profile-short {
       margin-top: auto;
-      padding-top: 16px;
+      padding: 16px 0 0 0;
       text-align: center;
       color: var(--text-light);
       font-size: 0.99rem;
       width: 160px;
     }
+    /* Main dashboard area */
     main.dashboard {
       flex: 1;
       display: flex;
       flex-direction: column;
       min-width: 0;
       max-width: 100vw;
-      margin: 0;
     }
     .dashboard-header {
       display: flex;
@@ -133,7 +133,7 @@
       font-weight: 600;
       font-size: 1rem;
       margin-left: 19px;
-      text-shadow: 0 2px 11px #74ed6b5e;
+      text-shadow: 0 2px 11px #74ed6b;
     }
     .dashboard-grid {
       padding: 36px 40px 39px 40px;
@@ -193,39 +193,48 @@
       border-radius: 1.1em;
       font-size: 1.04rem;
       padding: 13px 36px;
-      box-shadow: 0 2px 16px #58c0611b;
+      box-shadow: 0 2px 16px #26c48366;
       cursor: pointer;
       transition: background 0.13s;
-      font-family: 'Montserrat',sans-serif;
-      display: flex; align-items: center; gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     .quick-btn:hover {
       background: var(--primary-dark);
     }
-    /* Right Aside */
+    /* Right sidebar */
     .dashboard-right {
       display: flex;
       flex-direction: column;
       gap: 33px;
     }
-    .insight-card, .story-preview-card, .exchange-card {
+    .insight-card,
+    .story-preview-card,
+    .exchange-card {
       background: var(--card-bg);
       border-radius: 1.2em;
       box-shadow: var(--shadow);
       padding: 25px 18px 18px 22px;
       margin-bottom: 7px;
-      font-size: 1.03em;
+      font-size: 1.02em;
     }
-    .insight-title, .exchange-title, .story-title {
+    .insight-card .insight-title,
+    .story-preview-card .story-title,
+    .exchange-card .exchange-title {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       color: var(--primary-dark);
       margin-bottom: 13px;
       font-size: 1.2rem;
     }
-    .orders-list {
-      list-style: none; padding: 0; margin: 0;
-      font-size: 1.02em;
+    .orders-list,
+    .exchange-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 1em;
     }
     .orders-list li {
       margin-bottom: 15px;
@@ -235,45 +244,173 @@
       background: #fff;
       border-radius: 5px;
     }
-    .exchange-list {
-      list-style: none; padding: 0; margin: 0;
-      font-size: 1.01em;
-    }
     .exchange-list li {
-      margin-bottom: 13px;
+      margin-bottom: 15px;
       border-left: 3px solid var(--accent);
-      padding-left: 10px;
+      padding-left: 12px;
       background: #fffef6;
       border-radius: 5px;
     }
-    .story-preview-text {
+    .story-preview-card .story-preview-text {
       color: var(--text-light);
       margin-bottom: 11px;
-      font-size: .96em;
     }
-    .story-link {
+    .story-preview-card .story-link,
+    .exchange-card a {
       color: var(--primary-dark);
       font-weight: 700;
-      font-size: 1em;
       text-decoration: underline;
       cursor: pointer;
     }
-    @media (max-width: 900px) {
-      .dashboard-grid { grid-template-columns: 1fr; padding: 31px 6vw;}
-      .dashboard-right {flex-direction:column;}
+    /* Modal backdrop */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(41,88,40,0.18);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
     }
-    @media (max-width: 550px) {
-      :root { --sidebar-width: 45px; }
-      .sidebar {
-        min-width: 45px;
-        width:45px;
-        padding: 12px 0;
-        align-items: flex-start;
-      }
-      .sidebar .logo { font-size: 0; margin-bottom: 20px;}
-      .sidebar nav { gap:7px;}
-      .nav-link { padding:10px 0 10px 17px; font-size:0;}
-      .nav-link i { font-size:1.4rem;}
+    .modal-backdrop.active {
+      display: flex;
+      animation: fadein 0.2s ease forwards;
+    }
+    @keyframes fadein {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    /* Modal Drawer */
+    .modal-drawer {
+      background: var(--modal-bg);
+      border-radius: 1.2em;
+      box-shadow: 0 8px 56px rgba(88, 194, 97, 0.3), 0 2px 20px rgba(175, 211, 117, 0.3);
+      padding: 32px 32px 22px 32px;
+      max-width: 400px;
+      width: 90vw;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: popup 0.25s ease forwards;
+    }
+    @keyframes popup {
+      0% {transform: scale(0.9); opacity: 0;}
+      100% {transform: scale(1); opacity: 1;}
+    }
+    .modal-drawer h2 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary-dark);
+      font-weight: 800;
+      font-size: 1.4rem;
+      margin-bottom: 14px;
+    }
+    .modal-drawer .desc {
+      color: var(--text-light);
+      font-size: 1rem;
+      margin-bottom: 10px;
+    }
+    .modal-drawer form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .modal-drawer label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+    .modal-drawer input, .modal-drawer select, .modal-drawer textarea {
+      padding: 10px 14px;
+      font-size: 1rem;
+      border-radius: 0.8em;
+      border: 1.5px solid var(--border);
+      color: var(--text-dark);
+      font-family: inherit;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    .modal-drawer textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    .modal-drawer .score-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .modal-drawer .score-row label {
+      min-width: 110px;
+      margin-bottom: 0;
+    }
+    .modal-drawer input[type=range] {
+      flex-grow: 1;
+    }
+    .modal-drawer .score-label {
+      background: #e7f1dc;
+      color: var(--primary-dark);
+      border-radius: 9px;
+      padding: 5px 12px;
+      min-width: 40px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 1.1em;
+    }
+    .modal-drawer .modal-actions {
+      margin-top: 12px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 14px;
+    }
+    .modal-drawer button {
+      cursor: pointer;
+      padding: 10px 26px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      border-radius: 1em;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      transition: background-color 0.2s ease;
+    }
+    .modal-drawer button.submit {
+      background: var(--primary);
+      color: var(--button-text);
+      box-shadow: 0 4px 12px rgb(88 196 97 / 0.7);
+    }
+    .modal-drawer button.submit:hover {
+      background: var(--primary-dark);
+    }
+    .modal-drawer button.cancel {
+      background: #f4f4f4;
+      color: #666;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+    }
+    .modal-drawer button.cancel:hover {
+      background: #e1e1e1;
+      color: #222;
+    }
+    /* Close button */
+    .modal-drawer .modal-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .modal-drawer .modal-close:hover {
+      color: var(--primary-dark);
+    }
+    /* Responsive */
+    @media (max-width: 470px) {
+      .sidebar {display: none;}
+      main.dashboard {margin-left: 0;}
+      .dashboard-grid {grid-template-columns: 1fr;}
+      .modal-drawer {max-width: 95vw;}
     }
   </style>
 </head>
@@ -291,22 +428,20 @@
     </nav>
     <div class="profile-short">
       <div><b>Sharma Chaat</b></div>
-      <div style="font-size:.97em; margin-top:5px;">
-        <span style="color:var(--primary);">Vendor</span>
-        <br><span style="font-size:1.25em;">🟢</span> Online Now
+      <div style="margin-top: 5px; color: var(--text-light); font-size: 0.99rem;">
+        <span style="color: var(--primary);">Vendor</span><br>🟢 Online Now
       </div>
     </div>
   </aside>
-  <main class="dashboard">
+  <main class="dashboard" role="main" aria-label="Vendor dashboard main content">
     <header class="dashboard-header">
       <div class="welcome">
         Welcome back, Sharma Chaat!
         <span class="status-badge">🟢 ONLINE</span>
       </div>
-      <!-- optional: quick profile picture or stats -->
     </header>
     <div class="dashboard-grid">
-      <section style="flex:2">
+      <section style="flex: 2;">
         <div class="dashboard-cards">
           <div class="dashboard-card">
             <div class="card-label">Today's Orders</div>
@@ -320,58 +455,196 @@
           </div>
           <div class="dashboard-card">
             <div class="card-label">Hygiene Score</div>
-            <div class="card-value">95%</div>
+            <div class="card-value" id="hygieneScoreDisplay">95%</div>
             <div class="card-icon"><i class="bi bi-patch-check-fill"></i></div>
           </div>
           <div class="dashboard-card">
-            <div class="card-label">Tips Earned</div>
+            <div class="card-label">Tips</div>
             <div class="card-value">₹270</div>
             <div class="card-icon"><i class="bi bi-emoji-smile"></i></div>
           </div>
         </div>
-
-        <div class="quick-actions">
-          <button class="quick-btn"><i class="bi bi-plus-circle"></i> New Item</button>
-          <button class="quick-btn"><i class="bi bi-arrow-repeat"></i> Ingredient Swap</button>
-          <button class="quick-btn"><i class="bi bi-patch-check-fill"></i> Update Hygiene</button>
+        <div class="quick-actions" aria-label="Quick action buttons">
+          <button class="quick-btn" id="newItemBtn" aria-haspopup="dialog" aria-controls="modal"><i class="bi bi-plus-circle"></i> New Item</button>
+          <button class="quick-btn" id="ingredientSwapBtn" aria-haspopup="dialog" aria-controls="modal"><i class="bi bi-arrow-repeat"></i> Ingredient Exchange</button>
+          <button class="quick-btn" id="updateHygieneBtn" aria-haspopup="dialog" aria-controls="modal"><i class="bi bi-patch-check-fill"></i> Update Hygiene</button>
         </div>
-
-        <div class="insight-card">
+        <div class="insight-card" aria-label="Today's orders summary">
           <div class="insight-title"><i class="bi bi-bar-chart-fill"></i> Today's Orders</div>
           <ul class="orders-list">
-            <li><b>Order #1207</b> - 4x Pani Puri, 2x Vada Pav – <span style="color:var(--primary-dark);">Completed</span></li>
-            <li><b>Order #1208</b> - 1x Bhel Puri – <span style="color:orange;">Pending</span></li>
-            <li><b>Order #1209</b> - 3x Dahi Papdi – <span style="color:var(--primary-dark);">Completed</span></li>
-            <!-- Add real or dynamic entries -->
+            <li><b>Order #1207</b> - 4x Pani Puri, 2x Vada Pav – <span style="color: var(--primary-dark);">Completed</span></li>
+            <li><b>Order #1208</b> - 1x Bhel Puri – <span style="color: orange;">Pending</span></li>
+            <li><b>Order #1209</b> - 3x Dahi Papdi – <span style="color: var(--primary-dark);">Completed</span></li>
           </ul>
         </div>
       </section>
-
-      <aside class="dashboard-right">
+      <aside class="dashboard-right" aria-label="Right sidebar with summary and exchanges">
         <div class="exchange-card">
           <div class="exchange-title"><i class="bi bi-arrow-repeat"></i> Exchange Requests</div>
           <ul class="exchange-list">
             <li><b>Need:</b> Onions (2kg) | <b>Offer:</b> Mint Leaves (1kg) from Gupta Sweets</li>
             <li><b>Need:</b> Tomatoes (4kg) | <b>Offer:</b> Boiled Potatoes (3kg) from Local Market</li>
-            <!-- Add dynamic content -->
           </ul>
           <a href="vendor-exchange.html" class="story-link">Manage Exchange</a>
         </div>
         <div class="story-preview-card">
-          <div class="story-title"><i class="bi bi-journal-text"></i> Latest Story</div>
+          <div class="story-title"><i class="bi bi-journals"></i> Latest Story</div>
           <div class="story-preview-text">
-            “Another busy day at Connaught Place! Our new hygienic water filter is a hit. Thank you all!”
+            “Another busy day at Connaught Place! Our new hygienic water filter is a hit. Thank you all.”
           </div>
           <a href="vendor-stories.html" class="story-link">Write New Story</a>
         </div>
       </aside>
     </div>
   </main>
+
+  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true" aria-modal="true"></div>
+
   <script>
-    // You can add dynamic JS here for live updates, AJAX, etc.
-    // Placeholder for dashboard quick action buttons
-    document.querySelectorAll('.quick-btn').forEach(btn=>{
-      btn.onclick = ()=>{ alert(`${btn.textContent.trim()} feature coming soon!`) }
+    const modalBackdrop = document.getElementById('modalBackdrop');
+
+    // Function to open modal by type
+    function openModal(type) {
+      let html = '';
+      if (type === 'item') {
+        html = `
+          <div class="modal-drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close" aria-label="Close">&times;</button>
+            <h2 id="modalTitle">Add New Item</h2>
+            <form id="newItemForm" autocomplete="off">
+              <label for="itemName">Item Name*</label>
+              <input type="text" id="itemName" name="itemName" required maxlength="35" placeholder="e.g., Pani Puri" />
+              <label for="itemDesc">Description</label>
+              <textarea id="itemDesc" name="itemDesc" maxlength="130" placeholder="Optional"></textarea>
+              <label for="itemPrice">Price (₹)*</label>
+              <input type="number" id="itemPrice" name="itemPrice" required min="1" max="9999" placeholder="Price in ₹" />
+              <label for="itemUnit">Unit*</label>
+              <select id="itemUnit" name="itemUnit" required>
+                <option value="">Select unit</option>
+                <option value="plate">Plate</option>
+                <option value="kg">Kg</option>
+                <option value="piece">Piece</option>
+                <option value="bowl">Bowl</option>
+              </select>
+              <div class="modal-actions">
+                <button type="button" class="cancel modal-btn">Cancel</button>
+                <button type="submit" class="submit modal-btn">Add Item</button>
+              </div>
+            </form>
+          </div>`;
+      } else if (type === 'swap') {
+        html = `
+          <div class="modal-drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close" aria-label="Close">&times;</button>
+            <h2 id="modalTitle">Propose Ingredient Exchange</h2>
+            <form id="ingredientSwapForm" autocomplete="off">
+              <label for="swapNeed">Need (what you require)*</label>
+              <input type="text" id="swapNeed" name="swapNeed" required maxlength="60" placeholder="e.g., Tomatoes 5kg" />
+              <label for="swapOffer">Offer (what you provide)*</label>
+              <input type="text" id="swapOffer" name="swapOffer" required maxlength="60" placeholder="e.g., Mint Leaves 2kg" />
+              <label for="swapNotes">Additional Notes</label>
+              <textarea id="swapNotes" name="swapNotes" maxlength="100" placeholder="Optional"></textarea>
+              <div class="modal-actions">
+                <button type="button" class="cancel modal-btn">Cancel</button>
+                <button type="submit" class="submit modal-btn">Submit Offer</button>
+              </div>
+            </form>
+          </div>`;
+      } else if (type === 'hygiene') {
+        html = `
+          <div class="modal-drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <button class="modal-close" aria-label="Close">&times;</button>
+            <h2 id="modalTitle">Update Hygiene</h2>
+            <form id="hygieneForm" autocomplete="off">
+              <div class="desc">Use the sliders to update hygiene ratings.</div>
+              <div class="score-row">
+                <label for="cleanScore">Cleanliness:</label>
+                <input type="range" min="70" max="100" id="cleanScore" name="cleanScore" value="95" />
+                <span class="score-label" id="cleanScoreLabel">95%</span>
+              </div>
+              <div class="score-row">
+                <label for="foodSafety">Food Safety:</label>
+                <input type="range" min="70" max="100" id="foodSafety" name="foodSafety" value="95" />
+                <span class="score-label" id="foodSafetyLabel">95%</span>
+              </div>
+              <label for="hygieneNotes">Notes / Actions</label>
+              <textarea id="hygieneNotes" name="hygieneNotes" maxlength="140" placeholder="E.g., new sanitization protocols"></textarea>
+              <div class="modal-actions">
+                <button type="button" class="cancel modal-btn">Cancel</button>
+                <button type="submit" class="submit modal-btn">Update</button>
+              </div>
+            </form>
+          </div>`;
+      }
+      modalBackdrop.innerHTML = html;
+      modalBackdrop.classList.add('active');
+
+      // Close event handlers for modal
+      modalBackdrop.querySelector('.modal-close').addEventListener('click', closeModal);
+      modalBackdrop.querySelector('.cancel').addEventListener('click', closeModal);
+
+      // Focus first input for accessibility
+      const firstInput = modalBackdrop.querySelector('input, select, textarea, button.submit');
+      if (firstInput) firstInput.focus();
+    }
+    function closeModal() {
+      modalBackdrop.classList.remove('active');
+      setTimeout(() => { modalBackdrop.innerHTML = ''; }, 250);
+    }
+    // Close modal on backdrop click only if click outside modal content
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
+    });
+
+    // Button bindings
+    document.getElementById('newItemBtn').onclick = () => openModal('item');
+    document.getElementById('ingredientSwapBtn').onclick = () => openModal('swap');
+    document.getElementById('updateHygieneBtn').onclick = () => openModal('hygiene');
+
+    // Form submit handlers
+    modalBackdrop.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const form = e.target;
+      if (form.id === 'newItemForm') {
+        const name = form.itemName.value.trim();
+        const price = form.itemPrice.value.trim();
+        const unit = form.itemUnit.value;
+        if (!name) return alert("Please enter the item name.");
+        if (!price || price <= 0) return alert("Please enter a valid price.");
+        if (!unit) return alert("Please select a unit.");
+        // TODO: Send new item data to backend here
+        alert(`Item added:\nName: ${name}\nPrice: ₹${price}\nUnit: ${unit}`);
+        closeModal();
+      } else if (form.id === 'ingredientSwapForm') {
+        const need = form.swapNeed.value.trim();
+        const offer = form.swapOffer.value.trim();
+        if (!need) return alert("Please enter what you need.");
+        if (!offer) return alert("Please enter what you offer.");
+        // TODO: Send swap data to backend here
+        alert(`Ingredient swap proposed:\nNeed: ${need}\nOffer: ${offer}`);
+        closeModal();
+      } else if (form.id === 'hygieneForm') {
+        const cleanScore = form.cleanScore.value;
+        const foodSafety = form.foodSafety.value;
+        // TODO: Send hygiene update to backend here
+        alert(`Hygiene updated:\nCleanliness: ${cleanScore}%\nFood Safety: ${foodSafety}%`);
+        // Update hygiene score display on main dashboard
+        const hygieneScoreDisplay = document.getElementById('hygieneScoreDisplay');
+        if (hygieneScoreDisplay) {
+          const avg = Math.round((parseInt(cleanScore) + parseInt(foodSafety)) / 2);
+          hygieneScoreDisplay.textContent = avg + '%';
+        }
+        closeModal();
+      }
+    });
+
+    // Update slider labels live
+    modalBackdrop.addEventListener('input', (e) => {
+      if (e.target.id === 'cleanScore') {
+        document.getElementById('cleanScoreLabel').textContent = e.target.value + '%';
+      } else if (e.target.id === 'foodSafety') {
+        document.getElementById('foodSafetyLabel').textContent = e.target.value + '%';
+      }
     });
   </script>
 </body>
