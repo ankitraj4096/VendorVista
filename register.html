@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Account | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    body {
+      background: #fafef3;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #232c1e;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 42px;
+    }
+    .reg-container {
+      background: #fff;
+      padding: 32px 34px 22px 34px;
+      border-radius: 1.3em;
+      box-shadow: 0 6px 32px rgba(41, 88, 40, 0.09);
+      min-width: 310px;
+      max-width: 440px;
+      width: 97vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: up 0.77s;
+    }
+    @keyframes up {0%{transform:translateY(24px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+    .reg-title {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      color: #357138;
+      font-size: 1.32rem;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    label {
+      font-weight: 700;
+      margin-bottom: 5px;
+      display: block;
+      font-size: 1rem;
+      color: #2b321d;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 1em;
+      border: 1.6px solid #afd375;
+      font-size: 1rem;
+      color: #232c1e;
+      font-family: inherit;
+      transition: border-color 0.18s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #58c061;
+    }
+    .checkbox-row {
+      display: flex;
+      gap: 22px;
+      margin: 5px 0 13px 0;
+      font-size: 1rem;
+      align-items: center;
+      font-weight: 600;
+    }
+    input[type="checkbox"] {
+      accent-color: #58c061;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .category-section,
+    .produce-section,
+    .food-section {
+      margin-bottom: 8px;
+      padding-left: 8px;
+      border-left: 3px solid #afd375;
+    }
+    .reg-btn {
+      margin: 17px 0 6px 0;
+      background: linear-gradient(90deg,#30b14b 0%, #58c061 92%);
+      color: #fff;
+      border: none;
+      padding: 13px 0;
+      border-radius: 1em;
+      font-size: 1.13em;
+      font-family: 'Montserrat',sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.21s;
+      box-shadow: 0 4px 18px #afd37533;
+    }
+    .reg-btn:hover {
+      background: linear-gradient(90deg, #357138 0%, #4dc05b 99%);
+    }
+    .switch-link {
+      margin-top: 6px;
+      text-align: center;
+      color: #29743b;
+      font-weight: 600;
+      background: none;
+      border: none;
+      font-size: 1em;
+      font-family: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .error-msg {
+      color: #e53935;
+      font-size: 0.98em;
+      margin-bottom: 7px;
+      text-align: center;
+      min-height: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reg-container">
+    <div class="reg-title" id="regTitle">Create Account</div>
+    <div class="error-msg" id="errorRegMsg"></div>
+    <form id="regForm" autocomplete="off">
+      <div class="input-group">
+        <label for="nameInput">Full Name</label>
+        <input type="text" id="nameInput" required />
+      </div>
+      <div class="input-group">
+        <label for="emailInput">Email</label>
+        <input type="email" id="emailInput" required />
+      </div>
+      <div class="input-group">
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" required minlength="6" />
+      </div>
+      <div class="input-group">
+        <label for="phoneInput">Phone Number</label>
+        <input type="text" id="phoneInput" required pattern="^[0-9+\\- ]{8,15}$" />
+      </div>
+      <div class="input-group checkbox-row">
+        <label>
+          <input type="checkbox" id="streetFoodBox" value="street_food" />
+          I sell Street Food
+        </label>
+        <label>
+          <input type="checkbox" id="vegetablesBox" value="vegetables" />
+          I sell Fresh Produce/Vegetables
+        </label>
+      </div>
+
+      <div class="category-section" id="vendorSections" style="display:none;">
+        <!-- Street Food Section (conditional) -->
+        <div class="food-section" id="foodSection" style="display:none;">
+          <label for="businessNameFood">Business / Stall Name</label>
+          <input type="text" id="businessNameFood" />
+          <label for="streetCuisine">Cuisine / Speciality (comma separated)</label>
+          <input type="text" id="streetCuisine" placeholder="e.g., Chaat, South Indian" />
+          <label for="operatingHoursFood">Operating Hours</label>
+          <input type="text" id="operatingHoursFood" placeholder="e.g., Mon-Sat 10:00-22:00" />
+          <label for="stallLocation">Location (landmark, area, city)</label>
+          <input type="text" id="stallLocation" placeholder="Connaught Place, Delhi" />
+        </div>
+        <!-- Fresh Produce Section (conditional) -->
+        <div class="produce-section" id="produceSection" style="display:none;">
+          <label for="businessNameVeg">Farm / Shop Name</label>
+          <input type="text" id="businessNameVeg" />
+          <label for="produceType">Produce Type</label>
+          <input type="text" id="produceType" placeholder="e.g., Tomatoes, Carrots" />
+          <label for="farmLocation">Farm/Shop Location</label>
+          <input type="text" id="farmLocation" placeholder="Sadar Bazaar, Delhi" />
+          <label for="operatingHoursVeg">Operating Hours</label>
+          <input type="text" id="operatingHoursVeg" placeholder="e.g., Mon-Sun 06:00-20:00" />
+        </div>
+      </div>
+      <button type="submit" class="reg-btn">Create Account</button>
+    </form>
+    <button class="switch-link" id="toLoginBtn">Already have an account? Login</button>
+  </div>
+  <script>
+    // Show which role we came from
+    function getRoleFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const role = params.get('role');
+      return (role === 'buyer' || role === 'vendor') ? role : '';
+    }
+    // Set up the page title
+    let userRole = getRoleFromQuery();
+    document.getElementById('regTitle').textContent = 'Create Account' + (userRole ? ` as ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}` : '');
+
+    // Vendor section toggling logic
+    const streetFoodBox = document.getElementById('streetFoodBox');
+    const vegetablesBox = document.getElementById('vegetablesBox');
+    const vendorSections = document.getElementById('vendorSections');
+    const foodSection = document.getElementById('foodSection');
+    const produceSection = document.getElementById('produceSection');
+
+    function updateSections() {
+      let anyChecked = streetFoodBox.checked || vegetablesBox.checked;
+      vendorSections.style.display = anyChecked ? '' : 'none';
+      foodSection.style.display = streetFoodBox.checked ? '' : 'none';
+      produceSection.style.display = vegetablesBox.checked ? '' : 'none';
+    }
+    streetFoodBox.onchange = vegetablesBox.onchange = updateSections;
+    updateSections();
+
+    // Redirect to login page
+    document.getElementById('toLoginBtn').onclick = function() {
+      const params = new URLSearchParams(window.location.search);
+      window.location.href = "login.html" + (params.has('role') ? "?role=" + params.get('role') : "");
+    };
+
+    // Registration handler (frontend-only)
+    document.getElementById('regForm').onsubmit = function(e) {
+      e.preventDefault();
+      const name = document.getElementById('nameInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim();
+      const pwd = document.getElementById('passwordInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+      if (!name || !email || !pwd || !phone) {
+        document.getElementById('errorRegMsg').textContent = 'Please fill all required fields.';
+        return;
+      }
+      // Vendor-related values
+      let vendorTypes = [];
+      if (streetFoodBox.checked) vendorTypes.push("street_food");
+      if (vegetablesBox.checked) vendorTypes.push("vegetables");
+      let vendorExtra = {};
+      if (streetFoodBox.checked) {
+        vendorExtra.businessName = document.getElementById('businessNameFood').value.trim();
+        vendorExtra.cuisine = document.getElementById('streetCuisine').value.trim();
+        vendorExtra.opHours = document.getElementById('operatingHoursFood').value.trim();
+        vendorExtra.location = document.getElementById('stallLocation').value.trim();
+      }
+      if (vegetablesBox.checked) {
+        vendorExtra.farmName = document.getElementById('businessNameVeg').value.trim();
+        vendorExtra.produceType = document.getElementById('produceType').value.trim();
+        vendorExtra.farmLocation = document.getElementById('farmLocation').value.trim();
+        vendorExtra.opHoursVeg = document.getElementById('operatingHoursVeg').value.trim();
+      }
+      // Backend will create the user, save to firestore, etc. Here only show an alert!
+      document.getElementById('errorRegMsg').textContent = '';
+      alert('Send this data to backend (Firebase/Firebase Auth) and redirect accordingly.');
+      // You can pass the full form fields object to backend for storage
+    };
+  </script>
+</body>
+</html>
