@@ -135,7 +135,7 @@
   </div>
 
   <script>
-    // Get role from query param (lowercase for consistency)
+    // Get role from query param (lowercase)
     function getRoleFromQuery() {
       const params = new URLSearchParams(window.location.search);
       const role = params.get('role');
@@ -143,17 +143,17 @@
       return role.toLowerCase();
     }
 
-    // Set the login title based on role
+    // Set the login title dynamically
     const role = getRoleFromQuery();
     document.getElementById('loginTitle').textContent = "Login as " + (role ? role.charAt(0).toUpperCase() + role.slice(1) : 'User');
 
-    // Navigate to registration preserving role param
+    // Navigate to registration page with role param
     document.getElementById('createAccountBtn').onclick = function() {
       const params = new URLSearchParams(window.location.search);
       window.location.href = "register.html" + (params.has('role') ? "?role=" + params.get('role') : "");
     };
 
-    // Login form submission handling
+    // Handle login form submission
     document.getElementById('loginForm').onsubmit = function(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim();
@@ -166,13 +166,14 @@
 
       document.getElementById('errorMsg').textContent = "";
 
-      // Simulated backend login/auth
+      // Simulate backend login, redirect as per role
       if (role === 'buyer') {
         window.location.href = 'buyer-dashboard.html';
       } else if (role === 'vendor') {
         window.location.href = 'vendor-dashboard.html';
       } else {
-        window.location.href = 'buyer-dashboard.html'; // fallback default
+        // Default fallback
+        window.location.href = 'buyer-dashboard.html';
       }
     };
   </script>

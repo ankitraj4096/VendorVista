@@ -85,8 +85,7 @@
       margin-right: 4px;
     }
     .category-section,
-    .produce-section,
-    .food-section {
+    .produce-section {
       margin-bottom: 8px;
       padding-left: 8px;
       border-left: 3px solid #afd375;
@@ -133,7 +132,7 @@
   <div class="reg-container">
     <div class="reg-title" id="regTitle">Create Account</div>
     <div class="error-msg" id="errorRegMsg"></div>
-    <form id="regForm" autocomplete="off">
+    <form id="regForm" autocomplete="off" novalidate>
       <div class="input-group">
         <label for="nameInput">Full Name</label>
         <input type="text" id="nameInput" required />
@@ -151,116 +150,122 @@
         <input type="text" id="phoneInput" required pattern="^[0-9+\- ]{8,15}$" />
       </div>
 
-      <div class="input-group checkbox-row" id="vendorCheckboxes">
-        <label>
-          <input type="checkbox" id="streetFoodBox" value="street_food" />
-          I sell Street Food
-        </label>
-        <label>
-          <input type="checkbox" id="vegetablesBox" value="vegetables" />
-          I sell Fresh Produce/Vegetables
-        </label>
+      <!-- Vendor specific fields: only for vendors -->
+      <div id="vendorFields" style="display:none;">
+        <div class="input-group checkbox-row">
+          <label>
+            <input type="checkbox" id="vegetablesBox" value="vegetables" checked disabled />
+            I sell Fresh Produce / Vegetables
+          </label>
+        </div>
+        <div class="category-section" id="produceSection">
+          <label for="businessNameVeg">Farm / Supplier Name</label>
+          <input type="text" id="businessNameVeg" placeholder="Name of your farm/shop" />
+          <label for="produceType">Types of Produce</label>
+          <input type="text" id="produceType" placeholder="E.g., Tomatoes, Carrots" />
+          <label for="farmLocation">Farm or Shop Location</label>
+          <input type="text" id="farmLocation" placeholder="Your address or area" />
+          <label for="operatingHoursVeg">Operating Hours</label>
+          <input type="text" id="operatingHoursVeg" placeholder="E.g., Mon-Sun 7:00-20:00" />
+        </div>
       </div>
 
-      <div class="category-section" id="vendorSections" style="display:none;">
-        <!-- Street Food Section (conditional) -->
-        <div class="food-section" id="foodSection" style="display:none;">
-          <label for="businessNameFood">Business / Stall Name</label>
-          <input type="text" id="businessNameFood" />
-          <label for="streetCuisine">Cuisine / Speciality (comma separated)</label>
-          <input type="text" id="streetCuisine" placeholder="e.g., Chaat, South Indian" />
-          <label for="operatingHoursFood">Operating Hours</label>
-          <input type="text" id="operatingHoursFood" placeholder="e.g., Mon-Sat 10:00-22:00" />
-          <label for="stallLocation">Location (landmark, area, city)</label>
-          <input type="text" id="stallLocation" placeholder="Connaught Place, Delhi" />
-        </div>
-        <!-- Fresh Produce Section (conditional) -->
-        <div class="produce-section" id="produceSection" style="display:none;">
-          <label for="businessNameVeg">Farm / Shop Name</label>
-          <input type="text" id="businessNameVeg" />
-          <label for="produceType">Produce Type</label>
-          <input type="text" id="produceType" placeholder="e.g., Tomatoes, Carrots" />
-          <label for="farmLocation">Farm/Shop Location</label>
-          <input type="text" id="farmLocation" placeholder="Sadar Bazaar, Delhi" />
-          <label for="operatingHoursVeg">Operating Hours</label>
-          <input type="text" id="operatingHoursVeg" placeholder="e.g., Mon-Sun 06:00-20:00" />
-        </div>
-      </div>
       <button type="submit" class="reg-btn">Create Account</button>
     </form>
     <button class="switch-link" id="toLoginBtn">Already have an account? Login</button>
   </div>
+
   <script>
+    // Get user role from URL query parameter (lowercase)
     function getRoleFromQuery() {
       const params = new URLSearchParams(window.location.search);
       const role = params.get('role');
-      return (role === 'buyer' || role === 'vendor') ? role : '';
-    }
-    let userRole = getRoleFromQuery();
-    document.getElementById('regTitle').textContent = 'Create Account' + (userRole ? ` as ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}` : '');
-
-    // Show/hide vendor inputs based on role
-    const vendorCheckboxes = document.getElementById('vendorCheckboxes');
-    const vendorSections = document.getElementById('vendorSections');
-    const streetFoodBox = document.getElementById('streetFoodBox');
-    const vegetablesBox = document.getElementById('vegetablesBox');
-    const foodSection = document.getElementById('foodSection');
-    const produceSection = document.getElementById('produceSection');
-
-    if (userRole !== "vendor") {
-      vendorCheckboxes.style.display = 'none';
-      vendorSections.style.display = 'none';
+      if (role && (role.toLowerCase() === 'vendor' || role.toLowerCase() === 'buyer')) {
+        return role.toLowerCase();
+      }
+      return null;
     }
 
-    function updateSections() {
-      const anyChecked = streetFoodBox.checked || vegetablesBox.checked;
-      vendorSections.style.display = anyChecked ? '' : 'none';
-      foodSection.style.display = streetFoodBox.checked ? '' : 'none';
-      produceSection.style.display = vegetablesBox.checked ? '' : 'none';
-    }
-    streetFoodBox.onchange = vegetablesBox.onchange = updateSections;
-    updateSections();
+    const userRole = getRoleFromQuery();
 
-    document.getElementById('toLoginBtn').onclick = function() {
-      const params = new URLSearchParams(window.location.search);
-      window.location.href = "login.html" + (params.has('role') ? "?role=" + params.get('role') : "");
+    // Update page title
+    const regTitle = document.getElementById('regTitle');
+    if(userRole === 'vendor') {
+      regTitle.textContent = 'Create Account as Vendor';
+      document.getElementById('vendorFields').style.display = 'block';
+    } else if(userRole === 'buyer') {
+      regTitle.textContent = 'Create Account as Buyer';
+      // Buyers don't have vendor fields
+      document.getElementById('vendorFields').style.display = 'none';
+    } else {
+      regTitle.textContent = 'Create Account';
+      document.getElementById('vendorFields').style.display = 'none';
+    }
+
+    // Redirect to login page preserving role param
+    document.getElementById('toLoginBtn').onclick = () => {
+      let url = 'login.html';
+      if(userRole) url += '?role=' + userRole;
+      window.location.href = url;
     };
 
-    document.getElementById('regForm').onsubmit = function(e) {
+    // Form submission handler
+    document.getElementById('regForm').onsubmit = (e) => {
       e.preventDefault();
+
+      // Common inputs
       const name = document.getElementById('nameInput').value.trim();
       const email = document.getElementById('emailInput').value.trim();
-      const pwd = document.getElementById('passwordInput').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
 
-      if (!name || !email || !pwd || !phone) {
+      if(!name || !email || !password || !phone){
         document.getElementById('errorRegMsg').textContent = 'Please fill all required fields.';
         return;
       }
 
-      if (userRole === "vendor") {
-        let vendorTypes = [];
-        if (streetFoodBox.checked) vendorTypes.push("street_food");
-        if (vegetablesBox.checked) vendorTypes.push("vegetables");
-        let vendorExtra = {};
-        if (streetFoodBox.checked) {
-          vendorExtra.businessName = document.getElementById('businessNameFood').value.trim();
-          vendorExtra.cuisine = document.getElementById('streetCuisine').value.trim();
-          vendorExtra.opHours = document.getElementById('operatingHoursFood').value.trim();
-          vendorExtra.location = document.getElementById('stallLocation').value.trim();
+      if(password.length < 6){
+        document.getElementById('errorRegMsg').textContent = 'Password must be at least 6 characters.';
+        return;
+      }
+
+      // Vendor-specific validation
+      if(userRole === 'vendor'){
+        const businessName = document.getElementById('businessNameVeg').value.trim();
+        const produceType = document.getElementById('produceType').value.trim();
+        const farmLocation = document.getElementById('farmLocation').value.trim();
+        const operatingHours = document.getElementById('operatingHoursVeg').value.trim();
+
+        if(!businessName || !produceType || !farmLocation || !operatingHours) {
+          document.getElementById('errorRegMsg').textContent = 'Please fill all vendor fields.';
+          return;
         }
-        if (vegetablesBox.checked) {
-          vendorExtra.farmName = document.getElementById('businessNameVeg').value.trim();
-          vendorExtra.produceType = document.getElementById('produceType').value.trim();
-          vendorExtra.farmLocation = document.getElementById('farmLocation').value.trim();
-          vendorExtra.opHoursVeg = document.getElementById('operatingHoursVeg').value.trim();
-        }
-        // You can validate vendorExtra fields further here if needed
-        // Or call backend API with these details
+
+        // Prepare vendor data object
+        const vendorData = {
+          businessName,
+          produceType,
+          farmLocation,
+          operatingHours
+        };
+
+        // TODO: Send vendorData + common user data to your backend (e.g., Firebase)
+        alert(`Vendor account creation submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nFarm: ${businessName}\nProduce: ${produceType}`);
+      } else if(userRole === 'buyer'){
+        // TODO: Send buyer user data to backend
+        alert(`Buyer account creation submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`);
+      } else {
+        document.getElementById('errorRegMsg').textContent = 'Invalid role specified.';
+        return;
       }
 
       document.getElementById('errorRegMsg').textContent = '';
-      alert('Send this data to backend (Firebase/Firebase Auth) and redirect accordingly.');
+
+      // Optionally redirect after registration
+      // For now, redirect to login page for the same role:
+      let loginUrl = 'login.html';
+      if (userRole) loginUrl += '?role=' + userRole;
+      window.location.href = loginUrl;
     };
   </script>
 </body>

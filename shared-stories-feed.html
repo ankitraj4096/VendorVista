@@ -5,9 +5,15 @@
   <title>Community Stories | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
+    rel="stylesheet"
+  />
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
   <style>
     :root {
       --primary: #58c061;
@@ -17,13 +23,13 @@
       --border: #dbeadb;
       --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
       --text-dark: #232c1e;
-      --text-light: #4a6040;
+      --text-light: #526a3b;
       --button: #26c485;
       --button-hover: #1fa471;
       --button-text: #fff;
       --accent: #fbe27a;
     }
-    * {
+    *, *::before, *::after {
       box-sizing: border-box;
     }
     body {
@@ -35,35 +41,54 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      align-items: center;
     }
+    /* Navbar */
     header.navbar {
+      width: 100vw;
+      left: 0;
+      right: 0;
+      padding: 15px 0;
       background: var(--primary);
       color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 24px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
     }
-    header.navbar nav a {
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
       color: #fff;
       text-decoration: none;
-      margin-left: 24px;
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       padding-bottom: 2px;
       border-bottom: 2.5px solid transparent;
-      transition: color 0.2s;
+      transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
-    header.navbar nav a:hover,
-    header.navbar nav a.active {
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
@@ -72,6 +97,10 @@
       max-width: 900px;
       margin: 36px auto 72px auto;
       width: 95%;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
     }
 
     .page-title {
@@ -79,93 +108,98 @@
       font-weight: 800;
       font-size: 2.3rem;
       color: var(--primary-dark);
-      margin-bottom: 16px;
+      margin: 0 0 20px 0;
       user-select: none;
+      outline-offset: 4px;
     }
 
-    .search-bar-wrapper {
+    .search-container {
       position: relative;
-      margin-bottom: 22px;
-    }
-    .search-input {
+      max-width: 480px;
       width: 100%;
-      padding: 12px 46px 12px 16px;
-      border-radius: 1em;
-      border: 1.9px solid var(--border);
+      margin-bottom: 30px;
+    }
+    .search-container input[type="search"] {
+      width: 100%;
+      padding: 12px 44px 12px 16px;
       font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 12px;
       font-family: inherit;
       color: var(--text-dark);
-      transition: border-color 0.16s ease;
+      transition: border-color 0.3s ease;
     }
-    .search-input:focus {
-      outline: none;
+    .search-container input[type="search"]:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 13px #a1d484bd;
+      outline: none;
+      box-shadow: 0 0 15px #9edc8caa;
     }
-    .search-icon {
+    .search-container .bi-search {
       position: absolute;
-      right: 16px;
+      right: 14px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-light);
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       pointer-events: none;
+      user-select: none;
     }
 
     .stories-list {
       display: flex;
       flex-direction: column;
-      gap: 26px;
+      gap: 28px;
     }
 
-    .story-card {
+    article.story-card {
       background: var(--card-bg);
-      border-radius: 1.3em;
+      border-radius: 1.5em;
       box-shadow: var(--shadow);
       padding: 24px 28px 26px 28px;
       position: relative;
-      box-sizing: border-box;
       user-select: text;
-      transition: box-shadow 0.25s;
+      transition: box-shadow 0.25s ease;
     }
-    .story-card:hover {
-      box-shadow: 0 12px 36px #81d4705b;
+    article.story-card:hover,
+    article.story-card:focus-within {
+      box-shadow: 0 14px 44px #8bda88aa;
+      outline: none;
     }
-    .story-header {
+    article.story-card header {
       display: flex;
       justify-content: space-between;
       align-items: baseline;
-      margin-bottom: 14px;
       flex-wrap: wrap;
       gap: 8px;
+      margin-bottom: 16px;
     }
     .story-author {
-      font-weight: 700;
       font-family: 'Montserrat', sans-serif;
-      font-size: 1.18rem;
+      font-weight: 800;
+      font-size: 1.3rem;
       color: var(--primary-dark);
+      user-select: none;
     }
-    .story-timestamp {
-      font-size: 0.92rem;
-      color: var(--text-light);
+    .story-date {
+      font-size: 0.9rem;
       font-style: italic;
+      color: var(--text-light);
       white-space: nowrap;
+      user-select: none;
     }
-
     .story-content {
-      font-size: 1.05rem;
-      line-height: 1.55;
-      color: var(--text-dark);
+      font-size: 1.1rem;
+      line-height: 1.6;
       white-space: pre-wrap;
-      margin-bottom: 22px;
-      min-height: 60px;
+      color: var(--text-dark);
+      margin-bottom: 24px;
+      min-height: 64px;
     }
-
     .story-actions {
       display: flex;
-      gap: 28px;
+      gap: 30px;
       align-items: center;
-      font-size: 1.05rem;
+      font-size: 1.1rem;
       color: var(--text-light);
       user-select: none;
     }
@@ -174,28 +208,26 @@
       border: none;
       cursor: pointer;
       color: var(--text-light);
-      font-weight: 600;
+      font-weight: 700;
       display: flex;
       align-items: center;
-      gap: 6px;
-      transition: color 0.2s;
-      padding: 6px 10px;
-      border-radius: 1.2em;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      transition: color 0.2s ease;
     }
     .story-actions button:hover,
     .story-actions button.liked {
       color: var(--primary);
-      background: #ebf4de;
+      background: #dcf5d2;
     }
     .story-actions button:disabled {
       cursor: default;
-      opacity: 0.55;
+      opacity: 0.6;
     }
-    /* Like count badge */
     .like-count {
       font-weight: 700;
     }
-    /* Comment bubble */
     .comment-bubble {
       position: relative;
       cursor: pointer;
@@ -203,64 +235,75 @@
     .comment-bubble::after {
       content: attr(data-count);
       position: absolute;
-      top: -10px;
-      right: -12px;
+      top: -8px;
+      right: -14px;
       background: var(--primary);
       color: #fff;
       font-size: 0.75rem;
       font-weight: 700;
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
       border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border: 2px solid var(--secondary);
       user-select: none;
     }
-
-    /* Responsive */
     @media (max-width: 600px) {
-      .story-actions {
-        font-size: 0.95rem;
-        gap: 18px;
+      header.navbar nav a {
+        font-size: 1rem;
+        margin-left: 16px;
+      }
+      .page-title {
+        font-size: 1.8rem;
+      }
+      .story-author {
+        font-size: 1.1rem;
       }
       .story-content {
         font-size: 1rem;
+        min-height: 50px;
       }
-      .story-author {
-        font-size: 1.05rem;
-      }
-      header.navbar {
-        font-size: 1.1rem;
-        padding: 12px 16px;
+      .story-actions {
+        font-size: 1rem;
+        gap: 18px;
       }
     }
   </style>
 </head>
 <body>
-  <header class="navbar">
-    StreetSymphony - Community Stories
-    <nav>
-      <a href="buyer-dashboard.html">Dashboard</a>
-      <a href="buyer-street-food.html">Street Food</a>
-      <a href="buyer-fresh-produce.html">Produce</a>
-      <a href="shared-live-map.html">Map</a>
-      <a href="shared-stories-feed.html" class="active">Stories</a>
-      <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
-    </nav>
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="buyer-dashboard.html">Dashboard</a>
+        <a href="buyer-fresh-produce.html">Produce</a>
+        <a href="buyer-vendor.html">Favorite Vendors</a>
+        <a href="buyer-exchange.html">Ingredient Swap</a>
+        <a href="shared-live-map.html">Map</a>
+        <a href="shared-stories-feed.html" class="active" aria-current="page">Stories</a>
+        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
+    </div>
   </header>
 
-  <main class="content" role="main">
+  <main class="content" role="main" aria-live="polite" aria-atomic="true">
     <h1 class="page-title" tabindex="0">Community Stories</h1>
 
-    <div class="search-bar-wrapper">
-      <input type="search" id="storySearch" class="search-input" placeholder="Search stories..." aria-label="Search stories" />
-      <i class="bi bi-search search-icon" aria-hidden="true"></i>
+    <div class="search-container">
+      <input
+        id="storySearch"
+        class="search-input"
+        type="search"
+        placeholder="Search stories..."
+        aria-label="Search stories"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <i class="bi bi-search"></i>
     </div>
 
-    <section class="stories-list" id="storiesList" aria-live="polite" aria-relevant="additions removals">
-      <!-- Stories rendered here -->
+    <section id="storiesList" class="stories-list" tabindex="0">
+      <!-- Stories will be rendered here -->
     </section>
   </main>
 
@@ -269,7 +312,7 @@
       {
         id: 1,
         author: 'Sharma Chaat',
-        timestamp: '2 hours ago',
+        timestamp: '2h ago',
         content: "Fresh paneer arrived this morning from my village! Thanks to all my customers for the love. Come enjoy the delightful chaat.",
         likes: 45,
         liked: false,
@@ -278,8 +321,8 @@
       {
         id: 2,
         author: 'Kumar Vegetables',
-        timestamp: '5 hours ago',
-        content: "Organic tomatoes harvested yesterday! Available fresh for the weekend.",
+        timestamp: '5h ago',
+        content: "Organic tomatoes harvested yesterday! Available for weekend deliveries.",
         likes: 78,
         liked: false,
         comments: 23,
@@ -287,7 +330,7 @@
       {
         id: 3,
         author: 'Anita Singh',
-        timestamp: '1 day ago',
+        timestamp: '1d ago',
         content: "Had a wonderful pav bhaji from Pav Bhaji King today. Highly recommended!",
         likes: 26,
         liked: false,
@@ -296,7 +339,7 @@
       {
         id: 4,
         author: 'Fresh Juice Hub',
-        timestamp: '3 days ago',
+        timestamp: '3d ago',
         content: "Try our new refreshing mango lassi - perfect for the summer heat!",
         likes: 59,
         liked: false,
@@ -307,63 +350,6 @@
     const storiesList = document.getElementById('storiesList');
     const searchInput = document.getElementById('storySearch');
 
-    function renderStories(filterText = '') {
-      storiesList.innerHTML = '';
-      const filtered = storiesData.filter(story =>
-        story.content.toLowerCase().includes(filterText.toLowerCase()) ||
-        story.author.toLowerCase().includes(filterText.toLowerCase())
-      );
-
-      if (filtered.length === 0) {
-        storiesList.innerHTML = '<p>No stories found.</p>';
-        return;
-      }
-
-      filtered.forEach(story => {
-        const storyCard = document.createElement('article');
-        storyCard.className = 'story-card';
-        storyCard.setAttribute('tabindex', '0');
-        storyCard.setAttribute('role', 'article');
-        storyCard.setAttribute('aria-label', `Story by ${story.author}, posted ${story.timestamp}`);
-
-        storyCard.innerHTML = `
-          <div class="story-header">
-            <span class="story-author">${story.author}</span>
-            <time class="story-timestamp" datetime="${new Date().toISOString()}">${story.timestamp}</time>
-          </div>
-          <div class="story-content">${escapeHtml(story.content)}</div>
-          <div class="story-actions">
-            <button aria-pressed="${story.liked ? 'true' : 'false'}" aria-label="${story.liked ? 'Unlike' : 'Like'} story by ${story.author}" class="like-btn">
-              <i class="bi bi-hand-thumbs-up${story.liked ? '-fill' : ''}"></i> <span class="like-count">${story.likes}</span>
-            </button>
-            <button class="comment-btn comment-bubble" data-count="${story.comments}" aria-label="View comments for story by ${story.author}">
-              <i class="bi bi-chat-dots"></i>
-            </button>
-          </div>
-        `;
-        storiesList.appendChild(storyCard);
-
-        // Like button logic
-        const likeBtn = storyCard.querySelector('.like-btn');
-        likeBtn.addEventListener('click', () => {
-          story.liked = !story.liked;
-          if (story.liked) {
-            story.likes++;
-          } else {
-            story.likes--;
-          }
-          renderStories(searchInput.value.trim());
-        });
-
-        // Comment button logic (placeholder)
-        const commentBtn = storyCard.querySelector('.comment-btn');
-        commentBtn.addEventListener('click', () => {
-          alert('Comments feature coming soon!');
-        });
-      });
-    }
-
-    // Escape HTML for safety
     function escapeHtml(text) {
       return text
         .replace(/&/g, "&amp;")
@@ -373,12 +359,64 @@
         .replace(/'/g, "&#039;");
     }
 
-    // Search input event
+    function renderStories(filter = '') {
+      storiesList.innerHTML = '';
+      const filtered = storiesData.filter(story =>
+        story.author.toLowerCase().includes(filter.toLowerCase()) ||
+        story.content.toLowerCase().includes(filter.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        storiesList.innerHTML = '<p>No stories found matching your search.</p>';
+        return;
+      }
+
+      filtered.forEach(story => {
+        const el = document.createElement('article');
+        el.className = 'story-card';
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'article');
+        el.setAttribute('aria-label', `Story by ${story.author}, posted ${story.timestamp}`);
+
+        el.innerHTML = `
+          <header>
+            <div class="story-author">${escapeHtml(story.author)}</div>
+            <div class="story-date">${escapeHtml(story.timestamp)}</div>
+          </header>
+          <div class="story-content">${escapeHtml(story.content)}</div>
+          <div class="story-actions">
+            <button aria-pressed="${story.liked}" aria-label="${story.liked ? 'Unlike' : 'Like'} story by ${escapeHtml(story.author)}" class="like-btn" type="button">
+              <i class="bi bi-hand-thumbs-up${story.liked ? '-fill' : ''}"></i>
+              <span class="like-count">${story.likes}</span>
+            </button>
+            <button aria-label="View comments for story by ${escapeHtml(story.author)}" class="comment-bubble" data-count="${story.comments}" type="button">
+              <i class="bi bi-chat-dots"></i>
+            </button>
+          </div>
+        `;
+        storiesList.appendChild(el);
+
+        // Like button toggle logic
+        const likeBtn = el.querySelector('.like-btn');
+        likeBtn.addEventListener('click', () => {
+          story.liked = !story.liked;
+          story.likes += story.liked ? 1 : -1;
+          renderStories(searchInput.value.trim());
+        });
+
+        // Comment button placeholder logic
+        const commentBtn = el.querySelector('.comment-bubble');
+        commentBtn.addEventListener('click', () => {
+          alert('Comments feature coming soon!');
+        });
+      });
+    }
+
     searchInput.addEventListener('input', () => {
       renderStories(searchInput.value.trim());
     });
 
-    // Initial render
+    // Initial render at page load
     renderStories();
   </script>
 </body>

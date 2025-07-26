@@ -24,361 +24,278 @@
       --button: #26c485;
       --button-text: #fff;
     }
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
-    }
-    body {
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
+      align-items: center;
     }
-    /* Navbar */
     header.navbar {
+      width: 100vw;
+      padding: 15px 0;
       background: var(--primary);
       color: #fff;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 24px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: sticky;
       top: 0;
       z-index: 1000;
       box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
     }
-    header.navbar nav a {
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
       color: #fff;
       text-decoration: none;
-      margin-left: 24px;
       font-weight: 700;
-      font-size: 1.1rem;
-      transition: color 0.2s;
-      position: relative;
+      font-size: 1.05rem;
       padding-bottom: 2px;
-    }
-    header.navbar nav a:hover,
-    header.navbar nav a.active {
-      color: var(--accent);
-      border-bottom: 2.5px solid var(--accent);
-    }
-
-    /* Main content */
-    .content {
-      display: flex;
-      flex: 1;
-      height: calc(100vh - 56px);
-      max-height: calc(100vh - 56px);
-      overflow: hidden;
-    }
-    /* Map container */
-    #map {
-      flex: 2.25;
-      height: 100%;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
-      border-radius: 0 0 0 20px;
-      box-shadow: 0 4px 20px rgba(41,88,40,0.18);
-      z-index: 1;
     }
-    /* Sidebar */
-    aside.sidebar {
-      flex: 1;
-      background: var(--card-bg);
-      border-left: 3px solid var(--border);
-      box-shadow: -3px 0 22px #d6f2cd08;
-      padding: 20px 22px;
-      overflow-y: auto;
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+    .map-layout {
+      width: 100%;
+      max-width: 1200px;
+      margin: 40px auto 20px auto;
+      display: flex;
+      gap: 32px;
+      min-height: 520px;
+    }
+    #map {
+      flex: 3.2;
+      height: 520px;
+      min-width: 320px;
+      border-radius: 18px;
+      box-shadow: 0 7px 28px #afd37527;
+      outline: 3px solid var(--border);
+      outline-offset: -2px;
+      background: #eaffd1;
+    }
+    aside.map-sidebar {
+      flex: 1.3;
       display: flex;
       flex-direction: column;
       gap: 28px;
-      border-radius: 0 0 20px 0;
-      font-size: 1rem;
-    }
-    aside.sidebar h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-top: 0;
-      margin-bottom: 12px;
-      font-size: 1.25rem;
-      user-select: none;
-    }
-
-    /* Sections in sidebar */
-    .sidebar-section {
-      background: var(--secondary);
-      border: 1.7px solid var(--border);
-      border-radius: 1.2em;
-      padding: 14px 18px;
+      min-width: 265px;
+      background: var(--card-bg);
+      border-radius: 1.15em;
       box-shadow: var(--shadow);
-      max-height: 220px;
-      overflow-y: auto;
-      user-select: text;
+      padding: 28px 20px;
+      align-self: flex-start;
+      max-width: 380px;
+      margin-top: 0;
+      margin-bottom: 28px;
     }
-    .sidebar-section ul {
-      margin: 0; padding: 0 0 0 20px;
-      list-style-type: disc;
-    }
-    .sidebar-section li {
-      margin-bottom: 10px;
-      line-height: 1.4;
-      cursor: default;
-      color: var(--text-light);
-      font-weight: 600;
-    }
-    .sidebar-section li:last-child {
-      margin-bottom: 0;
-    }
-    /* Highlight a keywords */
-    .highlight {
+    .sidebar-section { margin-bottom: 0; }
+    .sidebar-section h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
       color: var(--primary-dark);
-      font-weight: 700;
+      font-size: 1.19rem;
+      margin: 0 0 11px 0;
     }
-    /* Filters */
-    .filters {
-      display: flex;
-      gap: 12px;
-      align-items: center;
-      padding-bottom: 10px;
-      border-bottom: 1.5px solid var(--border);
-      user-select: none;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
+    .filters { display: flex; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
     .filter-chip {
       background: var(--button);
       border: none;
-      border-radius: 1.2em;
-      padding: 8px 20px;
+      border-radius: 1.1em;
+      padding: 7px 18px;
       font-weight: 700;
       color: var(--button-text);
       cursor: pointer;
-      transition: background-color 0.28s;
-      font-size: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      box-shadow: 0 2px 14px #26c48559;
+      font-size: 1.01rem;
+      box-shadow: 0 2px 14px #26c48544;
+      transition: background 0.19s;
+      outline: none;
     }
-    .filter-chip:hover,
-    .filter-chip.active {
+    .filter-chip.active, .filter-chip:focus-visible {
       background: var(--primary-dark);
+      color: #fff;
     }
-    /* Scrollbars */
-    aside.sidebar::-webkit-scrollbar,
-    .sidebar-section::-webkit-scrollbar {
-      width: 9px;
-    }
-    aside.sidebar::-webkit-scrollbar-track,
-    .sidebar-section::-webkit-scrollbar-track {
-      background: var(--card-bg);
-    }
-    aside.sidebar::-webkit-scrollbar-thumb,
-    .sidebar-section::-webkit-scrollbar-thumb {
-      background-color: var(--primary);
-      border-radius: 6px;
-    }
-
-    /* Vendor alert badges */
     .alert-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       background: var(--accent);
       color: #684d00;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       font-weight: 700;
-      font-size: 0.95rem;
-      padding: 5px 11px;
+      font-size: 0.99rem;
+      padding: 6px 14px;
       border-radius: 14px;
       margin-bottom: 9px;
       user-select: none;
     }
-    .alert-badge i {
-      font-size: 1.15rem;
+    .sidebar-list {
+      margin: 4px 0 0 0;
+      padding: 0 0 0 17px;
+      color: var(--text-light);
+      font-size: 1rem;
+      list-style: disc;
     }
-
-    /* Leaflet marker popups */
-    .leaflet-popup-content { font-family: 'Poppins', sans-serif; font-size: 0.95rem; }
-    /* Popup container fixes */
-    .leaflet-popup-content-wrapper { box-shadow: 0 4px 16px rgba(41,88,40,0.16) !important; }
+    .sidebar-list li { margin-bottom: 8px; font-weight: 600; }
+    .sidebar-list .highlight { color: var(--primary-dark); font-weight: 800; }
+    .sidebar-section ul:last-child li:last-child { margin-bottom: 0; }
+    @media (max-width: 1000px) {
+      .map-layout { flex-direction: column; gap: 20px; }
+      #map { height: 320px; min-width: 0; }
+      aside.map-sidebar { max-width: 100%; width: 100%; margin-bottom: 0; }
+    }
+    @media (max-width: 600px) {
+      .navbar-inner, .map-layout, main.container { max-width: 100vw; }
+      aside.map-sidebar { padding: 18px 5vw; }
+      .navbar-inner { flex-direction: column; gap: 12px; }
+    }
+    .leaflet-popup-content { font-family: "Poppins", Arial, sans-serif; font-size: 1rem; color: #224; }
+    .leaflet-popup-content-wrapper { box-shadow: 0 7px 22px #acd9861c !important; }
     .leaflet-popup-tip { background: var(--primary) !important; }
-
-    /* Marker colors */
-    .marker-online { background-color: var(--primary); border-radius: 50%; width: 14px; height: 14px; border: 3px solid white; }
-    .marker-opening { background-color: var(--accent); border-radius: 50%; width: 14px; height: 14px; border: 3px solid white; }
-    .marker-offline { background-color: #cfcfcf; border-radius: 50%; width: 14px; height: 14px; border: 3px solid white; }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .content {
-        flex-direction: column;
-        height: auto;
-      }
-      #map {
-        flex-grow: 1;
-        height: 60vh;
-        border-radius: 20px 20px 0 0;
-      }
-      aside.sidebar {
-        height: auto;
-        flex-grow: 0;
-        border-left: none;
-        border-top: 3px solid var(--border);
-        border-radius: 0 0 20px 20px;
-        padding: 22px 18px;
-      }
-    }
   </style>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
-  <header class="navbar">
-    StreetSymphony - Live Vendor Map
-    <nav>
-      <a href="buyer-dashboard.html">Dashboard</a>
-      <a href="buyer-street-food.html">Street Food</a>
-      <a href="buyer-fresh-produce.html">Produce</a>
-      <a href="shared-live-map.html" class="active">Map</a>
-      <a href="shared-stories-feed.html">Stories</a>
-      <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
-    </nav>
-  </header>
-
-  <div class="content">
-    <!-- Map -->
-    <div id="map" aria-label="Interactive map showing live vendor locations" tabindex="0"></div>
-
-    <!-- Sidebar with alerts, reports, favorites -->
-    <aside class="sidebar" aria-live="polite" aria-relevant="additions removals">
-      <h2>Filters</h2>
-      <div class="filters" role="group" aria-label="Filter by vendor status">
-        <button class="filter-chip active" data-status="all" type="button"><i class="bi bi-geo-alt-fill"></i> All</button>
-        <button class="filter-chip" data-status="online" type="button"><i class="bi bi-universal-access-circle"></i> Online Vendors</button>
-        <button class="filter-chip" data-status="opening" type="button"><i class="bi bi-clock-history"></i> Opening Soon</button>
-        <button class="filter-chip" data-status="offline" type="button"><i class="bi bi-x-circle"></i> Offline Vendors</button>
-      </div>
-
-      <section class="sidebar-section" aria-label="Vendor Alerts">
-        <h2>Vendor Alerts</h2>
-        <div class="alert-badge"><i class="bi bi-exclamation-circle-fill"></i> Sharma Chaat is 0.2km away!</div>
-        <div class="alert-badge"><i class="bi bi-exclamation-circle-fill"></i> Fresh Juice just opened!</div>
-      </section>
-
-      <section class="sidebar-section" aria-label="Crowd Reports">
-        <h2>Crowd Reports</h2>
-        <ul>
-          <li><span class="highlight">High traffic</span> at Connaught Place Metro</li>
-          <li>Best time: evenings 6-8 PM</li>
-          <li>New street festival on Main Bazaar weekend</li>
-        </ul>
-      </section>
-
-      <section class="sidebar-section" aria-label="Favorite Vendors">
-        <h2>Your Favorite Vendors</h2>
-        <ul>
-          <li>Sharma Chaat Corner</li>
-          <li>Fresh Juice Hub</li>
-          <li>Vada Pav Express</li>
-          <li>Sweet Treats</li>
-        </ul>
-      </section>
-    </aside>
-  </div>
-
-  <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
-    // Initialize the map centered on a typical city center (Delhi coords approx)
-    const map = L.map('map', { keyboard: true }).setView([28.6139, 77.209], 13);
+    // ROLE LOGIC: Use your own auth/session logic here!
+    // For development/testing, set in console:
+    // localStorage.setItem('userRole', 'vendor') or 'buyer'
+    const currentUserRole = localStorage.getItem('userRole') || 'buyer';
+  </script>
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
+    </div>
+  </header>
+  <main class="container" style="width:100%;max-width:unset;background:none;box-shadow:none;padding:0;margin:0;">
+    <div class="map-layout">
+      <div id="map" aria-label="Vendor locations map" tabindex="0"></div>
+      <aside class="map-sidebar" aria-label="Map sidebar information">
+        <section class="sidebar-section">
+          <h2>Filters</h2>
+          <div class="filters" role="group" aria-label="Filter by vendor status">
+            <button class="filter-chip active" data-status="all" type="button"><i class="bi bi-geo-alt-fill"></i> All</button>
+            <button class="filter-chip" data-status="online" type="button"><i class="bi bi-universal-access-circle"></i> Online</button>
+            <button class="filter-chip" data-status="opening" type="button"><i class="bi bi-clock-history"></i> Opening</button>
+            <button class="filter-chip" data-status="offline" type="button"><i class="bi bi-x-circle"></i> Offline</button>
+          </div>
+        </section>
+        <section class="sidebar-section">
+          <h2>Vendor Alerts</h2>
+          <div class="alert-badge"><i class="bi bi-bell-fill"></i> Sharma Chaat is 0.2km away!</div>
+          <div class="alert-badge"><i class="bi bi-bell-fill"></i> Fresh Juice just opened!</div>
+        </section>
+        <section class="sidebar-section">
+          <h2>Crowd Reports</h2>
+          <ul class="sidebar-list">
+            <li><span class="highlight">High traffic</span> at Connaught Place Metro</li>
+            <li>Best time: evenings 6-8 PM</li>
+            <li>New festival on Main Bazaar this weekend</li>
+          </ul>
+        </section>
+        <section class="sidebar-section">
+          <h2>Your Favorite Vendors</h2>
+          <ul class="sidebar-list">
+            <li>Sharma Chaat Corner</li>
+            <li>Fresh Juice Hub</li>
+            <li>Vada Pav Express</li>
+            <li>Sweet Treats</li>
+          </ul>
+        </section>
+      </aside>
+    </div>
+  </main>
+  <script>
+    // Correct nav bar logic: always dynamic
+    (function(){
+      const nav = document.getElementById('navLinks');
+      let navItems = '';
+      if(currentUserRole === 'vendor'){
+        navItems =
+          '<a href="vendor-dashboard.html">Dashboard</a>' +
+          '<a href="vendor-orders.html">Orders</a>' +
+          '<a href="vendor-stories.html">Stories</a>' +
+          '<a href="produce-market.html">Produce</a>' +
+          '<a href="shared-live-map.html" class="active" aria-current="page">Map</a>' +
+          '<a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navItems =
+          '<a href="buyer-dashboard.html">Dashboard</a>' +
+          '<a href="buyer-fresh-produce.html">Produce</a>' +
+          '<a href="buyer-vendor.html">Favorite Vendors</a>' +
+          '<a href="buyer-exchange.html">Ingredient Swap</a>' +
+          '<a href="shared-live-map.html" class="active" aria-current="page">Map</a>' +
+          '<a href="shared-stories-feed.html">Stories</a>' +
+          '<a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+      nav.innerHTML = navItems;
+    })();
 
-    // OpenStreetMap tiles
+    // Map logic as before
+    const map = L.map('map').setView([28.6139, 77.209], 13);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       maxZoom: 19,
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
-
-    // Custom icon class for colored circle markers
     function createColoredCircleIcon(color) {
       return L.divIcon({
         className: '',
-        html: `<span style="
-          display:inline-block;
-          width:16px; height:16px;
-          background:${color};
-          border: 3px solid white;
-          border-radius:50%;
-          box-shadow:0 0 6px 2px ${color}88;"></span>`,
+        html: `<span style="display:inline-block;width:16px;height:16px;background:${color};border: 3px solid white;border-radius:50%;box-shadow:0 0 6px 2px ${color}88;"></span>`,
         iconSize: [22, 22],
         iconAnchor: [11, 11],
         popupAnchor: [0, -11],
       });
     }
-
     const icons = {
       online: createColoredCircleIcon(getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#58c061'),
       opening: createColoredCircleIcon(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#fbe27a'),
       offline: createColoredCircleIcon('#cfcfcf'),
     };
-
-    // Dummy vendor data
     const vendors = [
-      {
-        id: 1,
-        name: 'Sharma Chaat',
-        latlng: [28.615, 77.205],
-        status: 'online',
-        ordersToday: 68,
-        popupContent: '<b>Sharma Chaat</b><br>68 orders today<br><span style="color:green;font-weight:700;">Online now</span>'
-      },
-      {
-        id: 2,
-        name: 'Fresh Juice Hub',
-        latlng: [28.6175, 77.213],
-        status: 'opening',
-        ordersToday: 29,
-        popupContent: '<b>Fresh Juice Hub</b><br>Opening in 10 mins<br><span style="color:orange;font-weight:700;">Opening Soon</span>'
-      },
-      {
-        id: 3,
-        name: 'Vada Pav Express',
-        latlng: [28.611, 77.21],
-        status: 'offline',
-        ordersToday: 45,
-        popupContent: '<b>Vada Pav Express</b><br>Closed<br><span style="color:gray;font-weight:700;">Offline</span>'
-      },
-      {
-        id: 4,
-        name: 'Sweet Treats',
-        latlng: [28.619, 77.199],
-        status: 'online',
-        ordersToday: 53,
-        popupContent: '<b>Sweet Treats</b><br>53 orders today<br><span style="color:green;font-weight:700;">Online now</span>'
-      },
+      { name: 'Sharma Chaat', latlng: [28.615, 77.205], status: 'online', popup: '<b>Sharma Chaat</b><br>68 orders today<br><span style="color:green;"><b>Online now</b></span>' },
+      { name: 'Fresh Juice Hub', latlng: [28.6175, 77.213], status: 'opening', popup: '<b>Fresh Juice Hub</b><br>Opening in 10 mins<br><span style="color:orange;"><b>Opening Soon</b></span>' },
+      { name: 'Vada Pav Express', latlng: [28.611, 77.21], status: 'offline', popup: '<b>Vada Pav Express</b><br>Closed<br><span style="color:gray;"><b>Offline</b></span>' },
+      { name: 'Sweet Treats', latlng: [28.619, 77.199], status: 'online', popup: '<b>Sweet Treats</b><br>53 orders today<br><span style="color:green;"><b>Online now</b></span>' }
     ];
-
     const markers = [];
     vendors.forEach(vendor => {
       const marker = L.marker(vendor.latlng, { icon: icons[vendor.status] }).addTo(map);
-      marker.bindPopup(vendor.popupContent);
+      marker.bindPopup(vendor.popup);
       marker.vendorStatus = vendor.status;
       markers.push(marker);
     });
-
-    // Filter buttons functionality
-    const filterButtons = document.querySelectorAll('.filter-chip');
-    filterButtons.forEach(btn => {
+    document.querySelectorAll('.filter-chip').forEach(btn => {
       btn.addEventListener('click', () => {
-        filterButtons.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-
-        const filterStatus = btn.getAttribute('data-status');
+        const status = btn.getAttribute('data-status');
         markers.forEach(marker => {
-          if (filterStatus === 'all' || marker.vendorStatus === filterStatus) {
+          if(status === 'all' || marker.vendorStatus === status){
             marker.addTo(map);
           } else {
             map.removeLayer(marker);

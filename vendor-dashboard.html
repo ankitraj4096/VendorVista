@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
+  <meta charset="UTF-8" />
   <title>Vendor Dashboard | StreetSymphony</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
   <style>
     :root {
       --primary: #58c061;
@@ -16,636 +16,226 @@
       --accent: #fbe27a;
       --card-bg: #f7fdf6;
       --border: #dbeadb;
-      --button: #26c485;
-      --button-text: #fff;
-      --shadow: 0 6px 26px rgba(41,88,40,0.11);
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
       --text-dark: #232c1e;
-      --text-light: #4a6040;
-      --sidebar-bg: #edfdef;
-      --sidebar-highlight: #afd375;
-      --modal-bg: #f9fef7;
-      --sidebar-width: 220px;
+      --text-light: #526b44;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
     body {
       margin: 0; padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
-      font-family: 'Poppins', Arial, sans-serif;
       min-height: 100vh;
       display: flex;
-    }
-    /* Sidebar */
-    .sidebar {
-      background: var(--sidebar-bg);
-      width: var(--sidebar-width);
-      min-width: 165px;
-      display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 32px 0 27px 0;
-      border-right: 3px solid var(--border);
+    }
+    /* Navbar at top */
+    header.navbar {
+      width: 100vw;
+      left: 0; right: 0;
+      padding: 15px 0;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       position: sticky;
       top: 0;
-      height: 100vh;
-      box-shadow: 3px 0 22px #d6fdfd08;
-      z-index: 11;
-    }
-    .sidebar .logo {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.44rem;
-      color: var(--primary-dark);
-      font-weight: 900;
-      letter-spacing: 1px;
-      margin-bottom: 35px;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-    }
-    .sidebar nav {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      gap: 7px;
-      margin-bottom: 40px;
-    }
-    .nav-link {
-      text-decoration: none;
-      color: var(--text-dark);
-      font-weight: 600;
-      font-size: 1.07rem;
-      padding: 13px 0 13px 33px;
-      border-radius: 0 26px 26px 0;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      transition: background 0.12s, color 0.11s;
-      position: relative;
-    }
-    .nav-link.active, .nav-link:hover {
-      background: var(--sidebar-highlight);
-      color: #fff;
-    }
-    .nav-link.active::before {
-      content: '';
-      width: 5px; height: 30px;
-      background: var(--primary);
-      position: absolute;
-      left: 0; top: 11px; border-radius: 3px;
-    }
-    .sidebar .profile-short {
-      margin-top: auto;
-      padding: 16px 0 0 0;
-      text-align: center;
-      color: var(--text-light);
-      font-size: 0.99rem;
-      width: 160px;
-    }
-    /* Main dashboard area */
-    main.dashboard {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
+      border-radius: 0 0 18px 18px;
       min-width: 0;
-      max-width: 100vw;
     }
-    .dashboard-header {
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
       display: flex;
-      flex-wrap: wrap;
       justify-content: space-between;
-      align-items: flex-end;
-      padding: 38px 45px 14px 45px;
-      background: #fff;
-      box-shadow: 0 4px 22px #afd37518;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
     }
-    .dashboard-header .welcome {
-      font-size: 1.6rem;
-      font-family: 'Montserrat', sans-serif;
-      color: var(--primary-dark);
-      font-weight: 800;
-      letter-spacing: 0.7px;
-    }
-    .dashboard-header .status-badge {
-      display: inline-block;
-      background: var(--primary);
-      color: #fff;
-      padding: 8px 22px;
-      border-radius: 19px;
-      font-weight: 600;
-      font-size: 1rem;
-      margin-left: 19px;
-      text-shadow: 0 2px 11px #74ed6b;
-    }
-    .dashboard-grid {
-      padding: 36px 40px 39px 40px;
-      display: grid;
-      grid-template-columns: 2fr 1.4fr;
-      gap: 40px;
-      width: 100%;
-      min-width: 0;
-    }
-    .dashboard-cards {
-      display: grid;
-      grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
-      gap: 28px;
-      margin-bottom: 36px;
-    }
-    .dashboard-card {
-      background: var(--card-bg);
-      border-radius: 1.2em;
-      box-shadow: var(--shadow);
-      padding: 23px;
-      min-width: 130px;
+    nav.main-nav {
       display: flex;
-      flex-direction: column;
-      align-items: flex-start;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
-    .dashboard-card .card-label {
-      font-size: 1.02em;
-      color: var(--text-light);
-      font-weight: 600;
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
     }
-    .dashboard-card .card-value {
-      font-size: 2rem;
-      font-weight: 800;
-      color: var(--primary-dark);
-      margin-top: 7px;
-      letter-spacing: 1.2px;
-    }
-    .dashboard-card .card-icon {
-      position: absolute;
-      top: 23px; right: 22px;
-      font-size: 1.65rem;
-      color: var(--primary);
-      opacity: 0.25;
-    }
-    .quick-actions {
+    main.container {
+      max-width: 900px;
+      width: 95%;
+      margin: 44px auto 60px auto;
       display: flex;
-      gap: 18px;
-      margin-bottom: 37px;
-      flex-wrap: wrap;
+      flex-direction: column;
+      gap: 32px;
     }
-    .quick-btn {
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-      border: none;
-      border-radius: 1.1em;
-      font-size: 1.04rem;
-      padding: 13px 36px;
-      box-shadow: 0 2px 16px #26c48366;
-      cursor: pointer;
-      transition: background 0.13s;
+    h1.welcome-header {
       font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 2.8rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    p.welcome-subtitle {
+      font-size: 1.22rem;
+      color: var(--text-light);
+      margin-top: 6px;
+      margin-bottom: 40px;
+      font-weight: 600;
+      max-width: 680px;
+    }
+    section.cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 26px;
+      width: 100%;
+    }
+    article.card {
+      background: var(--card-bg);
+      border-radius: 1.3em;
+      box-shadow: var(--shadow);
+      padding: 28px 24px 32px 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: box-shadow 0.28s, transform 0.28s;
+      outline-offset: 4px;
+      min-width: 0;
+    }
+    article.card:hover,
+    article.card:focus-within {
+      box-shadow: 0 16px 60px rgba(41, 88, 40, 0.25);
+      transform: translateY(-6px);
+      outline: none;
+    }
+    article.card h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.35rem;
+      color: var(--primary);
+      margin: 0 0 18px 0;
       display: flex;
       align-items: center;
       gap: 10px;
     }
-    .quick-btn:hover {
-      background: var(--primary-dark);
-    }
-    /* Right sidebar */
-    .dashboard-right {
-      display: flex;
-      flex-direction: column;
-      gap: 33px;
-    }
-    .insight-card,
-    .story-preview-card,
-    .exchange-card {
-      background: var(--card-bg);
-      border-radius: 1.2em;
-      box-shadow: var(--shadow);
-      padding: 25px 18px 18px 22px;
-      margin-bottom: 7px;
-      font-size: 1.02em;
-    }
-    .insight-card .insight-title,
-    .story-preview-card .story-title,
-    .exchange-card .exchange-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-bottom: 13px;
-      font-size: 1.2rem;
-    }
-    .orders-list,
-    .exchange-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-size: 1em;
-    }
-    .orders-list li {
-      margin-bottom: 15px;
-      line-height: 1.5;
-      border-left: 3px solid var(--primary);
-      padding-left: 12px;
-      background: #fff;
-      border-radius: 5px;
-    }
-    .exchange-list li {
-      margin-bottom: 15px;
-      border-left: 3px solid var(--accent);
-      padding-left: 12px;
-      background: #fffef6;
-      border-radius: 5px;
-    }
-    .story-preview-card .story-preview-text {
+    article.card p {
+      font-size: 1.04rem;
       color: var(--text-light);
-      margin-bottom: 11px;
-    }
-    .story-preview-card .story-link,
-    .exchange-card a {
-      color: var(--primary-dark);
-      font-weight: 700;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-    /* Modal backdrop */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(41,88,40,0.18);
-      z-index: 9999;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.2s;
-    }
-    .modal-backdrop.active {
-      display: flex;
-      animation: fadein 0.2s ease forwards;
-    }
-    @keyframes fadein {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    /* Modal Drawer */
-    .modal-drawer {
-      background: var(--modal-bg);
-      border-radius: 1.2em;
-      box-shadow: 0 8px 56px rgba(88, 194, 97, 0.3), 0 2px 20px rgba(175, 211, 117, 0.3);
-      padding: 32px 32px 22px 32px;
-      max-width: 400px;
-      width: 90vw;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      animation: popup 0.25s ease forwards;
-    }
-    @keyframes popup {
-      0% {transform: scale(0.9); opacity: 0;}
-      100% {transform: scale(1); opacity: 1;}
-    }
-    .modal-drawer h2 {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--primary-dark);
-      font-weight: 800;
-      font-size: 1.4rem;
-      margin-bottom: 14px;
-    }
-    .modal-drawer .desc {
-      color: var(--text-light);
-      font-size: 1rem;
-      margin-bottom: 10px;
-    }
-    .modal-drawer form {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .modal-drawer label {
-      font-weight: 700;
-      font-size: 1rem;
-      color: var(--text-dark);
-    }
-    .modal-drawer input, .modal-drawer select, .modal-drawer textarea {
-      padding: 10px 14px;
-      font-size: 1rem;
-      border-radius: 0.8em;
-      border: 1.5px solid var(--border);
-      color: var(--text-dark);
-      font-family: inherit;
-      width: 100%;
-      box-sizing: border-box;
-    }
-    .modal-drawer textarea {
-      resize: vertical;
-      min-height: 60px;
-    }
-    .modal-drawer .score-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .modal-drawer .score-row label {
-      min-width: 110px;
-      margin-bottom: 0;
-    }
-    .modal-drawer input[type=range] {
       flex-grow: 1;
+      line-height: 1.55;
+      margin: 0 0 26px 0;
     }
-    .modal-drawer .score-label {
-      background: #e7f1dc;
-      color: var(--primary-dark);
-      border-radius: 9px;
-      padding: 5px 12px;
-      min-width: 40px;
-      text-align: center;
-      font-weight: 600;
-      font-size: 1.1em;
-    }
-    .modal-drawer .modal-actions {
-      margin-top: 12px;
-      display: flex;
-      justify-content: flex-end;
-      gap: 14px;
-    }
-    .modal-drawer button {
-      cursor: pointer;
-      padding: 10px 26px;
-      font-size: 1.05rem;
-      font-weight: 700;
-      border-radius: 1em;
-      border: none;
-      font-family: 'Montserrat', sans-serif;
-      transition: background-color 0.2s ease;
-    }
-    .modal-drawer button.submit {
+    article.card a.btn-link {
       background: var(--primary);
       color: var(--button-text);
-      box-shadow: 0 4px 12px rgb(88 196 97 / 0.7);
+      padding: 12px 34px;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.08rem;
+      border-radius: 1.3em;
+      text-align: center;
+      text-decoration: none;
+      user-select: none;
+      transition: background 0.25s;
+      align-self: flex-start;
+      display: inline-block;
+      box-shadow: 0 5px 20px rgba(41, 88, 40, 0.25);
     }
-    .modal-drawer button.submit:hover {
-      background: var(--primary-dark);
+    article.card a.btn-link:hover,
+    article.card a.btn-link:focus-visible {
+      background: var(--accent);
+      color: var(--text-dark);
+      outline: none;
     }
-    .modal-drawer button.cancel {
-      background: #f4f4f4;
-      color: #666;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
-    }
-    .modal-drawer button.cancel:hover {
-      background: #e1e1e1;
-      color: #222;
-    }
-    /* Close button */
-    .modal-drawer .modal-close {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      background: transparent;
-      border: none;
-      font-size: 1.5rem;
-      color: #888;
-      cursor: pointer;
-      transition: color 0.2s;
-    }
-    .modal-drawer .modal-close:hover {
-      color: var(--primary-dark);
-    }
-    /* Responsive */
-    @media (max-width: 470px) {
-      .sidebar {display: none;}
-      main.dashboard {margin-left: 0;}
-      .dashboard-grid {grid-template-columns: 1fr;}
-      .modal-drawer {max-width: 95vw;}
+    @media (max-width: 650px) {
+      h1.welcome-header {
+        font-size: 2rem;
+      }
+      p.welcome-subtitle {
+        font-size: 1rem;
+      }
+      .navbar-inner {
+        flex-direction: column;
+        gap: 12px;
+      }
+      nav.main-nav {
+        gap: 12px;
+      }
+      article.card a.btn-link {
+        padding: 10px 20px;
+        font-size: 1.01rem;
+      }
+      main.container {
+        margin: 22px auto 60px auto;
+      }
     }
   </style>
 </head>
 <body>
-  <aside class="sidebar">
-    <div class="logo">
-      <i class="bi bi-shop-window"></i> StreetSymphony
+  <!-- Navbar -->
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat', sans-serif; font-size:1.4rem; font-weight:900; letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="vendor-dashboard.html" class="active" aria-current="page">Dashboard</a>
+        <a href="vendor-orders.html">Orders</a>
+        <a href="vendor-stories.html">Stories</a>
+        <a href="vendor-produce.html">Market</a>
+        <a href="shared-live-map.html">Map</a>
+        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
     </div>
-    <nav>
-      <a href="vendor-dashboard.html" class="nav-link active"><i class="bi bi-grid-1x2"></i> Dashboard</a>
-      <a href="vendor-orders.html" class="nav-link"><i class="bi bi-basket-fill"></i> Orders</a>
-      <a href="vendor-exchange.html" class="nav-link"><i class="bi bi-arrow-repeat"></i> Exchange</a>
-      <a href="vendor-stories.html" class="nav-link"><i class="bi bi-journals"></i> Stories</a>
-      <a href="shared-profile.html" class="nav-link"><i class="bi bi-person-circle"></i> Profile</a>
-    </nav>
-    <div class="profile-short">
-      <div><b>Sharma Chaat</b></div>
-      <div style="margin-top: 5px; color: var(--text-light); font-size: 0.99rem;">
-        <span style="color: var(--primary);">Vendor</span><br>🟢 Online Now
-      </div>
-    </div>
-  </aside>
-  <main class="dashboard" role="main" aria-label="Vendor dashboard main content">
-    <header class="dashboard-header">
-      <div class="welcome">
-        Welcome back, Sharma Chaat!
-        <span class="status-badge">🟢 ONLINE</span>
-      </div>
-    </header>
-    <div class="dashboard-grid">
-      <section style="flex: 2;">
-        <div class="dashboard-cards">
-          <div class="dashboard-card">
-            <div class="card-label">Today's Orders</div>
-            <div class="card-value">22</div>
-            <div class="card-icon"><i class="bi bi-basket-fill"></i></div>
-          </div>
-          <div class="dashboard-card">
-            <div class="card-label">Earnings</div>
-            <div class="card-value">₹1,370</div>
-            <div class="card-icon"><i class="bi bi-currency-rupee"></i></div>
-          </div>
-          <div class="dashboard-card">
-            <div class="card-label">Hygiene Score</div>
-            <div class="card-value" id="hygieneScoreDisplay">95%</div>
-            <div class="card-icon"><i class="bi bi-patch-check-fill"></i></div>
-          </div>
-          <div class="dashboard-card">
-            <div class="card-label">Tips</div>
-            <div class="card-value">₹270</div>
-            <div class="card-icon"><i class="bi bi-emoji-smile"></i></div>
-          </div>
-        </div>
-        <div class="quick-actions" aria-label="Quick action buttons">
-          <button class="quick-btn" id="newItemBtn" aria-haspopup="dialog" aria-controls="modal"><i class="bi bi-plus-circle"></i> New Item</button>
-          <button class="quick-btn" id="ingredientSwapBtn" aria-haspopup="dialog" aria-controls="modal"><i class="bi bi-arrow-repeat"></i> Ingredient Exchange</button>
-          <button class="quick-btn" id="updateHygieneBtn" aria-haspopup="dialog" aria-controls="modal"><i class="bi bi-patch-check-fill"></i> Update Hygiene</button>
-        </div>
-        <div class="insight-card" aria-label="Today's orders summary">
-          <div class="insight-title"><i class="bi bi-bar-chart-fill"></i> Today's Orders</div>
-          <ul class="orders-list">
-            <li><b>Order #1207</b> - 4x Pani Puri, 2x Vada Pav – <span style="color: var(--primary-dark);">Completed</span></li>
-            <li><b>Order #1208</b> - 1x Bhel Puri – <span style="color: orange;">Pending</span></li>
-            <li><b>Order #1209</b> - 3x Dahi Papdi – <span style="color: var(--primary-dark);">Completed</span></li>
-          </ul>
-        </div>
-      </section>
-      <aside class="dashboard-right" aria-label="Right sidebar with summary and exchanges">
-        <div class="exchange-card">
-          <div class="exchange-title"><i class="bi bi-arrow-repeat"></i> Exchange Requests</div>
-          <ul class="exchange-list">
-            <li><b>Need:</b> Onions (2kg) | <b>Offer:</b> Mint Leaves (1kg) from Gupta Sweets</li>
-            <li><b>Need:</b> Tomatoes (4kg) | <b>Offer:</b> Boiled Potatoes (3kg) from Local Market</li>
-          </ul>
-          <a href="vendor-exchange.html" class="story-link">Manage Exchange</a>
-        </div>
-        <div class="story-preview-card">
-          <div class="story-title"><i class="bi bi-journals"></i> Latest Story</div>
-          <div class="story-preview-text">
-            “Another busy day at Connaught Place! Our new hygienic water filter is a hit. Thank you all.”
-          </div>
-          <a href="vendor-stories.html" class="story-link">Write New Story</a>
-        </div>
-      </aside>
-    </div>
+  </header>
+
+  <main class="container" role="main" aria-label="Vendor Dashboard">
+    <h1 class="welcome-header" tabindex="0">Welcome back, Green Valley Farm!</h1>
+    <p class="welcome-subtitle">Manage your orders, share stories, and keep your produce listings up-to-date.</p>
+
+    <section class="cards-grid" aria-label="Vendor Management Sections">
+      <article class="card" tabindex="0" role="region" aria-labelledby="ordersTitle" aria-describedby="ordersDesc">
+        <h2 id="ordersTitle"><i class="bi bi-basket3"></i> Manage Orders</h2>
+        <p id="ordersDesc">View and update order statuses, track deliveries, and manage customer requests.</p>
+        <a href="vendor-orders.html" class="btn-link" aria-label="Manage Orders">Manage</a>
+      </article>
+
+      <article class="card" tabindex="0" role="region" aria-labelledby="storiesTitle" aria-describedby="storiesDesc">
+        <h2 id="storiesTitle"><i class="bi bi-journal-text"></i> Vendor Stories</h2>
+        <p id="storiesDesc">Post new stories, track analytics, and engage with the community.</p>
+        <a href="vendor-stories.html" class="btn-link" aria-label="View Stories">View</a>
+      </article>
+
+      <article class="card" tabindex="0" role="region" aria-labelledby="produceTitle" aria-describedby="produceDesc">
+        <h2 id="produceTitle"><i class="bi bi-shop"></i> Produce Listings</h2>
+        <p id="produceDesc">Add, update, and manage your fresh produce offerings for buyers.</p>
+        <a href="vendor-produce.html" class="btn-link" aria-label="Manage Produce">Manage</a>
+      </article>
+    </section>
   </main>
-
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-hidden="true" aria-modal="true"></div>
-
-  <script>
-    const modalBackdrop = document.getElementById('modalBackdrop');
-
-    // Function to open modal by type
-    function openModal(type) {
-      let html = '';
-      if (type === 'item') {
-        html = `
-          <div class="modal-drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button class="modal-close" aria-label="Close">&times;</button>
-            <h2 id="modalTitle">Add New Item</h2>
-            <form id="newItemForm" autocomplete="off">
-              <label for="itemName">Item Name*</label>
-              <input type="text" id="itemName" name="itemName" required maxlength="35" placeholder="e.g., Pani Puri" />
-              <label for="itemDesc">Description</label>
-              <textarea id="itemDesc" name="itemDesc" maxlength="130" placeholder="Optional"></textarea>
-              <label for="itemPrice">Price (₹)*</label>
-              <input type="number" id="itemPrice" name="itemPrice" required min="1" max="9999" placeholder="Price in ₹" />
-              <label for="itemUnit">Unit*</label>
-              <select id="itemUnit" name="itemUnit" required>
-                <option value="">Select unit</option>
-                <option value="plate">Plate</option>
-                <option value="kg">Kg</option>
-                <option value="piece">Piece</option>
-                <option value="bowl">Bowl</option>
-              </select>
-              <div class="modal-actions">
-                <button type="button" class="cancel modal-btn">Cancel</button>
-                <button type="submit" class="submit modal-btn">Add Item</button>
-              </div>
-            </form>
-          </div>`;
-      } else if (type === 'swap') {
-        html = `
-          <div class="modal-drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button class="modal-close" aria-label="Close">&times;</button>
-            <h2 id="modalTitle">Propose Ingredient Exchange</h2>
-            <form id="ingredientSwapForm" autocomplete="off">
-              <label for="swapNeed">Need (what you require)*</label>
-              <input type="text" id="swapNeed" name="swapNeed" required maxlength="60" placeholder="e.g., Tomatoes 5kg" />
-              <label for="swapOffer">Offer (what you provide)*</label>
-              <input type="text" id="swapOffer" name="swapOffer" required maxlength="60" placeholder="e.g., Mint Leaves 2kg" />
-              <label for="swapNotes">Additional Notes</label>
-              <textarea id="swapNotes" name="swapNotes" maxlength="100" placeholder="Optional"></textarea>
-              <div class="modal-actions">
-                <button type="button" class="cancel modal-btn">Cancel</button>
-                <button type="submit" class="submit modal-btn">Submit Offer</button>
-              </div>
-            </form>
-          </div>`;
-      } else if (type === 'hygiene') {
-        html = `
-          <div class="modal-drawer" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-            <button class="modal-close" aria-label="Close">&times;</button>
-            <h2 id="modalTitle">Update Hygiene</h2>
-            <form id="hygieneForm" autocomplete="off">
-              <div class="desc">Use the sliders to update hygiene ratings.</div>
-              <div class="score-row">
-                <label for="cleanScore">Cleanliness:</label>
-                <input type="range" min="70" max="100" id="cleanScore" name="cleanScore" value="95" />
-                <span class="score-label" id="cleanScoreLabel">95%</span>
-              </div>
-              <div class="score-row">
-                <label for="foodSafety">Food Safety:</label>
-                <input type="range" min="70" max="100" id="foodSafety" name="foodSafety" value="95" />
-                <span class="score-label" id="foodSafetyLabel">95%</span>
-              </div>
-              <label for="hygieneNotes">Notes / Actions</label>
-              <textarea id="hygieneNotes" name="hygieneNotes" maxlength="140" placeholder="E.g., new sanitization protocols"></textarea>
-              <div class="modal-actions">
-                <button type="button" class="cancel modal-btn">Cancel</button>
-                <button type="submit" class="submit modal-btn">Update</button>
-              </div>
-            </form>
-          </div>`;
-      }
-      modalBackdrop.innerHTML = html;
-      modalBackdrop.classList.add('active');
-
-      // Close event handlers for modal
-      modalBackdrop.querySelector('.modal-close').addEventListener('click', closeModal);
-      modalBackdrop.querySelector('.cancel').addEventListener('click', closeModal);
-
-      // Focus first input for accessibility
-      const firstInput = modalBackdrop.querySelector('input, select, textarea, button.submit');
-      if (firstInput) firstInput.focus();
-    }
-    function closeModal() {
-      modalBackdrop.classList.remove('active');
-      setTimeout(() => { modalBackdrop.innerHTML = ''; }, 250);
-    }
-    // Close modal on backdrop click only if click outside modal content
-    modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) closeModal();
-    });
-
-    // Button bindings
-    document.getElementById('newItemBtn').onclick = () => openModal('item');
-    document.getElementById('ingredientSwapBtn').onclick = () => openModal('swap');
-    document.getElementById('updateHygieneBtn').onclick = () => openModal('hygiene');
-
-    // Form submit handlers
-    modalBackdrop.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const form = e.target;
-      if (form.id === 'newItemForm') {
-        const name = form.itemName.value.trim();
-        const price = form.itemPrice.value.trim();
-        const unit = form.itemUnit.value;
-        if (!name) return alert("Please enter the item name.");
-        if (!price || price <= 0) return alert("Please enter a valid price.");
-        if (!unit) return alert("Please select a unit.");
-        // TODO: Send new item data to backend here
-        alert(`Item added:\nName: ${name}\nPrice: ₹${price}\nUnit: ${unit}`);
-        closeModal();
-      } else if (form.id === 'ingredientSwapForm') {
-        const need = form.swapNeed.value.trim();
-        const offer = form.swapOffer.value.trim();
-        if (!need) return alert("Please enter what you need.");
-        if (!offer) return alert("Please enter what you offer.");
-        // TODO: Send swap data to backend here
-        alert(`Ingredient swap proposed:\nNeed: ${need}\nOffer: ${offer}`);
-        closeModal();
-      } else if (form.id === 'hygieneForm') {
-        const cleanScore = form.cleanScore.value;
-        const foodSafety = form.foodSafety.value;
-        // TODO: Send hygiene update to backend here
-        alert(`Hygiene updated:\nCleanliness: ${cleanScore}%\nFood Safety: ${foodSafety}%`);
-        // Update hygiene score display on main dashboard
-        const hygieneScoreDisplay = document.getElementById('hygieneScoreDisplay');
-        if (hygieneScoreDisplay) {
-          const avg = Math.round((parseInt(cleanScore) + parseInt(foodSafety)) / 2);
-          hygieneScoreDisplay.textContent = avg + '%';
-        }
-        closeModal();
-      }
-    });
-
-    // Update slider labels live
-    modalBackdrop.addEventListener('input', (e) => {
-      if (e.target.id === 'cleanScore') {
-        document.getElementById('cleanScoreLabel').textContent = e.target.value + '%';
-      } else if (e.target.id === 'foodSafety') {
-        document.getElementById('foodSafetyLabel').textContent = e.target.value + '%';
-      }
-    });
-  </script>
 </body>
 </html>
