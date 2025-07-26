@@ -236,6 +236,31 @@
       outline-offset: 3px;
     }
 
+    /* Logout button */
+    .logout-row {
+      display: flex;
+      justify-content: center;
+      margin: 30px 0 0 0;
+    }
+    #logoutBtn {
+      background: var(--primary-dark);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 12px 32px;
+      border: none;
+      border-radius: 1.3em;
+      cursor: pointer;
+      box-shadow: 0 4px 20px #58c06155;
+      transition: background 0.22s;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    #logoutBtn:hover {
+      background: #225905;
+    }
+
     /* Responsive */
     @media (max-width: 520px) {
       main.container {
@@ -324,6 +349,11 @@
         Vendor
       </label>
     </section>
+
+    <!-- Logout Button Row -->
+    <section class="logout-row">
+      <button id="logoutBtn"><i class="bi bi-power"></i> Logout</button>
+    </section>
   </main>
 
   <script>
@@ -377,9 +407,10 @@
         roleBadge.style.color = '#684d00';
       }
 
-      // Render badges
+      // Render badges (skip empty/incomplete ones)
       badgesContainer.innerHTML = '';
       userProfile.badges.forEach(badge => {
+        if (!badge.text || !badge.icon) return;
         const bd = document.createElement('div');
         bd.className = 'badge';
         bd.style.color = badge.color;
@@ -418,12 +449,19 @@
       radio.addEventListener('change', () => {
         if (radio.checked) {
           userProfile.role = radio.value;
-          // You might want to redirect to dashboard accordingly
           renderProfile();
           alert(`Switched role to: ${radio.value === 'buyer' ? 'Buyer' : 'Vendor'}. Please navigate to your dashboard.`);
         }
       });
     });
+
+    // Logout logic with confirm dialog
+    document.getElementById('logoutBtn').onclick = function () {
+      if (confirm('Are you sure you want to log out?')) {
+        // In a real app, clear auth/session here (e.g., firebase.auth().signOut()).
+        window.location.href = "index.html"; // Redirect to landing page
+      }
+    };
 
     // Initial render
     renderProfile();

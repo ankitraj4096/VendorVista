@@ -148,9 +148,10 @@
       </div>
       <div class="input-group">
         <label for="phoneInput">Phone Number</label>
-        <input type="text" id="phoneInput" required pattern="^[0-9+\\- ]{8,15}$" />
+        <input type="text" id="phoneInput" required pattern="^[0-9+\- ]{8,15}$" />
       </div>
-      <div class="input-group checkbox-row">
+
+      <div class="input-group checkbox-row" id="vendorCheckboxes">
         <label>
           <input type="checkbox" id="streetFoodBox" value="street_food" />
           I sell Street Food
@@ -190,25 +191,29 @@
     <button class="switch-link" id="toLoginBtn">Already have an account? Login</button>
   </div>
   <script>
-    // Show which role we came from
     function getRoleFromQuery() {
       const params = new URLSearchParams(window.location.search);
       const role = params.get('role');
       return (role === 'buyer' || role === 'vendor') ? role : '';
     }
-    // Set up the page title
     let userRole = getRoleFromQuery();
     document.getElementById('regTitle').textContent = 'Create Account' + (userRole ? ` as ${userRole.charAt(0).toUpperCase() + userRole.slice(1)}` : '');
 
-    // Vendor section toggling logic
+    // Show/hide vendor inputs based on role
+    const vendorCheckboxes = document.getElementById('vendorCheckboxes');
+    const vendorSections = document.getElementById('vendorSections');
     const streetFoodBox = document.getElementById('streetFoodBox');
     const vegetablesBox = document.getElementById('vegetablesBox');
-    const vendorSections = document.getElementById('vendorSections');
     const foodSection = document.getElementById('foodSection');
     const produceSection = document.getElementById('produceSection');
 
+    if (userRole !== "vendor") {
+      vendorCheckboxes.style.display = 'none';
+      vendorSections.style.display = 'none';
+    }
+
     function updateSections() {
-      let anyChecked = streetFoodBox.checked || vegetablesBox.checked;
+      const anyChecked = streetFoodBox.checked || vegetablesBox.checked;
       vendorSections.style.display = anyChecked ? '' : 'none';
       foodSection.style.display = streetFoodBox.checked ? '' : 'none';
       produceSection.style.display = vegetablesBox.checked ? '' : 'none';
@@ -216,44 +221,46 @@
     streetFoodBox.onchange = vegetablesBox.onchange = updateSections;
     updateSections();
 
-    // Redirect to login page
     document.getElementById('toLoginBtn').onclick = function() {
       const params = new URLSearchParams(window.location.search);
       window.location.href = "login.html" + (params.has('role') ? "?role=" + params.get('role') : "");
     };
 
-    // Registration handler (frontend-only)
     document.getElementById('regForm').onsubmit = function(e) {
       e.preventDefault();
       const name = document.getElementById('nameInput').value.trim();
       const email = document.getElementById('emailInput').value.trim();
       const pwd = document.getElementById('passwordInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
+
       if (!name || !email || !pwd || !phone) {
         document.getElementById('errorRegMsg').textContent = 'Please fill all required fields.';
         return;
       }
-      // Vendor-related values
-      let vendorTypes = [];
-      if (streetFoodBox.checked) vendorTypes.push("street_food");
-      if (vegetablesBox.checked) vendorTypes.push("vegetables");
-      let vendorExtra = {};
-      if (streetFoodBox.checked) {
-        vendorExtra.businessName = document.getElementById('businessNameFood').value.trim();
-        vendorExtra.cuisine = document.getElementById('streetCuisine').value.trim();
-        vendorExtra.opHours = document.getElementById('operatingHoursFood').value.trim();
-        vendorExtra.location = document.getElementById('stallLocation').value.trim();
+
+      if (userRole === "vendor") {
+        let vendorTypes = [];
+        if (streetFoodBox.checked) vendorTypes.push("street_food");
+        if (vegetablesBox.checked) vendorTypes.push("vegetables");
+        let vendorExtra = {};
+        if (streetFoodBox.checked) {
+          vendorExtra.businessName = document.getElementById('businessNameFood').value.trim();
+          vendorExtra.cuisine = document.getElementById('streetCuisine').value.trim();
+          vendorExtra.opHours = document.getElementById('operatingHoursFood').value.trim();
+          vendorExtra.location = document.getElementById('stallLocation').value.trim();
+        }
+        if (vegetablesBox.checked) {
+          vendorExtra.farmName = document.getElementById('businessNameVeg').value.trim();
+          vendorExtra.produceType = document.getElementById('produceType').value.trim();
+          vendorExtra.farmLocation = document.getElementById('farmLocation').value.trim();
+          vendorExtra.opHoursVeg = document.getElementById('operatingHoursVeg').value.trim();
+        }
+        // You can validate vendorExtra fields further here if needed
+        // Or call backend API with these details
       }
-      if (vegetablesBox.checked) {
-        vendorExtra.farmName = document.getElementById('businessNameVeg').value.trim();
-        vendorExtra.produceType = document.getElementById('produceType').value.trim();
-        vendorExtra.farmLocation = document.getElementById('farmLocation').value.trim();
-        vendorExtra.opHoursVeg = document.getElementById('operatingHoursVeg').value.trim();
-      }
-      // Backend will create the user, save to firestore, etc. Here only show an alert!
+
       document.getElementById('errorRegMsg').textContent = '';
       alert('Send this data to backend (Firebase/Firebase Auth) and redirect accordingly.');
-      // You can pass the full form fields object to backend for storage
     };
   </script>
 </body>
