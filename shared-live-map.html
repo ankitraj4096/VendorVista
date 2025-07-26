@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Live Vendor Map | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --button: #26c485;
+      --button-text: #fff;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-dark);
+    }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    /* Navbar */
+    header.navbar {
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+    }
+    header.navbar nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 24px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: color 0.2s;
+      position: relative;
+      padding-bottom: 2px;
+    }
+    header.navbar nav a:hover,
+    header.navbar nav a.active {
+      color: var(--accent);
+      border-bottom: 2.5px solid var(--accent);
+    }
+
+    /* Main content */
+    .content {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 56px);
+      max-height: calc(100vh - 56px);
+      overflow: hidden;
+    }
+    /* Map container */
+    #map {
+      flex: 2.25;
+      height: 100%;
+      position: relative;
+      border-radius: 0 0 0 20px;
+      box-shadow: 0 4px 20px rgba(41,88,40,0.18);
+      z-index: 1;
+    }
+    /* Sidebar */
+    aside.sidebar {
+      flex: 1;
+      background: var(--card-bg);
+      border-left: 3px solid var(--border);
+      box-shadow: -3px 0 22px #d6f2cd08;
+      padding: 20px 22px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      border-radius: 0 0 20px 0;
+      font-size: 1rem;
+    }
+    aside.sidebar h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-size: 1.25rem;
+      user-select: none;
+    }
+
+    /* Sections in sidebar */
+    .sidebar-section {
+      background: var(--secondary);
+      border: 1.7px solid var(--border);
+      border-radius: 1.2em;
+      padding: 14px 18px;
+      box-shadow: var(--shadow);
+      max-height: 220px;
+      overflow-y: auto;
+      user-select: text;
+    }
+    .sidebar-section ul {
+      margin: 0; padding: 0 0 0 20px;
+      list-style-type: disc;
+    }
+    .sidebar-section li {
+      margin-bottom: 10px;
+      line-height: 1.4;
+      cursor: default;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .sidebar-section li:last-child {
+      margin-bottom: 0;
+    }
+    /* Highlight a keywords */
+    .highlight {
+      color: var(--primary-dark);
+      font-weight: 700;
+    }
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 10px;
+      border-bottom: 1.5px solid var(--border);
+      user-select: none;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      background: var(--button);
+      border: none;
+      border-radius: 1.2em;
+      padding: 8px 20px;
+      font-weight: 700;
+      color: var(--button-text);
+      cursor: pointer;
+      transition: background-color 0.28s;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 14px #26c48559;
+    }
+    .filter-chip:hover,
+    .filter-chip.active {
+      background: var(--primary-dark);
+    }
+    /* Scrollbars */
+    aside.sidebar::-webkit-scrollbar,
+    .sidebar-section::-webkit-scrollbar {
+      width: 9px;
+    }
+    aside.sidebar::-webkit-scrollbar-track,
+    .sidebar-section::-webkit-scrollbar-track {
+      background: var(--card-bg);
+    }
+    aside.sidebar::-webkit-scrollbar-thumb,
+    .sidebar-section::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 6px;
+    }
+
+    /* Vendor alert badges */
+    .alert-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--accent);
+      color: #684d00;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 5px 11px;
+      border-radius: 14px;
+      margin-bottom: 9px;
+      user-select: none;
+    }
+    .alert-badge i {
+      font-size: 1.15rem;
+    }
+
+    /* Leaflet marker popups */
+    .leaflet-popup-content { font-family: 'Poppins', sans-serif; font-size: 0.95rem; }
+    /* Popup container fixes */
+    .leaflet-popup-content-wrapper { box-shadow: 0 4px 16px rgba(41,88,40,0.16) !important; }
+    .leaflet-popup-tip { background: var(--primary) !important; }
+
+    /* Marker colors */
+    .marker-online { background-color: var(--primary); border-radius: 50%; width: 14px; height: 14px; border: 3px solid white; }
+    .marker-opening { background-color: var(--accent); border-radius: 50%; width: 14px; height: 14px; border: 3px solid white; }
+    .marker-offline { background-color: #cfcfcf; border-radius: 50%; width: 14px; height: 14px; border: 3px solid white; }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .content {
+        flex-direction: column;
+        height: auto;
+      }
+      #map {
+        flex-grow: 1;
+        height: 60vh;
+        border-radius: 20px 20px 0 0;
+      }
+      aside.sidebar {
+        height: auto;
+        flex-grow: 0;
+        border-left: none;
+        border-top: 3px solid var(--border);
+        border-radius: 0 0 20px 20px;
+        padding: 22px 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    StreetSymphony - Live Vendor Map
+    <nav>
+      <a href="buyer-dashboard.html">Dashboard</a>
+      <a href="buyer-street-food.html">Street Food</a>
+      <a href="buyer-fresh-produce.html">Produce</a>
+      <a href="shared-live-map.html" class="active">Map</a>
+      <a href="shared-stories-feed.html">Stories</a>
+      <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
+    </nav>
+  </header>
+
+  <div class="content">
+    <!-- Map -->
+    <div id="map" aria-label="Interactive map showing live vendor locations" tabindex="0"></div>
+
+    <!-- Sidebar with alerts, reports, favorites -->
+    <aside class="sidebar" aria-live="polite" aria-relevant="additions removals">
+      <h2>Filters</h2>
+      <div class="filters" role="group" aria-label="Filter by vendor status">
+        <button class="filter-chip active" data-status="all" type="button"><i class="bi bi-geo-alt-fill"></i> All</button>
+        <button class="filter-chip" data-status="online" type="button"><i class="bi bi-universal-access-circle"></i> Online Vendors</button>
+        <button class="filter-chip" data-status="opening" type="button"><i class="bi bi-clock-history"></i> Opening Soon</button>
+        <button class="filter-chip" data-status="offline" type="button"><i class="bi bi-x-circle"></i> Offline Vendors</button>
+      </div>
+
+      <section class="sidebar-section" aria-label="Vendor Alerts">
+        <h2>Vendor Alerts</h2>
+        <div class="alert-badge"><i class="bi bi-exclamation-circle-fill"></i> Sharma Chaat is 0.2km away!</div>
+        <div class="alert-badge"><i class="bi bi-exclamation-circle-fill"></i> Fresh Juice just opened!</div>
+      </section>
+
+      <section class="sidebar-section" aria-label="Crowd Reports">
+        <h2>Crowd Reports</h2>
+        <ul>
+          <li><span class="highlight">High traffic</span> at Connaught Place Metro</li>
+          <li>Best time: evenings 6-8 PM</li>
+          <li>New street festival on Main Bazaar weekend</li>
+        </ul>
+      </section>
+
+      <section class="sidebar-section" aria-label="Favorite Vendors">
+        <h2>Your Favorite Vendors</h2>
+        <ul>
+          <li>Sharma Chaat Corner</li>
+          <li>Fresh Juice Hub</li>
+          <li>Vada Pav Express</li>
+          <li>Sweet Treats</li>
+        </ul>
+      </section>
+    </aside>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Initialize the map centered on a typical city center (Delhi coords approx)
+    const map = L.map('map', { keyboard: true }).setView([28.6139, 77.209], 13);
+
+    // OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Custom icon class for colored circle markers
+    function createColoredCircleIcon(color) {
+      return L.divIcon({
+        className: '',
+        html: `<span style="
+          display:inline-block;
+          width:16px; height:16px;
+          background:${color};
+          border: 3px solid white;
+          border-radius:50%;
+          box-shadow:0 0 6px 2px ${color}88;"></span>`,
+        iconSize: [22, 22],
+        iconAnchor: [11, 11],
+        popupAnchor: [0, -11],
+      });
+    }
+
+    const icons = {
+      online: createColoredCircleIcon(getComputedStyle(document.documentElement).getPropertyValue('--primary').trim() || '#58c061'),
+      opening: createColoredCircleIcon(getComputedStyle(document.documentElement).getPropertyValue('--accent').trim() || '#fbe27a'),
+      offline: createColoredCircleIcon('#cfcfcf'),
+    };
+
+    // Dummy vendor data
+    const vendors = [
+      {
+        id: 1,
+        name: 'Sharma Chaat',
+        latlng: [28.615, 77.205],
+        status: 'online',
+        ordersToday: 68,
+        popupContent: '<b>Sharma Chaat</b><br>68 orders today<br><span style="color:green;font-weight:700;">Online now</span>'
+      },
+      {
+        id: 2,
+        name: 'Fresh Juice Hub',
+        latlng: [28.6175, 77.213],
+        status: 'opening',
+        ordersToday: 29,
+        popupContent: '<b>Fresh Juice Hub</b><br>Opening in 10 mins<br><span style="color:orange;font-weight:700;">Opening Soon</span>'
+      },
+      {
+        id: 3,
+        name: 'Vada Pav Express',
+        latlng: [28.611, 77.21],
+        status: 'offline',
+        ordersToday: 45,
+        popupContent: '<b>Vada Pav Express</b><br>Closed<br><span style="color:gray;font-weight:700;">Offline</span>'
+      },
+      {
+        id: 4,
+        name: 'Sweet Treats',
+        latlng: [28.619, 77.199],
+        status: 'online',
+        ordersToday: 53,
+        popupContent: '<b>Sweet Treats</b><br>53 orders today<br><span style="color:green;font-weight:700;">Online now</span>'
+      },
+    ];
+
+    const markers = [];
+    vendors.forEach(vendor => {
+      const marker = L.marker(vendor.latlng, { icon: icons[vendor.status] }).addTo(map);
+      marker.bindPopup(vendor.popupContent);
+      marker.vendorStatus = vendor.status;
+      markers.push(marker);
+    });
+
+    // Filter buttons functionality
+    const filterButtons = document.querySelectorAll('.filter-chip');
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterStatus = btn.getAttribute('data-status');
+        markers.forEach(marker => {
+          if (filterStatus === 'all' || marker.vendorStatus === filterStatus) {
+            marker.addTo(map);
+          } else {
+            map.removeLayer(marker);
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

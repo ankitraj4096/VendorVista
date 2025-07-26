@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Vendor Dashboard | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --button: #26c485;
+      --button-text: #fff;
+      --shadow: 0 6px 26px rgba(41,88,40,0.11);
+      --text-dark: #232c1e;
+      --text-light: #4a6040;
+      --sidebar-bg: #edfdef;
+      --sidebar-highlight: #afd375;
+      --sidebar-width: 220px;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      background: var(--secondary);
+      color: var(--text-dark);
+      font-family: 'Poppins', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+    }
+    .sidebar {
+      background: var(--sidebar-bg);
+      width: var(--sidebar-width);
+      min-width: 165px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 0 27px 0;
+      border-right: 3px solid var(--border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 3px 0 22px #d6f2cd08;
+      z-index: 11;
+    }
+    .sidebar .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.44rem;
+      color: var(--primary-dark);
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 35px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 7px;
+      margin-bottom: 40px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 1.07rem;
+      padding: 13px 0px 13px 33px;
+      border-radius: 0 26px 26px 0;
+      background: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.12s, color 0.11s;
+      position: relative;
+    }
+    .nav-link.active, .nav-link:hover {
+      background: var(--sidebar-highlight);
+      color: #fff;
+    }
+    .nav-link.active::before {
+      content: '';
+      width: 5px; height: 30px;
+      background: var(--primary);
+      position: absolute;
+      left: 0; top: 11px; border-radius: 3px;
+    }
+    .sidebar .profile-short {
+      margin-top: auto;
+      padding-top: 16px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.99rem;
+      width: 160px;
+    }
+    main.dashboard {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      max-width: 100vw;
+      margin: 0;
+    }
+    .dashboard-header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 38px 45px 14px 45px;
+      background: #fff;
+      box-shadow: 0 4px 22px #afd37518;
+    }
+    .dashboard-header .welcome {
+      font-size: 1.6rem;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary-dark);
+      font-weight: 800;
+      letter-spacing: 0.7px;
+    }
+    .dashboard-header .status-badge {
+      display: inline-block;
+      background: var(--primary);
+      color: #fff;
+      padding: 8px 22px;
+      border-radius: 19px;
+      font-weight: 600;
+      font-size: 1rem;
+      margin-left: 19px;
+      text-shadow: 0 2px 11px #74ed6b5e;
+    }
+    .dashboard-grid {
+      padding: 36px 40px 39px 40px;
+      display: grid;
+      grid-template-columns: 2fr 1.4fr;
+      gap: 40px;
+      width: 100%;
+      min-width: 0;
+    }
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit,minmax(190px,1fr));
+      gap: 28px;
+      margin-bottom: 36px;
+    }
+    .dashboard-card {
+      background: var(--card-bg);
+      border-radius: 1.2em;
+      box-shadow: var(--shadow);
+      padding: 23px;
+      min-width: 130px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: relative;
+    }
+    .dashboard-card .card-label {
+      font-size: 1.02em;
+      color: var(--text-light);
+      font-weight: 600;
+    }
+    .dashboard-card .card-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin-top: 7px;
+      letter-spacing: 1.2px;
+    }
+    .dashboard-card .card-icon {
+      position: absolute;
+      top: 23px; right: 22px;
+      font-size: 1.65rem;
+      color: var(--primary);
+      opacity: 0.25;
+    }
+    .quick-actions {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 37px;
+      flex-wrap: wrap;
+    }
+    .quick-btn {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      border: none;
+      border-radius: 1.1em;
+      font-size: 1.04rem;
+      padding: 13px 36px;
+      box-shadow: 0 2px 16px #58c0611b;
+      cursor: pointer;
+      transition: background 0.13s;
+      font-family: 'Montserrat',sans-serif;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .quick-btn:hover {
+      background: var(--primary-dark);
+    }
+    /* Right Aside */
+    .dashboard-right {
+      display: flex;
+      flex-direction: column;
+      gap: 33px;
+    }
+    .insight-card, .story-preview-card, .exchange-card {
+      background: var(--card-bg);
+      border-radius: 1.2em;
+      box-shadow: var(--shadow);
+      padding: 25px 18px 18px 22px;
+      margin-bottom: 7px;
+      font-size: 1.03em;
+    }
+    .insight-title, .exchange-title, .story-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 13px;
+      font-size: 1.2rem;
+    }
+    .orders-list {
+      list-style: none; padding: 0; margin: 0;
+      font-size: 1.02em;
+    }
+    .orders-list li {
+      margin-bottom: 15px;
+      line-height: 1.5;
+      border-left: 3px solid var(--primary);
+      padding-left: 12px;
+      background: #fff;
+      border-radius: 5px;
+    }
+    .exchange-list {
+      list-style: none; padding: 0; margin: 0;
+      font-size: 1.01em;
+    }
+    .exchange-list li {
+      margin-bottom: 13px;
+      border-left: 3px solid var(--accent);
+      padding-left: 10px;
+      background: #fffef6;
+      border-radius: 5px;
+    }
+    .story-preview-text {
+      color: var(--text-light);
+      margin-bottom: 11px;
+      font-size: .96em;
+    }
+    .story-link {
+      color: var(--primary-dark);
+      font-weight: 700;
+      font-size: 1em;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    @media (max-width: 900px) {
+      .dashboard-grid { grid-template-columns: 1fr; padding: 31px 6vw;}
+      .dashboard-right {flex-direction:column;}
+    }
+    @media (max-width: 550px) {
+      :root { --sidebar-width: 45px; }
+      .sidebar {
+        min-width: 45px;
+        width:45px;
+        padding: 12px 0;
+        align-items: flex-start;
+      }
+      .sidebar .logo { font-size: 0; margin-bottom: 20px;}
+      .sidebar nav { gap:7px;}
+      .nav-link { padding:10px 0 10px 17px; font-size:0;}
+      .nav-link i { font-size:1.4rem;}
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="bi bi-shop-window"></i> StreetSymphony
+    </div>
+    <nav>
+      <a href="vendor-dashboard.html" class="nav-link active"><i class="bi bi-grid-1x2"></i> Dashboard</a>
+      <a href="vendor-orders.html" class="nav-link"><i class="bi bi-basket-fill"></i> Orders</a>
+      <a href="vendor-exchange.html" class="nav-link"><i class="bi bi-arrow-repeat"></i> Exchange</a>
+      <a href="vendor-stories.html" class="nav-link"><i class="bi bi-journals"></i> Stories</a>
+      <a href="shared-profile.html" class="nav-link"><i class="bi bi-person-circle"></i> Profile</a>
+    </nav>
+    <div class="profile-short">
+      <div><b>Sharma Chaat</b></div>
+      <div style="font-size:.97em; margin-top:5px;">
+        <span style="color:var(--primary);">Vendor</span>
+        <br><span style="font-size:1.25em;">🟢</span> Online Now
+      </div>
+    </div>
+  </aside>
+  <main class="dashboard">
+    <header class="dashboard-header">
+      <div class="welcome">
+        Welcome back, Sharma Chaat!
+        <span class="status-badge">🟢 ONLINE</span>
+      </div>
+      <!-- optional: quick profile picture or stats -->
+    </header>
+    <div class="dashboard-grid">
+      <section style="flex:2">
+        <div class="dashboard-cards">
+          <div class="dashboard-card">
+            <div class="card-label">Today's Orders</div>
+            <div class="card-value">22</div>
+            <div class="card-icon"><i class="bi bi-basket-fill"></i></div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-label">Earnings</div>
+            <div class="card-value">₹1,370</div>
+            <div class="card-icon"><i class="bi bi-currency-rupee"></i></div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-label">Hygiene Score</div>
+            <div class="card-value">95%</div>
+            <div class="card-icon"><i class="bi bi-patch-check-fill"></i></div>
+          </div>
+          <div class="dashboard-card">
+            <div class="card-label">Tips Earned</div>
+            <div class="card-value">₹270</div>
+            <div class="card-icon"><i class="bi bi-emoji-smile"></i></div>
+          </div>
+        </div>
+
+        <div class="quick-actions">
+          <button class="quick-btn"><i class="bi bi-plus-circle"></i> New Item</button>
+          <button class="quick-btn"><i class="bi bi-arrow-repeat"></i> Ingredient Swap</button>
+          <button class="quick-btn"><i class="bi bi-patch-check-fill"></i> Update Hygiene</button>
+        </div>
+
+        <div class="insight-card">
+          <div class="insight-title"><i class="bi bi-bar-chart-fill"></i> Today's Orders</div>
+          <ul class="orders-list">
+            <li><b>Order #1207</b> - 4x Pani Puri, 2x Vada Pav – <span style="color:var(--primary-dark);">Completed</span></li>
+            <li><b>Order #1208</b> - 1x Bhel Puri – <span style="color:orange;">Pending</span></li>
+            <li><b>Order #1209</b> - 3x Dahi Papdi – <span style="color:var(--primary-dark);">Completed</span></li>
+            <!-- Add real or dynamic entries -->
+          </ul>
+        </div>
+      </section>
+
+      <aside class="dashboard-right">
+        <div class="exchange-card">
+          <div class="exchange-title"><i class="bi bi-arrow-repeat"></i> Exchange Requests</div>
+          <ul class="exchange-list">
+            <li><b>Need:</b> Onions (2kg) | <b>Offer:</b> Mint Leaves (1kg) from Gupta Sweets</li>
+            <li><b>Need:</b> Tomatoes (4kg) | <b>Offer:</b> Boiled Potatoes (3kg) from Local Market</li>
+            <!-- Add dynamic content -->
+          </ul>
+          <a href="vendor-exchange.html" class="story-link">Manage Exchange</a>
+        </div>
+        <div class="story-preview-card">
+          <div class="story-title"><i class="bi bi-journal-text"></i> Latest Story</div>
+          <div class="story-preview-text">
+            “Another busy day at Connaught Place! Our new hygienic water filter is a hit. Thank you all!”
+          </div>
+          <a href="vendor-stories.html" class="story-link">Write New Story</a>
+        </div>
+      </aside>
+    </div>
+  </main>
+  <script>
+    // You can add dynamic JS here for live updates, AJAX, etc.
+    // Placeholder for dashboard quick action buttons
+    document.querySelectorAll('.quick-btn').forEach(btn=>{
+      btn.onclick = ()=>{ alert(`${btn.textContent.trim()} feature coming soon!`) }
+    });
+  </script>
+</body>
+</html>

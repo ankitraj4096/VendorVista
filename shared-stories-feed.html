@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Community Stories | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #4a6040;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+      --accent: #fbe27a;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header.navbar {
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+    }
+    header.navbar nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 24px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s;
+      position: relative;
+    }
+    header.navbar nav a:hover,
+    header.navbar nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    main.content {
+      max-width: 900px;
+      margin: 36px auto 72px auto;
+      width: 95%;
+    }
+
+    .page-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2.3rem;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+      user-select: none;
+    }
+
+    .search-bar-wrapper {
+      position: relative;
+      margin-bottom: 22px;
+    }
+    .search-input {
+      width: 100%;
+      padding: 12px 46px 12px 16px;
+      border-radius: 1em;
+      border: 1.9px solid var(--border);
+      font-size: 1rem;
+      font-family: inherit;
+      color: var(--text-dark);
+      transition: border-color 0.16s ease;
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 13px #a1d484bd;
+    }
+    .search-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 1.25rem;
+      pointer-events: none;
+    }
+
+    .stories-list {
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+
+    .story-card {
+      background: var(--card-bg);
+      border-radius: 1.3em;
+      box-shadow: var(--shadow);
+      padding: 24px 28px 26px 28px;
+      position: relative;
+      box-sizing: border-box;
+      user-select: text;
+      transition: box-shadow 0.25s;
+    }
+    .story-card:hover {
+      box-shadow: 0 12px 36px #81d4705b;
+    }
+    .story-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .story-author {
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.18rem;
+      color: var(--primary-dark);
+    }
+    .story-timestamp {
+      font-size: 0.92rem;
+      color: var(--text-light);
+      font-style: italic;
+      white-space: nowrap;
+    }
+
+    .story-content {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--text-dark);
+      white-space: pre-wrap;
+      margin-bottom: 22px;
+      min-height: 60px;
+    }
+
+    .story-actions {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      font-size: 1.05rem;
+      color: var(--text-light);
+      user-select: none;
+    }
+    .story-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      padding: 6px 10px;
+      border-radius: 1.2em;
+    }
+    .story-actions button:hover,
+    .story-actions button.liked {
+      color: var(--primary);
+      background: #ebf4de;
+    }
+    .story-actions button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+    /* Like count badge */
+    .like-count {
+      font-weight: 700;
+    }
+    /* Comment bubble */
+    .comment-bubble {
+      position: relative;
+      cursor: pointer;
+    }
+    .comment-bubble::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -10px;
+      right: -12px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px solid var(--secondary);
+      user-select: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .story-actions {
+        font-size: 0.95rem;
+        gap: 18px;
+      }
+      .story-content {
+        font-size: 1rem;
+      }
+      .story-author {
+        font-size: 1.05rem;
+      }
+      header.navbar {
+        font-size: 1.1rem;
+        padding: 12px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    StreetSymphony - Community Stories
+    <nav>
+      <a href="buyer-dashboard.html">Dashboard</a>
+      <a href="buyer-street-food.html">Street Food</a>
+      <a href="buyer-fresh-produce.html">Produce</a>
+      <a href="shared-live-map.html">Map</a>
+      <a href="shared-stories-feed.html" class="active">Stories</a>
+      <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
+    </nav>
+  </header>
+
+  <main class="content" role="main">
+    <h1 class="page-title" tabindex="0">Community Stories</h1>
+
+    <div class="search-bar-wrapper">
+      <input type="search" id="storySearch" class="search-input" placeholder="Search stories..." aria-label="Search stories" />
+      <i class="bi bi-search search-icon" aria-hidden="true"></i>
+    </div>
+
+    <section class="stories-list" id="storiesList" aria-live="polite" aria-relevant="additions removals">
+      <!-- Stories rendered here -->
+    </section>
+  </main>
+
+  <script>
+    const storiesData = [
+      {
+        id: 1,
+        author: 'Sharma Chaat',
+        timestamp: '2 hours ago',
+        content: "Fresh paneer arrived this morning from my village! Thanks to all my customers for the love. Come enjoy the delightful chaat.",
+        likes: 45,
+        liked: false,
+        comments: 12,
+      },
+      {
+        id: 2,
+        author: 'Kumar Vegetables',
+        timestamp: '5 hours ago',
+        content: "Organic tomatoes harvested yesterday! Available fresh for the weekend.",
+        likes: 78,
+        liked: false,
+        comments: 23,
+      },
+      {
+        id: 3,
+        author: 'Anita Singh',
+        timestamp: '1 day ago',
+        content: "Had a wonderful pav bhaji from Pav Bhaji King today. Highly recommended!",
+        likes: 26,
+        liked: false,
+        comments: 4,
+      },
+      {
+        id: 4,
+        author: 'Fresh Juice Hub',
+        timestamp: '3 days ago',
+        content: "Try our new refreshing mango lassi - perfect for the summer heat!",
+        likes: 59,
+        liked: false,
+        comments: 9,
+      }
+    ];
+
+    const storiesList = document.getElementById('storiesList');
+    const searchInput = document.getElementById('storySearch');
+
+    function renderStories(filterText = '') {
+      storiesList.innerHTML = '';
+      const filtered = storiesData.filter(story =>
+        story.content.toLowerCase().includes(filterText.toLowerCase()) ||
+        story.author.toLowerCase().includes(filterText.toLowerCase())
+      );
+
+      if (filtered.length === 0) {
+        storiesList.innerHTML = '<p>No stories found.</p>';
+        return;
+      }
+
+      filtered.forEach(story => {
+        const storyCard = document.createElement('article');
+        storyCard.className = 'story-card';
+        storyCard.setAttribute('tabindex', '0');
+        storyCard.setAttribute('role', 'article');
+        storyCard.setAttribute('aria-label', `Story by ${story.author}, posted ${story.timestamp}`);
+
+        storyCard.innerHTML = `
+          <div class="story-header">
+            <span class="story-author">${story.author}</span>
+            <time class="story-timestamp" datetime="${new Date().toISOString()}">${story.timestamp}</time>
+          </div>
+          <div class="story-content">${escapeHtml(story.content)}</div>
+          <div class="story-actions">
+            <button aria-pressed="${story.liked ? 'true' : 'false'}" aria-label="${story.liked ? 'Unlike' : 'Like'} story by ${story.author}" class="like-btn">
+              <i class="bi bi-hand-thumbs-up${story.liked ? '-fill' : ''}"></i> <span class="like-count">${story.likes}</span>
+            </button>
+            <button class="comment-btn comment-bubble" data-count="${story.comments}" aria-label="View comments for story by ${story.author}">
+              <i class="bi bi-chat-dots"></i>
+            </button>
+          </div>
+        `;
+        storiesList.appendChild(storyCard);
+
+        // Like button logic
+        const likeBtn = storyCard.querySelector('.like-btn');
+        likeBtn.addEventListener('click', () => {
+          story.liked = !story.liked;
+          if (story.liked) {
+            story.likes++;
+          } else {
+            story.likes--;
+          }
+          renderStories(searchInput.value.trim());
+        });
+
+        // Comment button logic (placeholder)
+        const commentBtn = storyCard.querySelector('.comment-btn');
+        commentBtn.addEventListener('click', () => {
+          alert('Comments feature coming soon!');
+        });
+      });
+    }
+
+    // Escape HTML for safety
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Search input event
+    searchInput.addEventListener('input', () => {
+      renderStories(searchInput.value.trim());
+    });
+
+    // Initial render
+    renderStories();
+  </script>
+</body>
+</html>

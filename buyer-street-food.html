@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Street Food Marketplace | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.10);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --button: #26c485;
+      --button-text: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: var(--secondary);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    header.navbar {
+      width: 100%;
+      max-width: 100vw;
+      padding: 18px 7vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      position: sticky;
+      top: 0;
+      z-index: 101;
+      border-bottom-left-radius: 13px;
+      border-bottom-right-radius: 13px;
+      box-shadow: 0 4px 16px rgba(66,130,42,.11);
+    }
+    .navbar nav {
+      display: flex;
+      gap: 2vw;
+    }
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.08rem;
+      transition: color 0.14s;
+      border-bottom: 2.5px solid transparent;
+      padding-bottom: 1px;
+    }
+    .navbar a.active,
+    .navbar a:hover { color: var(--accent); border-bottom: 2.5px solid var(--accent);}
+    .market-hero {
+      max-width: 1100px;
+      margin: 36px auto 12px auto;
+      padding: 0 7vw;
+    }
+    .market-title {
+      font-size: 2.3rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      color: var(--primary-dark);
+      letter-spacing: 1.7px;
+      margin-bottom: 8px;
+    }
+    .market-sub {
+      color: var(--text-light);
+      font-size: 1.11rem;
+      margin-bottom: 14px;
+      max-width: 540px;
+    }
+    .search-filter-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+      align-items: center;
+    }
+    .searchbox {
+      font-size: 1.11rem;
+      flex: 1 1 250px;
+      padding: 12px 20px;
+      border-radius: 1.13em;
+      border: 1.9px solid var(--border);
+      background: #fff;
+      color:var(--text-dark);
+      font-family:inherit;
+      transition: border-color 0.12s;
+    }
+    .filter-chip {
+      background: var(--accent);
+      color: #6a691b;
+      font-weight: 700;
+      padding: 8px 18px;
+      border: none;
+      border-radius: 2em;
+      margin-right: 5px;
+      font-size: 1.03em;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      gap:7px;
+      align-items:center;
+      box-shadow:0 2px 10px #ffe3921a;
+      transition: background 0.15s;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--primary); color: #fff;
+    }
+    /* Vendor Grid */
+    .vendors-grid {
+      max-width: 1100px;
+      margin: 40px auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 35px 28px;
+      padding: 0 7vw 44px 7vw;
+    }
+    .vendor-card {
+      background: var(--card-bg);
+      border-radius: 1.3em;
+      box-shadow: var(--shadow);
+      padding: 21px 18px 20px 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: box-shadow 0.13s, transform 0.12s;
+      border: 2.5px solid var(--border);
+      cursor: pointer;
+      position: relative;
+    }
+    .vendor-card:hover {
+      box-shadow: 0 14px 36px #91e5ad31, 0 1.7px 11px #afefb540;
+      transform: translateY(-3px) scale(1.02);
+      border-color: var(--primary);
+    }
+    .vendor-img {
+      width: 65px;
+      height: 65px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3.1px solid var(--primary);
+      background: #acf2b5;
+      margin-bottom: 13px;
+      box-shadow: 0 7px 33px #b2e7a027;
+    }
+    .vendor-title {
+      font-size: 1.17em;
+      font-weight: 700;
+      color: #226b36;
+      font-family: 'Montserrat',sans-serif;
+      margin-bottom: 2px;
+      text-align:center;
+    }
+    .vendor-meta {
+      font-size: .98em;
+      color: #6c6c47;
+      margin: 6px 0 4px 0;
+      text-align:center;
+    }
+    .badges-row {
+      margin-top: 4px;
+      display: flex;
+      gap: 17px;
+      align-items: center;
+      flex-wrap: wrap;
+      min-height: 23px;
+    }
+    .badge {
+      background: var(--primary);
+      color: #fff;
+      padding: 3px 12px;
+      border-radius: 14px;
+      font-size: 0.94em;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .badge.hygiene { background: #afd375; color: #356127;}
+    .badge.veg { background: var(--button); color: #fff;}
+    .vendor-btn-row {
+      margin-top: 19px;
+      display: flex;
+      gap: 10px;
+      width: 100%;
+      justify-content: center;
+    }
+    .profile-btn,
+    .order-btn {
+      padding: 8px 24px;
+      border-radius: 1.1em;
+      font-size: 1em;
+      font-family: 'Montserrat',sans-serif;
+      font-weight: 700;
+      transition: background 0.2s;
+      cursor: pointer;
+      border:none;
+      text-decoration: none;
+      display:inline-block;
+    }
+    .profile-btn {
+      background: transparent;
+      color: var(--primary-dark);
+      border: 2px solid var(--primary);
+      margin-right:5px;
+    }
+    .profile-btn:hover {
+      background: var(--primary);
+      color: #fff;
+    }
+    .order-btn {
+      background: var(--button);
+      color: var(--button-text);
+      box-shadow: 0 2px 10px #26c48525;
+    }
+    .order-btn:hover {
+      background: #1fa471;
+    }
+    /* Responsive */
+    @media (max-width: 950px) {
+      .market-hero, .vendors-grid { padding: 0 2vw;}
+    }
+    @media (max-width: 650px) {
+      header.navbar { font-size: 1rem; padding:13px 4vw;}
+      .market-title { font-size:1.3rem;}
+    }
+    @media (max-width: 480px) {
+      .market-hero, .vendors-grid { padding:0 1vw;}
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    StreetSymphony
+    <nav>
+      <a href="buyer-dashboard.html">Dashboard</a>
+      <a href="buyer-street-food.html" class="active">Street Food</a>
+      <a href="buyer-fresh-produce.html">Produce</a>
+      <a href="shared-live-map.html">Map</a>
+      <a href="shared-stories-feed.html">Stories</a>
+      <a href="shared-profile.html"><i class="bi bi-person-circle"></i></a>
+    </nav>
+  </header>
+
+  <section class="market-hero">
+    <div class="market-title">
+      Explore Street Food Near You
+    </div>
+    <div class="market-sub">
+      Search, filter and order from the best street food vendors around. Check hygiene badges, browse popular dishes, and track live vendor locations.
+    </div>
+    <div class="search-filter-row">
+      <input class="searchbox" id="search" placeholder="Search vendors, cuisines, or dishes…">
+      <button class="filter-chip active"><i class="bi bi-geo-alt"></i> 5km</button>
+      <button class="filter-chip"><i class="bi bi-geo-alt"></i> 10km</button>
+      <button class="filter-chip"><i class="bi bi-funnel-fill"></i> Cuisine</button>
+      <button class="filter-chip"><i class="bi bi-patch-check-fill"></i> Hygiene</button>
+    </div>
+  </section>
+
+  <main>
+    <section class="vendors-grid" id="vendorList">
+      <!-- Example vendor cards: Replace with your live data or JS rendering -->
+      <div class="vendor-card" onclick="location.href='buyer-vendor.html?id=101';">
+        <img src="https://images.unsplash.com/photo-1519864600265-abb23847ef2c?auto=format&fit=facearea&w=200&q=80"
+          alt="Sharma Chaat"
+          class="vendor-img"
+        />
+        <div class="vendor-title">Sharma Chaat</div>
+        <div class="vendor-meta"><i class="bi bi-geo-alt"></i> 0.4 km | 68 orders today</div>
+        <div class="badges-row">
+          <span class="badge hygiene"><i class="bi bi-patch-check-fill"></i> Clean</span>
+          <span class="badge veg"><i class="bi bi-leaf"></i> Veg</span>
+        </div>
+        <div class="vendor-btn-row">
+          <a href="buyer-vendor.html?id=101" class="profile-btn">View Profile</a>
+          <button class="order-btn">Order Now</button>
+        </div>
+      </div>
+      <div class="vendor-card" onclick="location.href='buyer-vendor.html?id=102';">
+        <img src="https://images.unsplash.com/photo-1543340904-2b4d25341e2e?auto=format&fit=facearea&w=200&q=80"
+          alt="Gupta Foods"
+          class="vendor-img"
+        />
+        <div class="vendor-title">Gupta Foods</div>
+        <div class="vendor-meta"><i class="bi bi-geo-alt"></i> 1.3 km | 51 orders today</div>
+        <div class="badges-row">
+          <span class="badge hygiene"><i class="bi bi-patch-check-fill"></i> Clean</span>
+        </div>
+        <div class="vendor-btn-row">
+          <a href="buyer-vendor.html?id=102" class="profile-btn">View Profile</a>
+          <button class="order-btn">Order Now</button>
+        </div>
+      </div>
+      <div class="vendor-card" onclick="location.href='buyer-vendor.html?id=103';">
+        <img src="https://images.unsplash.com/photo-1481931098730-318b6f776db0?auto=format&fit=facearea&w=200&q=80"
+          alt="The Dosa Cart"
+          class="vendor-img"
+        />
+        <div class="vendor-title">The Dosa Cart</div>
+        <div class="vendor-meta"><i class="bi bi-geo-alt"></i> 2.0 km | 84 orders today</div>
+        <div class="badges-row">
+          <span class="badge hygiene"><i class="bi bi-patch-check-fill"></i> Clean</span>
+          <span class="badge"><i class="bi bi-star"></i> South Indian</span>
+        </div>
+        <div class="vendor-btn-row">
+          <a href="buyer-vendor.html?id=103" class="profile-btn">View Profile</a>
+          <button class="order-btn">Order Now</button>
+        </div>
+      </div>
+      <div class="vendor-card" onclick="location.href='buyer-vendor.html?id=104';">
+        <img src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?auto=format&fit=facearea&w=200&q=80"
+          alt="Pav Bhaji King"
+          class="vendor-img"
+        />
+        <div class="vendor-title">Pav Bhaji King</div>
+        <div class="vendor-meta"><i class="bi bi-geo-alt"></i> 3.2 km | 39 orders today</div>
+        <div class="badges-row">
+          <span class="badge hygiene"><i class="bi bi-patch-check-fill"></i> Clean</span>
+        </div>
+        <div class="vendor-btn-row">
+          <a href="buyer-vendor.html?id=104" class="profile-btn">View Profile</a>
+          <button class="order-btn">Order Now</button>
+        </div>
+      </div>
+      <!-- More vendor cards can be generated here -->
+    </section>
+  </main>
+
+  <script>
+    // Optional: handler for filter buttons
+    document.querySelectorAll('.filter-chip').forEach((btn) => {
+      btn.onclick = function () {
+        document.querySelectorAll('.filter-chip').forEach((b) => b.classList.remove('active'));
+        this.classList.add('active');
+        // Future: Filter vendor data accordingly here with JS!
+      }
+    });
+    // Optional: Add search suggestions/filter
+    // and plug in real data via JS or backend
+  </script>
+</body>
+</html>
