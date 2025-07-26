@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>User Profile | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+      --accent: #fbe27a;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    header.navbar {
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 24px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.3rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+    }
+    header.navbar nav a {
+      color: #fff;
+      text-decoration: none;
+      margin-left: 24px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s;
+      position: relative;
+    }
+    header.navbar nav a:hover,
+    header.navbar nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    main.container {
+      max-width: 720px;
+      margin: 36px auto 72px auto;
+      width: 95%;
+      background: var(--card-bg);
+      box-shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      border-radius: 1.3em;
+      padding: 34px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+      flex-wrap: wrap;
+    }
+    .profile-pic {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 4px solid var(--primary);
+      object-fit: cover;
+      box-shadow: 0 7px 28px #b7e9a2ee;
+      background-color: #d1f1bd;
+    }
+    .user-info {
+      flex: 1;
+      min-width: 210px;
+    }
+    .user-name {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin: 0 0 8px 0;
+    }
+    .user-email {
+      font-size: 1.05rem;
+      color: var(--text-light);
+      margin-bottom: 12px;
+      user-select: text;
+    }
+    .role-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--primary);
+      color: #fff;
+      border-radius: 16px;
+      padding: 6px 18px;
+      font-weight: 700;
+      font-size: 1rem;
+      font-family: 'Montserrat', sans-serif;
+      box-shadow: 0 4px 14px rgba(88, 192, 97, 0.5);
+      user-select: none;
+    }
+
+    .badge-container {
+      margin-top: 18px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .badge {
+      background: var(--accent);
+      color: #684d00;
+      padding: 8px 16px;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      user-select: none;
+      box-shadow: 0 3px 13px #fbe27a7a;
+    }
+    .badge i {
+      font-size: 1.1rem;
+    }
+
+    section.profile-edit {
+      max-width: 460px;
+      margin: 0 auto;
+    }
+    section.profile-edit h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--primary-dark);
+      text-align: center;
+    }
+    form.edit-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    label {
+      font-weight: 700;
+      color: var(--text-dark);
+      font-size: 1rem;
+      margin-bottom: 6px;
+      user-select: none;
+    }
+    input[type="text"],
+    input[type="email"],
+    select {
+      width: 100%;
+      padding: 11px 16px;
+      border-radius: 1em;
+      border: 1.7px solid var(--border);
+      font-family: inherit;
+      font-size: 1rem;
+      color: var(--text-dark);
+      transition: border-color 0.2s ease;
+      outline-offset: 2px;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 14px #a4db8fbb;
+      outline: none;
+    }
+    button.save-btn {
+      margin-top: 12px;
+      background: var(--button);
+      border: none;
+      color: var(--button-text);
+      font-weight: 700;
+      font-size: 1.1rem;
+      padding: 14px;
+      border-radius: 1.3em;
+      cursor: pointer;
+      box-shadow: 0 4px 20px #26c485a3;
+      transition: background 0.25s ease;
+      user-select: none;
+    }
+    button.save-btn:hover {
+      background: var(--button-hover);
+    }
+
+    .role-switcher {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      margin-top: 30px;
+      user-select: none;
+    }
+    .role-switcher label {
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      color: var(--primary-dark);
+    }
+    .role-switcher input[type="radio"] {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+    .role-switcher input[type="radio"]:focus-visible {
+      outline: 2px solid var(--primary);
+      outline-offset: 3px;
+    }
+
+    /* Responsive */
+    @media (max-width: 520px) {
+      main.container {
+        padding: 24px 26px;
+      }
+      .profile-header {
+        flex-direction: column;
+        align-items: center;
+      }
+      .user-info {
+        text-align: center;
+      }
+      .badge-container {
+        justify-content: center;
+      }
+      section.profile-edit {
+        max-width: 100%;
+      }
+      .role-switcher {
+        flex-direction: column;
+      }
+      .role-switcher label {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    StreetSymphony - User Profile
+    <nav>
+      <a href="buyer-dashboard.html">Dashboard</a>
+      <a href="buyer-street-food.html">Street Food</a>
+      <a href="buyer-fresh-produce.html">Produce</a>
+      <a href="shared-live-map.html">Map</a>
+      <a href="shared-stories-feed.html">Stories</a>
+      <a href="shared-profile.html" class="active"><i class="bi bi-person-circle"></i></a>
+    </nav>
+  </header>
+
+  <main class="container" role="main" aria-labelledby="profileTitle">
+    <section class="profile-header">
+      <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80" alt="Profile Picture" class="profile-pic" id="profilePic" />
+      <div class="user-info">
+        <h1 id="profileTitle" class="user-name" tabindex="0">Amit Sharma</h1>
+        <div class="user-email" tabindex="0">amitsharma@example.com</div>
+        <div class="role-badge" aria-live="polite" aria-atomic="true">
+          <i class="bi bi-person-badge-fill"></i> Buyer
+        </div>
+        <div class="badge-container" id="badgesContainer" aria-label="User badges">
+          <!-- Dynamic badges will appear here -->
+        </div>
+      </div>
+    </section>
+
+    <section class="profile-edit" aria-label="Edit user profile">
+      <h2>Edit Your Profile</h2>
+      <form class="edit-form" id="editProfileForm" novalidate>
+        <div>
+          <label for="nameInput">Full Name</label>
+          <input type="text" id="nameInput" name="name" required minlength="3" />
+        </div>
+        <div>
+          <label for="emailInput">Email Address</label>
+          <input type="email" id="emailInput" name="email" required />
+        </div>
+        <div>
+          <label for="phoneInput">Phone Number</label>
+          <input type="text" id="phoneInput" name="phone" pattern="^[0-9]{10}$" placeholder="10 digit mobile number" />
+        </div>
+        <div>
+          <label for="addressInput">Address</label>
+          <input type="text" id="addressInput" name="address" />
+        </div>
+        <button type="submit" class="save-btn">Save Changes</button>
+      </form>
+    </section>
+
+    <section class="role-switcher" aria-label="Switch user role">
+      <label for="roleBuyer">
+        <input type="radio" name="role" id="roleBuyer" value="buyer" checked />
+        Buyer
+      </label>
+      <label for="roleVendor">
+        <input type="radio" name="role" id="roleVendor" value="vendor" />
+        Vendor
+      </label>
+    </section>
+  </main>
+
+  <script>
+    // Simulated user data - in real app this comes from backend or authentication
+    let userProfile = {
+      name: 'Amit Sharma',
+      email: 'amitsharma@example.com',
+      phone: '',
+      address: '',
+      role: 'buyer',
+      badges: [
+        { text: 'Verified Buyer', icon: 'bi-check-circle-fill', color: '#58c061' },
+        { text: 'First Order', icon: 'bi-star-fill', color: '#fbe27a' }
+      ]
+    };
+
+    const nameInput = document.getElementById('nameInput');
+    const emailInput = document.getElementById('emailInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const addressInput = document.getElementById('addressInput');
+    const editForm = document.getElementById('editProfileForm');
+    const profileName = document.querySelector('.user-name');
+    const profileEmail = document.querySelector('.user-email');
+    const badgesContainer = document.getElementById('badgesContainer');
+    const roleBadge = document.querySelector('.role-badge');
+    const roleRadios = document.querySelectorAll('input[name="role"]');
+
+    function renderProfile() {
+      profileName.textContent = userProfile.name;
+      profileEmail.textContent = userProfile.email;
+
+      // Populate form inputs
+      nameInput.value = userProfile.name;
+      emailInput.value = userProfile.email;
+      phoneInput.value = userProfile.phone;
+      addressInput.value = userProfile.address;
+
+      // Set role radio buttons
+      roleRadios.forEach(radio => {
+        radio.checked = (radio.value === userProfile.role);
+      });
+
+      // Update role badge text and icon
+      if (userProfile.role === 'buyer') {
+        roleBadge.innerHTML = '<i class="bi bi-person-badge-fill"></i> Buyer';
+        roleBadge.style.background = 'var(--primary)';
+        roleBadge.style.color = '#fff';
+      } else {
+        roleBadge.innerHTML = '<i class="bi bi-shop-window"></i> Vendor';
+        roleBadge.style.background = 'var(--accent)';
+        roleBadge.style.color = '#684d00';
+      }
+
+      // Render badges
+      badgesContainer.innerHTML = '';
+      userProfile.badges.forEach(badge => {
+        const bd = document.createElement('div');
+        bd.className = 'badge';
+        bd.style.color = badge.color;
+        bd.style.boxShadow = `0 3px 13px ${badge.color}7a`;
+        bd.innerHTML = `<i class="bi ${badge.icon}"></i>${badge.text}`;
+        badgesContainer.appendChild(bd);
+      });
+    }
+
+    // Form submit handler - validation and update
+    editForm.addEventListener('submit', function (evt) {
+      evt.preventDefault();
+      // Simple validation
+      if (!nameInput.value.trim() || !emailInput.value.trim()) {
+        alert('Please fill in required fields.');
+        return;
+      }
+      if (phoneInput.value && !/^\d{10}$/.test(phoneInput.value)) {
+        alert('Phone number must be 10 digits.');
+        return;
+      }
+
+      // Update user profile object
+      userProfile.name = nameInput.value.trim();
+      userProfile.email = emailInput.value.trim();
+      userProfile.phone = phoneInput.value.trim();
+      userProfile.address = addressInput.value.trim();
+
+      renderProfile();
+
+      alert('Profile updated successfully!');
+    });
+
+    // Role switcher change handler
+    roleRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        if (radio.checked) {
+          userProfile.role = radio.value;
+          // You might want to redirect to dashboard accordingly
+          renderProfile();
+          alert(`Switched role to: ${radio.value === 'buyer' ? 'Buyer' : 'Vendor'}. Please navigate to your dashboard.`);
+        }
+      });
+    });
+
+    // Initial render
+    renderProfile();
+  </script>
+</body>
+</html>

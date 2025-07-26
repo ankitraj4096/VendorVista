@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Vendor Orders | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins:wght@400;700&display=swap" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+      --shadow: 0 6px 28px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --status-pending: #f9a825;
+      --status-completed: #4caf50;
+      --status-cancelled: #e53935;
+      --sidebar-bg: #edfdef;
+      --sidebar-highlight: #afd375;
+      --sidebar-width: 220px;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      background: var(--secondary);
+      color: var(--text-dark);
+      font-family: 'Poppins', Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .sidebar {
+      background: var(--sidebar-bg);
+      width: var(--sidebar-width);
+      min-width: 165px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 0 27px 0;
+      border-right: 3px solid var(--border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      box-shadow: 3px 0 22px #d6f2cd08;
+      z-index: 11;
+    }
+    .sidebar .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.44rem;
+      color: var(--primary-dark);
+      font-weight: 900;
+      letter-spacing: 1px;
+      margin-bottom: 35px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+    }
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      gap: 7px;
+      margin-bottom: 40px;
+    }
+    .nav-link {
+      text-decoration: none;
+      color: var(--text-dark);
+      font-weight: 600;
+      font-size: 1.07rem;
+      padding: 13px 0px 13px 33px;
+      border-radius: 0 26px 26px 0;
+      background: none;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: background 0.12s, color 0.11s;
+      position: relative;
+    }
+    .nav-link.active, .nav-link:hover {
+      background: var(--sidebar-highlight);
+      color: #fff;
+    }
+    .nav-link.active::before {
+      content: '';
+      width: 5px;
+      height: 30px;
+      background: var(--primary);
+      position: absolute;
+      left: 0;
+      top: 11px;
+      border-radius: 3px;
+    }
+    .sidebar .profile-short {
+      margin-top: auto;
+      padding-top: 16px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.99rem;
+      width: 160px;
+    }
+    main.dashboard {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      max-width: 100vw;
+      margin: 0;
+      overflow-y: auto;
+      padding: 30px 40px;
+      background: var(--secondary);
+    }
+    header.dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 28px;
+      max-width: 850px;
+    }
+    header.dashboard-header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    .filter-group {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    button.filter-btn {
+      font-size: 1rem;
+      padding: 7px 20px;
+      border-radius: 2em;
+      border: none;
+      background: var(--card-bg);
+      color: var(--primary-dark);
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 14px rgba(139, 195, 74, 0.2);
+      transition: background 0.3s, color 0.3s;
+    }
+    button.filter-btn.active,
+    button.filter-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 4px 19px rgba(88, 192, 97, 0.51);
+    }
+    table.orders-table {
+      width: 100%;
+      max-width: 850px;
+      border-collapse: collapse;
+      background: var(--card-bg);
+      border-radius: 1.4em;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    thead tr {
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 1.05rem;
+      font-family: 'Montserrat', sans-serif;
+    }
+    th, td {
+      padding: 14px 19px;
+      text-align: left;
+      border-bottom: 2px solid var(--border);
+      font-size: 1rem;
+      vertical-align: middle;
+    }
+    tbody tr:hover {
+      background: #e6f6d6;
+      cursor: pointer;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      color: #fff;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      font-family: 'Montserrat', sans-serif;
+      user-select: none;
+    }
+    .status-pending {
+      background-color: var(--status-pending);
+      color: #422d00;
+    }
+    .status-completed {
+      background-color: var(--status-completed);
+    }
+    .status-cancelled {
+      background-color: var(--status-cancelled);
+    }
+    .action-btn {
+      padding: 6px 14px;
+      font-weight: 600;
+      font-size: 1rem;
+      border-radius: 1em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 2px 12px rgba(38, 196, 133, 0.3);
+      color: var(--button-text);
+      background-color: var(--button);
+      transition: background-color 0.25s ease;
+      text-align: center;
+      user-select: none;
+      white-space: nowrap;
+    }
+    .action-btn:disabled {
+      background-color: #97d3b0;
+      cursor: default;
+      box-shadow: none;
+      color: #e3f0df;
+    }
+    .action-btn:hover:not(:disabled) {
+      background-color: var(--button-hover);
+    }
+    @media (max-width: 900px) {
+      main.dashboard {
+        padding: 18px 24px;
+      }
+      table.orders-table {
+        font-size: 0.9rem;
+      }
+      th, td {
+        padding: 10px 14px;
+      }
+    }
+    @media (max-width: 480px) {
+      table.orders-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        border-radius: 1.2em;
+      }
+      thead, tbody, tr, th, td {
+        display: inline-block;
+      }
+      thead tr {
+        display: none;
+      }
+      tbody tr {
+        margin-bottom: 14px;
+      }
+      td {
+        padding-left: 50%;
+        position: relative;
+      }
+      td::before {
+        position: absolute;
+        left: 12px;
+        top: 14px;
+        white-space: nowrap;
+        font-weight: 700;
+        color: var(--primary-dark);
+      }
+      td:nth-of-type(1)::before { content: "Order ID"; }
+      td:nth-of-type(2)::before { content: "Items"; }
+      td:nth-of-type(3)::before { content: "Customer"; }
+      td:nth-of-type(4)::before { content: "Status"; }
+      td:nth-of-type(5)::before { content: "Total"; }
+      td:nth-of-type(6)::before { content: "Action"; }
+    }
+  </style>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="logo">
+      <i class="bi bi-shop-window"></i> StreetSymphony
+    </div>
+    <nav>
+      <a href="vendor-dashboard.html" class="nav-link">Dashboard</a>
+      <a href="vendor-orders.html" class="nav-link active">Orders</a>
+      <a href="vendor-exchange.html" class="nav-link">Exchange</a>
+      <a href="vendor-stories.html" class="nav-link">Stories</a>
+      <a href="shared-profile.html" class="nav-link">Profile</a>
+    </nav>
+    <div class="profile-short">
+      <div><strong>Sharma Chaat</strong></div>
+      <div style="font-size:.97em; margin-top:5px;">
+        <span style="color:var(--primary);">Vendor</span><br />
+        <span style="font-size:1.25em;">🟢</span> Online Now
+      </div>
+    </div>
+  </aside>
+
+  <main class="dashboard">
+    <header class="dashboard-header">
+      <h1>Order Management</h1>
+      <div class="filter-group" aria-label="Order status filters" role="group">
+        <button class="filter-btn active" data-status="all" type="button">All</button>
+        <button class="filter-btn" data-status="pending" type="button">Pending</button>
+        <button class="filter-btn" data-status="completed" type="button">Completed</button>
+        <button class="filter-btn" data-status="cancelled" type="button">Cancelled</button>
+      </div>
+    </header>
+
+    <table class="orders-table" aria-label="List of vendor orders">
+      <thead>
+        <tr>
+          <th scope="col">Order ID</th>
+          <th scope="col">Items</th>
+          <th scope="col">Customer</th>
+          <th scope="col">Status</th>
+          <th scope="col">Total</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody id="ordersTableBody">
+        <!-- Dynamic rows go here -->
+      </tbody>
+    </table>
+  </main>
+
+  <script>
+    // Sample orders data (would come from backend or API)
+    const ordersData = [
+      {
+        id: '1207',
+        items: '4x Pani Puri, 2x Vada Pav',
+        customer: 'Rajesh Kumar',
+        total: '₹150',
+        status: 'completed',
+      },
+      {
+        id: '1208',
+        items: '1x Bhel Puri',
+        customer: 'Anita Singh',
+        total: '₹40',
+        status: 'pending',
+      },
+      {
+        id: '1209',
+        items: '3x Dahi Papdi',
+        customer: 'Suresh Patel',
+        total: '₹90',
+        status: 'completed',
+      },
+      {
+        id: '1210',
+        items: '2x Vada Pav',
+        customer: 'Priya Sharma',
+        total: '₹50',
+        status: 'cancelled',
+      },
+      {
+        id: '1211',
+        items: '5x Pani Puri',
+        customer: 'Vikram Das',
+        total: '₹125',
+        status: 'pending',
+      },
+    ];
+
+    const ordersTableBody = document.getElementById('ordersTableBody');
+    const filterButtons = document.querySelectorAll('.filter-btn');
+
+    function renderOrders(filterStatus = 'all') {
+      ordersTableBody.innerHTML = '';
+
+      const filteredOrders = filterStatus === 'all' ? ordersData :
+        ordersData.filter(order => order.status === filterStatus);
+
+      if (filteredOrders.length === 0) {
+        const tr = document.createElement('tr');
+        const td = document.createElement('td');
+        td.colSpan = 6;
+        td.style.textAlign = 'center';
+        td.style.padding = '25px 0';
+        td.textContent = 'No orders found.';
+        tr.appendChild(td);
+        ordersTableBody.appendChild(tr);
+        return;
+      }
+
+      filteredOrders.forEach(order => {
+        const tr = document.createElement('tr');
+
+        // Order ID
+        let td = document.createElement('td');
+        td.textContent = order.id;
+        tr.appendChild(td);
+
+        // Items
+        td = document.createElement('td');
+        td.textContent = order.items;
+        tr.appendChild(td);
+
+        // Customer
+        td = document.createElement('td');
+        td.textContent = order.customer;
+        tr.appendChild(td);
+
+        // Status with badge
+        td = document.createElement('td');
+        const statusSpan = document.createElement('span');
+        statusSpan.className = 'status-badge status-' + order.status;
+        statusSpan.textContent = order.status.charAt(0).toUpperCase() + order.status.slice(1);
+        td.appendChild(statusSpan);
+        tr.appendChild(td);
+
+        // Total
+        td = document.createElement('td');
+        td.textContent = order.total;
+        tr.appendChild(td);
+
+        // Action buttons
+        td = document.createElement('td');
+
+        // Update status buttons (depends on current status)
+        if (order.status === 'pending') {
+          const completeBtn = document.createElement('button');
+          completeBtn.className = 'action-btn';
+          completeBtn.textContent = 'Mark Completed';
+          completeBtn.onclick = () => updateOrderStatus(order.id, 'completed');
+          td.appendChild(completeBtn);
+
+          const cancelBtn = document.createElement('button');
+          cancelBtn.className = 'action-btn';
+          cancelBtn.style.marginLeft = '10px';
+          cancelBtn.textContent = 'Cancel';
+          cancelBtn.onclick = () => updateOrderStatus(order.id, 'cancelled');
+          td.appendChild(cancelBtn);
+        }
+        else {
+          const disabledText = document.createElement('span');
+          disabledText.style.color = '#777';
+          disabledText.textContent = 'No actions';
+          td.appendChild(disabledText);
+        }
+
+        tr.appendChild(td);
+
+        // row click navigates to order detail (fake for now)
+        tr.style.cursor = 'pointer';
+        tr.addEventListener('click', e => {
+          if(e.target.tagName.toLowerCase() !== 'button') {
+            alert(`Navigating to detailed view of Order #${order.id}\n(Feature for next version)`);
+          }
+        });
+
+        // Prevent row click when clicking on buttons
+        tr.querySelectorAll('button').forEach(b => b.addEventListener('click', e => e.stopPropagation()));
+
+        ordersTableBody.appendChild(tr);
+      });
+    }
+
+    function updateOrderStatus(orderId, newStatus) {
+      const order = ordersData.find(o => o.id === orderId);
+      if (order) {
+        order.status = newStatus;
+        renderOrders(currentFilter);
+      }
+    }
+
+    let currentFilter = 'all';
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentFilter = btn.getAttribute('data-status');
+        renderOrders(currentFilter);
+      });
+    });
+
+    // Initial render
+    renderOrders();
+  </script>
+</body>
+</html>

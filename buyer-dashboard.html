@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Buyer Dashboard | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0; padding: 0;
+      background: var(--secondary);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header.navbar {
+      width: 100%;
+      max-width: 900px;
+      padding: 20px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.4rem;
+      border-radius: 0 0 18px 18px;
+      box-shadow: 0 4px 22px rgba(26, 92, 39, 0.15);
+    }
+    main.container {
+      max-width: 900px;
+      width: 95%;
+      margin-top: 36px;
+    }
+    .section-heading {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.65rem;
+      margin-bottom: 16px;
+      color: var(--primary-dark);
+    }
+    .welcome-msg {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 30px;
+    }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 24px;
+    }
+    .card {
+      background: var(--card-bg);
+      border-radius: 1.3em;
+      box-shadow: var(--shadow);
+      padding: 26px 24px 28px 24px;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.3s, transform 0.3s;
+    }
+    .card:hover {
+      box-shadow: 0 14px 52px rgba(74, 155, 73, 0.17);
+      transform: translateY(-6px);
+    }
+    .card h3 {
+      margin: 0 0 14px 0;
+      color: var(--primary);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+    }
+    .card p {
+      font-size: 1rem;
+      color: var(--text-light);
+      flex-grow: 1;
+      line-height: 1.5;
+    }
+    .btn-link {
+      margin-top: 22px;
+      background: var(--primary);
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      padding: 10px 24px;
+      border-radius: 1.2em;
+      cursor: pointer;
+      transition: background 0.25s;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      width: fit-content;
+    }
+    .btn-link:hover {
+      background: var(--primary-dark);
+    }
+    footer {
+      max-width: 900px;
+      width: 95%;
+      margin: 50px auto 20px auto;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      text-align: center;
+    }
+    @media (max-width: 650px) {
+      header.navbar {
+        font-size: 1.15rem;
+        padding: 18px 16px;
+      }
+      .section-heading {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">StreetSymphony - Buyer Dashboard</header>
+  <main class="container">
+    <h1 class="section-heading">Welcome Back, Foodie!</h1>
+    <p class="welcome-msg">
+      Discover the freshest street food and local produce near you. Check latest orders, vendor updates, or explore stories from the community.
+    </p>
+
+    <section class="cards-grid">
+      <div class="card" tabindex="0" role="button" aria-label="Explore Street Food">
+        <h3><i class="bi bi-basket-fill"></i> Street Food Marketplace</h3>
+        <p>Find and order your favorite street foods with hygiene ratings and live vendor location tracking.</p>
+        <a href="buyer-street-food.html" class="btn-link">Explore</a>
+      </div>
+      <div class="card" tabindex="0" role="button" aria-label="Explore Fresh Produce">
+        <h3><i class="bi bi-shop-window"></i> Fresh Produce Market</h3>
+        <p>Buy fresh vegetables and fruits directly from local farmers within a 5 to 10 km radius around you.</p>
+        <a href="buyer-fresh-produce.html" class="btn-link">Browse</a>
+      </div>
+      <div class="card" tabindex="0" role="button" aria-label="View Favorite Vendors">
+        <h3><i class="bi bi-people-fill"></i> Favorite Vendors</h3>
+        <p>Access your favorite street-food vendors’ profiles, menus, and stories all in one place.</p>
+        <a href="buyer-vendor.html" class="btn-link">View</a>
+      </div>
+      <div class="card" tabindex="0" role="button" aria-label="Community Stories">
+        <h3><i class="bi bi-journal-text"></i> Community Stories</h3>
+        <p>Read and share stories from vendors and fellow food lovers to connect over local culinary culture.</p>
+        <a href="shared-stories-feed.html" class="btn-link">Read Stories</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 StreetSymphony | Hackathon Edition
+  </footer>
+
+  <script>
+    // Optional: add JS behavior if needed later
+  </script>
+</body>
+</html>
