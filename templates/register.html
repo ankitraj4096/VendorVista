@@ -198,7 +198,6 @@
   </style>
 </head>
 
-
 <body>
   <div class="reg-container">
     <div class="reg-title" id="regTitle">Create Account</div>
@@ -247,7 +246,7 @@
   </div>
 
   <!-- Loading overlay -->
-  <div id="loadingOverlay">
+  <div id="loadingOverlay" role="alert" aria-live="assertive">
     <img src="/static/Eclipse.svg" alt="Loading..." />
   </div>
 
@@ -256,7 +255,6 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
 
     // Firebase config
     const firebaseConfig = {
@@ -268,11 +266,9 @@
       appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
     };
 
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-
 
     // Get role from URL query
     function getRoleFromQuery() {
@@ -284,7 +280,6 @@
       return null;
     }
     const userRole = getRoleFromQuery();
-
 
     // Update headline and fields based on role
     const regTitle = document.getElementById('regTitle');
@@ -299,7 +294,6 @@
       document.getElementById('vendorFields').style.display = 'none';
     }
 
-
     // Link to login (preserve role)
     document.getElementById('toLoginBtn').onclick = () => {
       let url = '/login';
@@ -307,21 +301,17 @@
       window.location.href = url;
     };
 
-
     // Registration form submit handler
     document.getElementById('regForm').onsubmit = async (e) => {
       e.preventDefault();
-
 
       const loadingOverlay = document.getElementById('loadingOverlay');
       const errorMsg = document.getElementById('errorRegMsg');
       errorMsg.style.color = "#e53935";
       errorMsg.textContent = "";
 
-
       // Show loading animation
       loadingOverlay.style.display = 'flex';
-
 
       // Gather inputs
       const name = document.getElementById('nameInput').value.trim();
@@ -329,13 +319,11 @@
       const password = document.getElementById('passwordInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
 
-
       if (!name || !email || !password || !phone) {
         errorMsg.textContent = "Please fill all required fields.";
         loadingOverlay.style.display = 'none';
         return;
       }
-
 
       if (!email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
         errorMsg.textContent = "Invalid email format.";
@@ -353,7 +341,7 @@
         return;
       }
 
-
+      // Prepare extra fields based on role
       let extraData = {};
       if (userRole === 'vendor') {
         const businessName = document.getElementById('businessNameVeg').value.trim();
@@ -361,12 +349,12 @@
         const farmLocation = document.getElementById('farmLocation').value.trim();
         const operatingHours = document.getElementById('operatingHoursVeg').value.trim();
 
-
         if (!businessName || !produceType || !farmLocation || !operatingHours) {
           errorMsg.textContent = "Please fill all vendor fields.";
           loadingOverlay.style.display = 'none';
           return;
         }
+
         extraData = { businessName, produceType, farmLocation, operatingHours, role: 'vendor' };
       } else if (userRole === 'buyer') {
         extraData = { role: 'buyer' };
@@ -376,14 +364,14 @@
         return;
       }
 
-
       errorMsg.style.color = "#357138";
       errorMsg.textContent = "Registering...";
 
-
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
         await updateProfile(userCredential.user, { displayName: name });
+
         await setDoc(doc(db, "users", userCredential.user.uid), {
           name,
           email,
@@ -392,17 +380,16 @@
           createdAt: serverTimestamp()
         });
 
+        // Save role in localStorage for client usage
+        localStorage.setItem('userRole', userRole);
 
         errorMsg.textContent = "Registration successful! Redirecting…";
-
 
         // Hide loading overlay immediately before redirect
         loadingOverlay.style.display = 'none';
 
-
-        // Redirect immediately without delay
+        // Redirect based on role
         window.location.href = userRole === 'vendor' ? '/vendor-dashboard' : '/buyer-dashboard';
-
 
       } catch (err) {
         loadingOverlay.style.display = 'none';
