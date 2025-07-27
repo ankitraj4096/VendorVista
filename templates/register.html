@@ -9,6 +9,21 @@
     rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+    }
+
     body {
       background: #fafef3;
       font-family: 'Poppins', Arial, sans-serif;
@@ -32,6 +47,7 @@
       flex-direction: column;
       align-items: center;
       animation: up 0.77s;
+      position: relative;
     }
 
     @keyframes up {
@@ -156,6 +172,30 @@
       text-align: center;
       min-height: 24px;
     }
+
+    /* Loading overlay styles for centered Eclipse.svg */
+    #loadingOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(255, 255, 255, 0.78);
+      z-index: 99999;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #loadingOverlay img {
+      width: 64px;
+      height: 64px;
+      display: block;
+      animation: spinner 1.2s linear infinite;
+    }
+
+    @keyframes spinner {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
   </style>
 </head>
 
@@ -206,13 +246,18 @@
     <button class="switch-link" id="toLoginBtn">Already have an account? Login</button>
   </div>
 
+  <!-- Loading overlay -->
+  <div id="loadingOverlay">
+    <img src="/static/Eclipse.svg" alt="Loading..." />
+  </div>
+
   <script type="module">
-    // Import from Firebase Modular CDN
+    // Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    // Your Firebase config (check the storageBucket value is correct!)
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -221,11 +266,12 @@
       messagingSenderId: "479694426389",
       appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
     };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Determine role from URL
+    // Get role from URL query
     function getRoleFromQuery() {
       const params = new URLSearchParams(window.location.search);
       const role = params.get('role');
@@ -236,7 +282,7 @@
     }
     const userRole = getRoleFromQuery();
 
-    // Update page headline and fields shown
+    // Update headline and fields based on role
     const regTitle = document.getElementById('regTitle');
     if (userRole === 'vendor') {
       regTitle.textContent = 'Create Account as Vendor';
@@ -256,49 +302,56 @@
       window.location.href = url;
     };
 
-    // Registration form handler
+    // Registration form submit handler
     document.getElementById('regForm').onsubmit = async (e) => {
       e.preventDefault();
+
+      const loadingOverlay = document.getElementById('loadingOverlay');
       const errorMsg = document.getElementById('errorRegMsg');
       errorMsg.style.color = "#e53935";
       errorMsg.textContent = "";
 
-      // Collect fields
+      // Show loading animation
+      loadingOverlay.style.display = 'flex';
+
+      // Gather inputs
       const name = document.getElementById('nameInput').value.trim();
       const email = document.getElementById('emailInput').value.trim();
       const password = document.getElementById('passwordInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
 
-      // Validation
       if (!name || !email || !password || !phone) {
         errorMsg.textContent = "Please fill all required fields.";
-        return;
-      }
-      // Basic Email Format Check (optional)
-      if (!email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
-        errorMsg.textContent = "Invalid email format.";
-        return;
-      }
-      // Needs at least 6 characters for password (you can add more checks)
-      if (password.length < 6) {
-        errorMsg.textContent = "Password must be at least 6 characters.";
-        return;
-      }
-      // Phone number check (basic)
-      if (!phone.match(/^[0-9+\- ]{8,15}$/)) {
-        errorMsg.textContent = "Invalid phone number.";
+        loadingOverlay.style.display = 'none';
         return;
       }
 
-      // Vendor-only fields
+      if (!email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
+        errorMsg.textContent = "Invalid email format.";
+        loadingOverlay.style.display = 'none';
+        return;
+      }
+      if (password.length < 6) {
+        errorMsg.textContent = "Password must be at least 6 characters.";
+        loadingOverlay.style.display = 'none';
+        return;
+      }
+      if (!phone.match(/^[0-9+\- ]{8,15}$/)) {
+        errorMsg.textContent = "Invalid phone number.";
+        loadingOverlay.style.display = 'none';
+        return;
+      }
+
       let extraData = {};
       if (userRole === 'vendor') {
         const businessName = document.getElementById('businessNameVeg').value.trim();
         const produceType = document.getElementById('produceType').value.trim();
         const farmLocation = document.getElementById('farmLocation').value.trim();
         const operatingHours = document.getElementById('operatingHoursVeg').value.trim();
+
         if (!businessName || !produceType || !farmLocation || !operatingHours) {
           errorMsg.textContent = "Please fill all vendor fields.";
+          loadingOverlay.style.display = 'none';
           return;
         }
         extraData = { businessName, produceType, farmLocation, operatingHours, role: 'vendor' };
@@ -306,19 +359,16 @@
         extraData = { role: 'buyer' };
       } else {
         errorMsg.textContent = "Invalid role.";
+        loadingOverlay.style.display = 'none';
         return;
       }
 
-      // UI Feedback
       errorMsg.style.color = "#357138";
       errorMsg.textContent = "Registering...";
 
       try {
-        // 1. Register with Auth
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await updateProfile(userCredential.user, { displayName: name });
-
-        // 2. Register profile to Firestore
         await setDoc(doc(db, "users", userCredential.user.uid), {
           name,
           email,
@@ -328,16 +378,16 @@
         });
 
         errorMsg.textContent = "Registration successful! Redirecting…";
-        // 3. Redirect to dashboard according to role
-        setTimeout(() => {
-          let redirectUrl = (userRole === 'vendor')
-            ? '/vendor-dashboard'
-            : '/buyer-dashboard';
-          window.location.href = redirectUrl;
-        }, 800);
+
+        // Hide loading overlay immediately before redirect
+        loadingOverlay.style.display = 'none';
+
+        // Redirect immediately without delay
+        window.location.href = userRole === 'vendor' ? '/vendor-dashboard' : '/buyer-dashboard';
+
       } catch (err) {
+        loadingOverlay.style.display = 'none';
         errorMsg.style.color = "#e53935";
-        // Firebase provides friendly error messages
         errorMsg.textContent = err.message;
       }
     };
