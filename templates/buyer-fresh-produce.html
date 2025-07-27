@@ -401,6 +401,12 @@
       return 'Unknown Vendor';
     }
 
+    function showQtyLimitMsg(max) {
+      // Simple alert, or make it fancier as a toast!
+      alert(`You have reached the maximum quantity available for this item (${max}).`);
+    }
+
+
     async function fetchAndRenderVendors() {
       vendorsList.innerHTML = '<div style="color:var(--text-light);padding:40px;text-align:center">Loading fresh produce...</div>';
       const querySnapshot = await getDocs(collection(db, "vendor_produce"));
@@ -459,17 +465,23 @@
       document.querySelectorAll('.quantity-row').forEach(row => {
         const shopIdx = +row.dataset.shop;
         const prodIdx = +row.dataset.prod;
+        const maxQty = vendorsData[shopIdx].produceArr[prodIdx].qty || 0;
+
         row.querySelector('.minus-btn').onclick = function () {
           qtyState[shopIdx][prodIdx] = Math.max(0, qtyState[shopIdx][prodIdx] - 1);
           document.getElementById(`qty_${shopIdx}_${prodIdx}`).textContent = qtyState[shopIdx][prodIdx];
         };
+
         row.querySelector('.plus-btn').onclick = function () {
-          qtyState[shopIdx][prodIdx]++;
-          document.getElementById(`qty_${shopIdx}_${prodIdx}`).textContent = qtyState[shopIdx][prodIdx];
+          if (qtyState[shopIdx][prodIdx] < maxQty) {
+            qtyState[shopIdx][prodIdx]++;
+            document.getElementById(`qty_${shopIdx}_${prodIdx}`).textContent = qtyState[shopIdx][prodIdx];
+          } else {
+            showQtyLimitMsg(maxQty);
+          }
         };
       });
     }
-
     // Initial fetch
     fetchAndRenderVendors();
 
