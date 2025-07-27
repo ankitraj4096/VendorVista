@@ -453,9 +453,6 @@
             <i class="bi bi-hand-thumbs-up"></i>
             <span class="like-count">${story.likes}</span>
           </button>
-          <button class="comment-bubble" aria-label="View comments for story titled ${escapeHtml(story.title)}" data-count="${story.comments}">
-            <i class="bi bi-chat"></i>
-          </button>
           ${deleteButtonHtml}
         </div>`;
       storiesList.appendChild(article);
@@ -475,10 +472,6 @@
           console.error('Failed to update likes:', err);
           alert('Failed to update likes. Please try again.');
         }
-      });
-
-      article.querySelector('.comment-bubble').addEventListener('click', () => {
-        alert('Comment feature coming soon!');
       });
 
       if(currentUser && story.uid === currentUser.uid) {
