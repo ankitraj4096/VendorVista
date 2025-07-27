@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>User Profile | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
+    rel="stylesheet" />
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
@@ -23,9 +25,13 @@
       --button-text: #fff;
       --accent: #fbe27a;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
+
     body {
       margin: 0;
       padding: 0;
@@ -37,6 +43,7 @@
       flex-direction: column;
       align-items: center;
     }
+
     header.navbar {
       width: 100vw;
       left: 0;
@@ -57,6 +64,7 @@
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
+
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -64,12 +72,14 @@
       justify-content: space-between;
       align-items: center;
     }
+
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
+
     nav.main-nav a {
       color: #fff;
       text-decoration: none;
@@ -80,11 +90,13 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
+
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
+
     main.container {
       max-width: 900px;
       width: 95%;
@@ -97,6 +109,7 @@
       flex-direction: column;
       gap: 32px;
     }
+
     header.page-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -104,12 +117,14 @@
       color: var(--primary-dark);
       margin: 0 0 10px 0;
     }
+
     section.profile-info {
       display: flex;
       flex-wrap: wrap;
       gap: 32px;
       align-items: flex-start;
     }
+
     .profile-picture {
       width: 140px;
       height: 140px;
@@ -120,6 +135,7 @@
       object-fit: cover;
       flex-shrink: 0;
     }
+
     .profile-details {
       flex: 1;
       min-width: 280px;
@@ -129,6 +145,7 @@
       font-size: 1.05rem;
       color: var(--text-dark);
     }
+
     label {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
@@ -136,7 +153,9 @@
       margin-bottom: 4px;
       display: block;
     }
-    input[readonly], textarea[readonly] {
+
+    input[readonly],
+    textarea[readonly] {
       background: #fafaf5;
       border-radius: 0.8em;
       border: 1.5px solid var(--border);
@@ -147,25 +166,30 @@
       font-size: 1rem;
       resize: vertical;
     }
+
     textarea[readonly] {
       min-height: 90px;
     }
+
     input:not([readonly]):focus,
     textarea:not([readonly]):focus {
       outline: 2px solid var(--primary);
       box-shadow: 0 0 7px #a1d484bd;
       background: white;
     }
+
     input.editable,
     textarea.editable {
       border: 1.5px solid var(--primary);
       background: #fefef9;
     }
+
     .buttons-row {
       margin-top: 16px;
       display: flex;
       gap: 16px;
     }
+
     button.edit-btn,
     button.save-btn,
     button.cancel-btn,
@@ -181,10 +205,13 @@
       box-shadow: 0 6px 20px #58c061cc;
       transition: background-color 0.25s ease;
     }
-    button.edit-btn, button.save-btn {
+
+    button.edit-btn,
+    button.save-btn {
       background: var(--primary);
       color: var(--button-text);
     }
+
     button.edit-btn:hover,
     button.edit-btn:focus-visible,
     button.save-btn:hover,
@@ -192,17 +219,20 @@
       background: var(--button-hover);
       outline: none;
     }
+
     button.cancel-btn {
       background: #f0f0f0;
       color: #666;
       box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
     }
+
     button.cancel-btn:hover,
     button.cancel-btn:focus-visible {
       background: #e0e0e0;
       color: #333;
       outline: none;
     }
+
     button.logout-btn {
       background: #e4e4e6;
       color: #232c1e;
@@ -210,11 +240,14 @@
       min-width: 120px;
       box-shadow: 0 4px 18px #5bc26122;
     }
-    button.logout-btn:hover, button.logout-btn:focus-visible {
+
+    button.logout-btn:hover,
+    button.logout-btn:focus-visible {
       background: #fde15d;
       color: #333;
       outline: none;
     }
+
     section.vendor-extra {
       background: #e6f4db;
       border-radius: 1.1em;
@@ -223,56 +256,69 @@
       font-size: 1rem;
       color: var(--primary-dark);
     }
+
     section.vendor-extra h3 {
       margin-top: 0;
       margin-bottom: 16px;
       font-weight: 700;
     }
+
     section.vendor-extra p {
       margin: 6px 0;
       white-space: pre-wrap;
     }
+
     @media (max-width: 650px) {
       main.container {
         padding: 24px 20px 36px 20px;
         width: 95%;
         margin: 30px auto 50px auto;
       }
+
       section.profile-info {
         flex-direction: column;
         align-items: center;
       }
+
       .profile-details {
         min-width: auto;
         width: 100%;
       }
+
       .profile-picture {
         width: 120px;
         height: 120px;
       }
-      .buttons-row { flex-direction: column; gap: 10px; }
-      button.logout-btn { margin-left: 0; }
+
+      .buttons-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      button.logout-btn {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
+
 <body>
   <script>
     var currentUserRole = 'buyer'; // set as 'buyer' or 'vendor'
   </script>
   <header class="navbar" role="banner">
     <div class="navbar-inner" id="navbarInner">
-      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"><!-- injected by JS --></nav>
+      <span
+        style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"><!-- injected by JS -->
+      </nav>
     </div>
   </header>
   <main class="container" role="main" aria-label="User Profile Page">
     <header class="page-header" tabindex="0">My Profile</header>
     <section class="profile-info">
-      <img
-        src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=200&q=80"
-        alt="User profile thumbnail"
-        class="profile-picture"
-      />
+      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=200&q=80"
+        alt="User profile thumbnail" class="profile-picture" />
       <div class="profile-details">
         <div>
           <label for="fullName">Full Name</label>
@@ -291,23 +337,46 @@
           <p><strong>Shop/Farm Name:</strong> Green Valley Farm</p>
           <p><strong>Location:</strong> Near Sadar Bazaar, Delhi</p>
           <p><strong>Operating Hours:</strong> Mon-Sun 7:00 AM - 8:00 PM</p>
-          <p><strong>Description:</strong> Trusted provider of fresh and organic vegetables and fruits sourced directly from family-owned farmland, committed to quality and sustainability.</p>
+          <p><strong>Description:</strong> Trusted provider of fresh and organic vegetables and fruits sourced directly
+            from family-owned farmland, committed to quality and sustainability.</p>
         </section>
         <div class="buttons-row">
           <button class="edit-btn" id="editProfileBtn" aria-label="Edit Profile">Edit Profile</button>
           <button class="save-btn" id="saveProfileBtn" aria-label="Save Profile" style="display:none;">Save</button>
-          <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile" style="display:none;">Cancel</button>
+          <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile"
+            style="display:none;">Cancel</button>
           <button class="logout-btn" id="logoutBtn" type="button" aria-label="Log Out">Logout</button>
         </div>
       </div>
     </section>
   </main>
-  <script>
-    // Navbar links (role-based)
-    (function(){
+  <script type="module">
+    // Firebase Modular CDN imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    // -- Your Firebase Config --
+    const firebaseConfig = {
+      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+      authDomain: "vendorvista-4b958.firebaseapp.com",
+      projectId: "vendorvista-4b958",
+      storageBucket: "vendorvista-4b958.appspot.com",
+      messagingSenderId: "479694426389",
+      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // --------- PROFILE PAGE LOGIC ----------
+
+    // Set the user role here or get from backend:
+    let currentUserRole = 'buyer'; // 'vendor' or 'buyer'
+
+    // Navbar Role-based
+    (function () {
       const nav = document.getElementById('navLinks');
       let dashboardLink = '';
-      if(currentUserRole === 'vendor'){
+      if (currentUserRole === 'vendor') {
         dashboardLink = '<a href="/vendor-dashboard">Dashboard</a>';
         document.getElementById('vendorExtraInfo').hidden = false;
       } else {
@@ -322,11 +391,10 @@
         '<a href="/shared-profile" class="active" aria-current="page" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
     })();
 
-    // Profile editing and logout
+    // Profile editing handlers
     const editButton = document.getElementById('editProfileBtn');
     const saveButton = document.getElementById('saveProfileBtn');
     const cancelButton = document.getElementById('cancelEditBtn');
-    const logoutButton = document.getElementById('logoutBtn');
     const fullNameInput = document.getElementById('fullName');
     const emailInput = document.getElementById('emailAddress');
     const phoneInput = document.getElementById('phoneNumber');
@@ -371,12 +439,23 @@
       saveButton.style.display = 'none';
       cancelButton.style.display = 'none';
       alert('Profile saved successfully!');
-      // Add backend saving logic here
+      // TODO: Add backend save using firebase if desired
     });
-    logoutButton.addEventListener('click', () => {
-      alert('You have logged out.');
-      window.location.href = '/';
-    });
+
+    // --------- LOGOUT HANDLER (Firebase Auth sign-out) -----------
+    const logoutButton = document.getElementById('logoutBtn');
+    if (logoutButton) {
+      logoutButton.addEventListener('click', async () => {
+        try {
+          await signOut(auth);
+          window.location.href = '/login'; // or '/' if you prefer
+        } catch (err) {
+          alert("Error logging out: " + err.message);
+        }
+      });
+    }
+
   </script>
 </body>
+
 </html>
