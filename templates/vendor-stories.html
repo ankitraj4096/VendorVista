@@ -9,6 +9,7 @@
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
+    /* Your original styles here (exactly as you had them) */
     :root {
       --primary: #58c061;
       --primary-dark: #357138;
@@ -26,7 +27,6 @@
     *, *::before, *::after {
       box-sizing: border-box;
     }
-
     body {
       margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
@@ -37,7 +37,6 @@
       flex-direction: column;
       align-items: center;
     }
-
     header.navbar {
       width: 100vw;
       padding: 15px 0;
@@ -56,7 +55,6 @@
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
-
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -66,14 +64,12 @@
       flex-wrap: wrap;
       gap: 12px;
     }
-
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
-
     nav.main-nav a {
       color: var(--button-text);
       text-decoration: none;
@@ -84,13 +80,11 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
-
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
-
     main.container {
       max-width: 900px;
       width: 95%;
@@ -99,7 +93,6 @@
       flex-direction: column;
       gap: 28px;
     }
-
     header.page-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -107,7 +100,6 @@
       color: var(--primary-dark);
       margin: 0;
     }
-
     button.add-story-btn {
       align-self: flex-start;
       background: var(--button-bg);
@@ -126,13 +118,11 @@
       user-select: none;
       transition: background 0.3s;
     }
-
     button.add-story-btn:hover,
     button.add-story-btn:focus-visible {
       background: var(--button-hover-bg);
       outline: none;
     }
-
     .stories-list {
       display: flex;
       flex-direction: column;
@@ -141,16 +131,13 @@
       overflow-y: auto;
       padding-right: 8px;
     }
-
     .stories-list::-webkit-scrollbar {
       width: 9px;
     }
-
     .stories-list::-webkit-scrollbar-thumb {
       background-color: var(--primary);
       border-radius: 6px;
     }
-
     article.story-card {
       background: var(--card-bg);
       border-radius: 1em;
@@ -160,13 +147,11 @@
       user-select: text;
       transition: box-shadow 0.25s;
     }
-
     article.story-card:hover,
     article.story-card:focus-within {
       box-shadow: 0 14px 44px rgba(56, 128, 20, 0.22);
       outline: none;
     }
-
     article.story-card header {
       display: flex;
       justify-content: space-between;
@@ -175,7 +160,6 @@
       gap: 8px;
       margin-bottom: 16px;
     }
-
     .story-author {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -183,7 +167,6 @@
       color: var(--primary-dark);
       user-select: none;
     }
-
     .story-date {
       font-size: 0.9rem;
       font-style: italic;
@@ -191,7 +174,6 @@
       white-space: nowrap;
       user-select: none;
     }
-
     .story-content {
       font-size: 1rem;
       line-height: 1.6;
@@ -200,13 +182,11 @@
       margin-bottom: 24px;
       min-height: 60px;
     }
-
     .story-content:empty::before {
       content: "(No content)";
       font-style: italic;
       color: var(--text-light);
     }
-
     .story-actions {
       display: flex;
       gap: 24px;
@@ -215,7 +195,6 @@
       color: var(--text-light);
       user-select: none;
     }
-
     .story-actions button {
       background: none;
       border: none;
@@ -229,28 +208,23 @@
       border-radius: 1.2em;
       transition: color 0.2s;
     }
-
     .story-actions button.liked,
     .story-actions button:hover {
       color: var(--accent);
       background: #f2ef9b11;
       outline: none;
     }
-
     .story-actions button[disabled] {
       cursor: default;
       opacity: 0.5;
     }
-
     .like-count {
       font-weight: 700;
     }
-
     .comment-bubble {
       position: relative;
       cursor: pointer;
     }
-
     .comment-bubble::after {
       content: attr(data-count);
       position: absolute;
@@ -267,8 +241,6 @@
       border-radius: 50%;
       user-select: none;
     }
-
-    /* Modal styles */
     #modalBackdrop {
       display: none;
       position: fixed;
@@ -278,17 +250,14 @@
       align-items: center;
       justify-content: center;
     }
-
     #modalBackdrop.active {
       display: flex;
       animation: fadein 0.2s forwards;
     }
-
     @keyframes fadein {
       from {opacity: 0;}
       to {opacity: 1;}
     }
-
     .modal-drawer {
       background: var(--secondary);
       border-radius: 1em;
@@ -303,19 +272,16 @@
       font-family: 'Montserrat', sans-serif;
       animation: popin 0.25s ease forwards;
     }
-
     @keyframes popin {
       from {opacity: 0; transform: scale(0.95);}
       to {opacity: 1; transform: scale(1);}
     }
-
     .modal-drawer h2 {
       font-size: 1.7rem;
       margin: 0;
       color: var(--primary-dark);
       font-weight: 900;
     }
-
     .modal-close {
       position: absolute;
       top: 12px;
@@ -328,25 +294,21 @@
       transition: color 0.3s;
       user-select: none;
     }
-
     .modal-close:hover,
     .modal-close:focus-visible {
       color: var(--primary-dark);
       outline: none;
     }
-
     form.story-form {
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
-
     form.story-form label {
       font-weight: 700;
       font-size: 1.1rem;
       color: var(--primary-dark);
     }
-
     form.story-form input,
     form.story-form textarea {
       padding: 12px 16px;
@@ -356,19 +318,16 @@
       font-family: 'Poppins', sans-serif;
       color: var(--text-dark);
     }
-
     form.story-form textarea {
       min-height: 120px;
       resize: vertical;
     }
-
     form.story-form input:focus,
     form.story-form textarea:focus {
       outline: none;
       border-color: var(--primary);
       box-shadow: 0 0 8px #9ccc6599;
     }
-
     form.story-form button {
       align-self: flex-end;
       background: var(--primary);
@@ -383,13 +342,11 @@
       user-select: none;
       transition: background 0.3s ease;
     }
-
     form.story-form button:hover,
     form.story-form button:focus-visible {
       background: var(--button-hover);
       outline: none;
     }
-
     @media (max-width: 470px) {
       main.container {
         margin: 20px 10px 40px 10px;
@@ -409,78 +366,62 @@
 <body>
   <header class="navbar" role="banner" aria-label="Main site navigation">
     <div class="navbar-inner">
-      <span style="font-family:'Montserrat', sans-serif; font-weight:900; font-size:1.35rem; letter-spacing:1px; color:#fff;">StreetSypmhony</span>
+      <span style="font-family:'Montserrat',sans-serif;font-weight:900;font-size:1.35rem;letter-spacing:1px;color:#fff;">StreetSypmhony</span>
       <nav class="main-nav" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
-
   <main class="container" role="main" aria-label="Vendor Stories Management">
     <header class="page-header" tabindex="0">Vendor Stories</header>
-
     <button id="addStoryBtn" class="add-story-btn" aria-haspopup="dialog" aria-controls="modalBackdrop" aria-expanded="false">
       <i class="bi bi-plus-circle"></i> Add New Story
     </button>
-
-    <section class="stories-list" id="storiesList" tabindex="0" aria-live="polite" aria-relevant="additions">
-      <!-- Stories will be rendered here -->
-    </section>
+    <section class="stories-list" id="storiesList" tabindex="0" aria-live="polite" aria-relevant="additions"></section>
   </main>
-
   <div id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { 
+      getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp,
+      doc, updateDoc, increment 
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+      authDomain: "vendorvista-4b958.firebaseapp.com",
+      projectId: "vendorvista-4b958",
+      storageBucket: "vendorvista-4b958.appspot.com",
+      messagingSenderId: "479694426389",
+      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
     const modalBackdrop = document.getElementById('modalBackdrop');
     const addStoryBtn = document.getElementById('addStoryBtn');
     const storiesList = document.getElementById('storiesList');
+    const nav = document.getElementById('navLinks');
 
-    // Sample stories data — replace with backend integration as needed
-    let storiesData = [
-      {
-        id: 1,
-        title: 'A Busy Day at the Market',
-        timestamp: '2025-07-23 15:32',
-        content: "Great response to our organic carrots! Thank you to all our amazing customers.",
-        likes: 26,
-        liked: false,
-        comments: 3
-      },
-      {
-        id: 2,
-        title: 'New Store Launch',
-        timestamp: '2025-07-20 11:10',
-        content: "Excited to announce the opening of our new roadside stall on Main Street. Come visit!",
-        likes: 48,
-        liked: false,
-        comments: 7
-      }
-    ];
+    let currentUser;
 
-    // Utility to escape HTML for XSS safety
     function escapeHtml(text) {
-      const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-      };
-      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+      return text.replace(/[&<>"']/g, m => map[m]);
     }
 
-    // Render stories list
-    function renderStories() {
+    function renderStories(stories) {
       storiesList.innerHTML = '';
-      if (storiesData.length === 0) {
+      if (stories.length === 0) {
         storiesList.innerHTML = '<p>No stories available.</p>';
         return;
       }
-      storiesData.forEach(story => {
+      stories.forEach(story => {
         const article = document.createElement('article');
         article.className = 'story-card';
         article.tabIndex = 0;
         article.setAttribute('role', 'article');
         article.setAttribute('aria-label', `Story titled "${escapeHtml(story.title)}", posted on ${escapeHtml(story.timestamp)}`);
-
         article.innerHTML = `
           <header>
             <div class="story-author">${escapeHtml(story.title)}</div>
@@ -488,33 +429,39 @@
           </header>
           <div class="story-content">${escapeHtml(story.content)}</div>
           <div class="story-actions">
-            <button class="like-btn ${story.liked ? 'liked' : ''}" aria-pressed="${story.liked}" aria-label="${story.liked ? 'Unlike' : 'Like'} story titled ${escapeHtml(story.title)}">
-              <i class="bi ${story.liked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}"></i>
+            <button class="like-btn" aria-label="Like story titled ${escapeHtml(story.title)}">
+              <i class="bi bi-hand-thumbs-up"></i>
               <span class="like-count">${story.likes}</span>
             </button>
-            <button class="comment-bubble" aria-label="View comments for story titled ${escapeHtml(story.title)}" data-count="${story.comments}"><i class="bi bi-chat"></i></button>
-          </div>
-        `;
-
+            <button class="comment-bubble" aria-label="View comments for story titled ${escapeHtml(story.title)}" data-count="${story.comments}">
+              <i class="bi bi-chat"></i>
+            </button>
+          </div>`;
         storiesList.appendChild(article);
 
-        // Like button toggle handler
-        const likeBtn = article.querySelector('.like-btn');
-        likeBtn.addEventListener('click', () => {
-          story.liked = !story.liked;
-          story.likes += story.liked ? 1 : -1;
-          renderStories();
+        article.querySelector('.like-btn').addEventListener('click', async () => {
+          try {
+            // Optimistically update UI:
+            story.likes++;
+            renderStories(stories);
+
+            // Update likes count in Firestore with atomic increment:
+            const storyRef = doc(db, 'stories', story.id);
+            await updateDoc(storyRef, {
+              likes: increment(1)
+            });
+          } catch (err) {
+            console.error('Failed to update likes:', err);
+            alert('Failed to update likes. Please try again.');
+          }
         });
 
-        // Comment button placeholder handler
-        const commentBtn = article.querySelector('.comment-bubble');
-        commentBtn.addEventListener('click', () => {
+        article.querySelector('.comment-bubble').addEventListener('click', () => {
           alert('Comment feature coming soon!');
         });
       });
     }
 
-    // Show story add modal
     function openModal() {
       modalBackdrop.innerHTML = `
         <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
@@ -530,52 +477,46 @@
               <button type="submit" class="btn-submit">Add Story</button>
             </div>
           </form>
-        </div>
-      `;
+        </div>`;
       modalBackdrop.classList.add('active');
       modalBackdrop.setAttribute('aria-hidden', 'false');
 
-      // Focus the first input after short delay
       setTimeout(() => {
         const firstInput = modalBackdrop.querySelector('#storyTitle');
         if (firstInput) firstInput.focus();
       }, 50);
 
-      // Close handlers
-      const closeButtons = modalBackdrop.querySelectorAll('.modal-close, .modal-close-btn');
-      closeButtons.forEach(btn => btn.addEventListener('click', closeModal));
+      modalBackdrop.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn =>
+        btn.addEventListener('click', closeModal)
+      );
 
-      // Trap focus
       trapFocus(modalBackdrop.querySelector('.modal-drawer'));
 
-      // Form submit handler
-      modalBackdrop.querySelector('#storyForm').addEventListener('submit', e => {
+      modalBackdrop.querySelector('#storyForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const title = e.target.storyTitle.value.trim();
         const content = e.target.storyContent.value.trim();
-
         if (!title || !content) {
           alert('Please fill both Title and Content fields.');
           return;
         }
-
-        // Add new story (simulate ID and timestamp)
-        storiesData.unshift({
-          id: Date.now(),
-          title,
-          timestamp: new Date().toLocaleString(),
-          content,
-          likes: 0,
-          liked: false,
-          comments: 0
-        });
-
-        renderStories();
-        closeModal();
+        try {
+          await addDoc(collection(db, 'stories'), {
+            uid: currentUser.uid,
+            title,
+            content,
+            likes: 0,
+            comments: 0,
+            createdAt: serverTimestamp()
+          });
+          closeModal();
+        } catch (err) {
+          console.error('Error adding story:', err);
+          alert('Failed to add story. Please try again.');
+        }
       });
     }
 
-    // Close modal function
     function closeModal() {
       modalBackdrop.classList.remove('active');
       modalBackdrop.setAttribute('aria-hidden', 'true');
@@ -583,72 +524,64 @@
       addStoryBtn.focus();
     }
 
-    // Trap focus inside modal for accessibility
     function trapFocus(container) {
-      const focusableElements = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+      const focusableElements = container.querySelectorAll('a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])');
       if (!focusableElements.length) return;
       const firstEl = focusableElements[0];
       const lastEl = focusableElements[focusableElements.length - 1];
-
-      container.addEventListener('keydown', e => {
+      container.addEventListener('keydown', (e) => {
         if (e.key === 'Tab') {
-          if (e.shiftKey) {
-            if (document.activeElement === firstEl) {
-              e.preventDefault();
-              lastEl.focus();
-            }
-          } else {
-            if (document.activeElement === lastEl) {
-              e.preventDefault();
-              firstEl.focus();
-            }
+          if (e.shiftKey && document.activeElement === firstEl) {
+            e.preventDefault(); lastEl.focus();
+          } else if (document.activeElement === lastEl) {
+            e.preventDefault(); firstEl.focus();
           }
-        } else if (e.key === 'Escape') {
-          closeModal();
-        }
+        } else if (e.key === 'Escape') closeModal();
       });
     }
 
-    // Inject dynamic navbar based on user role
-    (function() {
-      const nav = document.getElementById('navLinks');
+    function buildNavigation() {
       const role = localStorage.getItem('userRole') || 'vendor';
-      let navHtml = '';
-      if(role === 'vendor'){
-        navHtml =
-          '<a href="/vendor-dashboard">Dashboard</a>' +
-          '<a href="/vendor-orders">Orders</a>' +
-          '<a href="/vendor-stories" class="active" aria-current="page">Stories</a>' +
-          '<a href="/vendor-produce">Market</a>' +
-          '<a href="/shared-live-map">Map</a>' +
-          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
-      } else {
-        navHtml =
-          '<a href="/buyer-dashboard">Dashboard</a>' +
-          '<a href="/buyer-fresh-produce">Produce</a>' +
-          '<a href="/buyer-vendor">Favorite Vendors</a>' +
-          '<a href="/buyer-exchange">Ingredient Swap</a>' +
-          '<a href="/shared-live-map">Map</a>' +
-          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
-      }
-      nav.innerHTML = navHtml;
-    })();
+      nav.innerHTML = role === 'vendor'
+        ? '<a href="/vendor-dashboard">Dashboard</a><a href="/vendor-orders">Orders</a><a href="/vendor-stories" class="active" aria-current="page">Stories</a><a href="/vendor-produce">Market</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>'
+        : '<a href="/buyer-dashboard">Dashboard</a><a href="/buyer-fresh-produce">Produce</a><a href="/buyer-vendor">Favorite Vendors</a><a href="/buyer-exchange">Ingredient Swap</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+    }
 
-    // Event listener for Add Story button
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = '/login';
+        return;
+      }
+      currentUser = user;
+      buildNavigation();
+
+      const storiesQuery = query(collection(db, 'stories'), orderBy('createdAt', 'desc'));
+      onSnapshot(storiesQuery, (querySnapshot) => {
+        const stories = [];
+        querySnapshot.forEach((docSnap) => {
+          const data = docSnap.data();
+          stories.push({
+            id: docSnap.id,
+            title: data.title || 'No Title',
+            timestamp: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Unknown date',
+            content: data.content || '',
+            likes: data.likes || 0,
+            liked: false,
+            comments: data.comments || 0,
+          });
+        });
+        renderStories(stories);
+      });
+    });
+
     addStoryBtn.addEventListener('click', () => {
       openModal();
       addStoryBtn.setAttribute('aria-expanded', 'true');
     });
 
-    // Close modal when clicking outside modal content
-    modalBackdrop.addEventListener('click', e => {
-      if(e.target === modalBackdrop){
-        closeModal();
-      }
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) closeModal();
     });
-
-    // Initial render
-    renderStories();
   </script>
 </body>
 </html>
