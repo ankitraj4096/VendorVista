@@ -23,9 +23,7 @@
       --button-text: #fff;
       --accent: #fbe27a;
     }
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
     body {
       margin: 0;
       padding: 0;
@@ -136,7 +134,7 @@
       margin-bottom: 4px;
       display: block;
     }
-    input[readonly], textarea[readonly] {
+    input, textarea {
       background: #fafaf5;
       border-radius: 0.8em;
       border: 1.5px solid var(--border);
@@ -146,20 +144,23 @@
       font-family: inherit;
       font-size: 1rem;
       resize: vertical;
-    }
-    textarea[readonly] {
-      min-height: 90px;
-    }
-    input:not([readonly]):focus,
-    textarea:not([readonly]):focus {
-      outline: 2px solid var(--primary);
-      box-shadow: 0 0 7px #a1d484bd;
-      background: white;
+      transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
     }
     input.editable,
     textarea.editable {
+      background: #fffef7;
       border: 1.5px solid var(--primary);
-      background: #fefef9;
+      box-shadow: 0 0 0 2px #e6ffd5;
+    }
+    input:not([readonly]):focus,
+    textarea:not([readonly]):focus {
+      outline: none;
+      border-color: var(--primary-dark);
+      background: #fff;
+      box-shadow: 0 0 0 2px #c6fbb2;
+    }
+    textarea[readonly] {
+      min-height: 90px;
     }
     .buttons-row {
       margin-top: 16px;
@@ -250,19 +251,26 @@
         width: 120px;
         height: 120px;
       }
-      .buttons-row { flex-direction: column; gap: 10px; }
-      button.logout-btn { margin-left: 0; }
+      .buttons-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      button.logout-btn {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
 <body>
   <script>
-    var currentUserRole = 'buyer'; // set as 'buyer' or 'vendor'
+    // Grab the user role from localStorage and use for dynamic nav
+    const currentUserRole = localStorage.getItem('userRole') || 'buyer';
   </script>
+
   <header class="navbar" role="banner">
     <div class="navbar-inner" id="navbarInner">
       <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"><!-- injected by JS --></nav>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
   <main class="container" role="main" aria-label="User Profile Page">
@@ -303,23 +311,30 @@
     </section>
   </main>
   <script>
-    // Navbar links (role-based)
+    // Dynamic role-based navbar injection
     (function(){
       const nav = document.getElementById('navLinks');
-      let dashboardLink = '';
+      let navItems = '';
       if(currentUserRole === 'vendor'){
-        dashboardLink = '<a href="/vendor-dashboard">Dashboard</a>';
+        navItems =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
         document.getElementById('vendorExtraInfo').hidden = false;
       } else {
-        dashboardLink = '<a href="/buyer-dashboard">Dashboard</a>';
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
       }
-      nav.innerHTML = dashboardLink +
-        '<a href="/buyer-fresh-produce">Produce</a>' +
-        '<a href="/buyer-vendor">Favorite Vendors</a>' +
-        '<a href="/buyer-exchange">Ingredient Swap</a>' +
-        '<a href="/shared-live-map">Map</a>' +
-        '<a href="/shared-stories-feed">Stories</a>' +
-        '<a href="/shared-profile" class="active" aria-current="page" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      nav.innerHTML = navItems;
     })();
 
     // Profile editing and logout
@@ -371,14 +386,13 @@
       saveButton.style.display = 'none';
       cancelButton.style.display = 'none';
       alert('Profile saved successfully!');
-      // Add backend saving logic here
+      // backend save (integration point)
     });
     logoutButton.addEventListener('click', () => {
       localStorage.removeItem('userRole');
       alert('You have logged out.');
-      window.location.href = '/'; // <-- This is the correct Flask home route
+      window.location.href = '/';
     });
-
   </script>
 </body>
 </html>

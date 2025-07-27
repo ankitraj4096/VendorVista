@@ -168,11 +168,14 @@
 
       // Simulate backend login, redirect as per role
       if (role === 'buyer') {
+        localStorage.setItem('userRole', 'buyer');
         window.location.href = '/buyer-dashboard';
       } else if (role === 'vendor') {
+        localStorage.setItem('userRole', 'vendor');
         window.location.href = '/vendor-dashboard';
       } else {
         // Default fallback
+        localStorage.setItem('userRole', 'buyer');
         window.location.href = '/buyer-dashboard';
       }
     };
