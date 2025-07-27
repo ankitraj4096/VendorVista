@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
+
 <head>
   <meta charset="UTF-8" />
   <title>Buyer Dashboard | StreetSymphony</title>
@@ -225,6 +226,7 @@
   </style>
 </head>
 
+
 <body>
   <!-- Wide-top Navbar -->
   <header class="navbar" role="banner">
@@ -235,10 +237,12 @@
     </div>
   </header>
 
+
   <main class="container" role="main" aria-label="Buyer Dashboard">
-    <h1 class="welcome-header" tabindex="0">Welcome back, Ram Kumar!</h1>
+    <h1 class="welcome-header" tabindex="0">Welcome back!</h1>
     <p class="welcome-subtitle">Discover the freshest fruits and vegetables, connect with favorite vendors, swap
       ingredients, and explore inspiring community stories.</p>
+
 
     <section class="cards-grid" aria-label="Buyer Quick Access Cards">
       <article class="card" tabindex="0" role="region" aria-labelledby="card1Title" aria-describedby="card1Desc">
@@ -247,17 +251,20 @@
         <a href="/buyer-fresh-produce" class="btn-link" aria-label="Browse Fresh Produce Market">Browse</a>
       </article>
 
+
       <article class="card" tabindex="0" role="region" aria-labelledby="card2Title" aria-describedby="card2Desc">
         <h2 id="card2Title"><i class="bi bi-people-fill"></i> Favorite Vendors</h2>
         <p id="card2Desc">See your favorite vendor profiles, produce offerings, and their updates.</p>
         <a href="/buyer-vendor" class="btn-link" aria-label="View Favorite Vendors">View</a>
       </article>
 
+
       <article class="card" tabindex="0" role="region" aria-labelledby="card3Title" aria-describedby="card3Desc">
         <h2 id="card3Title"><i class="bi bi-arrow-repeat"></i> Ingredient Swap</h2>
         <p id="card3Desc">Swap ingredients with other sellers. Offer what you have and request what you need.</p>
         <a href="/buyer-exchange" class="btn-link" aria-label="Go to Ingredient Swap">Swap</a>
       </article>
+
 
       <article class="card" tabindex="0" role="region" aria-labelledby="card4Title" aria-describedby="card4Desc">
         <h2 id="card4Title"><i class="bi bi-journal-text"></i> Community Stories</h2>
@@ -267,14 +274,36 @@
     </section>
   </main>
 
-  <script>
-    (function () {
-      const nav = document.getElementById('navLinks');
-      const currentUserRole = localStorage.getItem('userRole') || 'buyer';
-      let navItems = '';
 
-      if (currentUserRole === 'vendor') {
-        // Redirect vendor to vendor dashboard maybe, but here just build nav for vendor
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    // Your Firebase config - use your actual config here
+    const firebaseConfig = {
+      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+      authDomain: "vendorvista-4b958.firebaseapp.com",
+      projectId: "vendorvista-4b958",
+      storageBucket: "vendorvista-4b958.appspot.com",
+      messagingSenderId: "479694426389",
+      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Select welcome message element to update user name dynamically
+    const welcomeHeader = document.querySelector(".welcome-header");
+
+    // Select navigation container to build nav links dynamically
+    const nav = document.getElementById("navLinks");
+
+    // Setup user navigation based on role stored in localStorage or default to buyer
+    function buildNavigation(userRole) {
+      let navItems = "";
+      if (userRole === "vendor") {
         navItems =
           '<a href="/vendor-dashboard">Dashboard</a>' +
           '<a href="/vendor-orders">Orders</a>' +
@@ -292,10 +321,43 @@
           '<a href="/shared-stories-feed">Stories</a>' +
           '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
       }
-
       nav.innerHTML = navItems;
-    })();
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const uid = user.uid;
+        try {
+          const userDoc = await getDoc(doc(db, "users", uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            // Prefer a 'name' field in your user docs, fallback to generic 'Buyer'
+            const displayName = userData.name || "Buyer";
+            welcomeHeader.textContent = `Welcome back, ${displayName}!`;
+
+            // Save user role (optional) to localStorage for navigation build
+            const role = userData.role || "buyer";
+            localStorage.setItem("userRole", role);
+
+            // Build navigation based on role
+            buildNavigation(role);
+          } else {
+            welcomeHeader.textContent = "Welcome back!";
+            buildNavigation("buyer");
+            console.warn("User profile not found in Firestore for UID:", uid);
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+          welcomeHeader.textContent = "Welcome back!";
+          buildNavigation("buyer");
+        }
+      } else {
+        // No user signed in - redirect to login page
+        window.location.href = "/login";
+      }
+    });
   </script>
 </body>
+
 
 </html>
