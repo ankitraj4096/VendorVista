@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts + Bootstrap Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
   <style>
     body {
       background: #fafef3;
@@ -32,7 +32,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: up .7s;
+      animation: up 0.7s;
     }
     @keyframes up {0%{transform:translateY(24px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
     .login-title {
@@ -82,11 +82,11 @@
       padding: 13px 0;
       border-radius: 1em;
       font-size: 1.13em;
-      font-family: 'Montserrat',sans-serif;
+      font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       cursor: pointer;
       transition: background 0.21s;
-      box-shadow: 0 4px 18px #afd37533;
+      box-shadow: 0 4px 18px rgba(41, 88, 40, 0.2);
     }
     .login-btn:hover {
       background: linear-gradient(90deg,#357138 0%, #4dc05b 99%);
@@ -109,10 +109,10 @@
     }
     .error-msg {
       color: #e53935;
-      font-size: 0.98em;
+      font-size: 0.95em;
       margin-bottom: 7px;
-      text-align: center;
       min-height: 24px;
+      text-align: center;
     }
   </style>
 </head>
@@ -120,7 +120,7 @@
   <div class="login-container">
     <div class="login-title" id="loginTitle">Login</div>
     <div class="error-msg" id="errorMsg"></div>
-    <form id="loginForm" autocomplete="off">
+    <form id="loginForm" autocomplete="off" novalidate>
       <div class="input-group">
         <label for="emailInput">Email Address</label>
         <input type="email" id="emailInput" required />
@@ -135,48 +135,52 @@
   </div>
 
   <script>
-    // Get role from query param (lowercase)
+    // Get role from query parameter (?role=buyer or ?role=vendor)
     function getRoleFromQuery() {
       const params = new URLSearchParams(window.location.search);
       const role = params.get('role');
       if (!role) return null;
       return role.toLowerCase();
     }
-
-    // Set the login title dynamically
     const role = getRoleFromQuery();
+
+    // Set title accordingly
     document.getElementById('loginTitle').textContent = "Login as " + (role ? role.charAt(0).toUpperCase() + role.slice(1) : 'User');
 
-    // Navigate to registration page with role param
+    // Redirect to register with role preserved
     document.getElementById('createAccountBtn').onclick = function() {
       const params = new URLSearchParams(window.location.search);
-      window.location.href = "/register" + (params.has('role') ? "?role=" + params.get('role') : "");
+      window.location.href = "register.html" + (params.has('role') ? "?role=" + params.get('role') : "");
     };
 
     // Handle login form submission
     document.getElementById('loginForm').onsubmit = function(e) {
       e.preventDefault();
+
       const email = document.getElementById('emailInput').value.trim();
       const pwd = document.getElementById('passwordInput').value.trim();
 
       if (!email || !pwd) {
-        document.getElementById('errorMsg').textContent = "Please provide both email and password.";
+        document.getElementById('errorMsg').textContent = "Please enter both email and password.";
         return;
       }
 
       document.getElementById('errorMsg').textContent = "";
 
-      // Simulate backend login, redirect as per role
+      // Simulate login (replace with backend auth)
+      // For demo: validate role parameter only, or default to buyer
       if (role === 'buyer') {
+        // Save role persistently
         localStorage.setItem('userRole', 'buyer');
-        window.location.href = '/buyer-dashboard';
+        // Redirect
+        window.location.href = 'buyer-dashboard.html';
       } else if (role === 'vendor') {
         localStorage.setItem('userRole', 'vendor');
-        window.location.href = '/vendor-dashboard';
+        window.location.href = 'vendor-dashboard.html';
       } else {
-        // Default fallback
+        // Unknown or missing role: default to buyer for safety
         localStorage.setItem('userRole', 'buyer');
-        window.location.href = '/buyer-dashboard';
+        window.location.href = 'buyer-dashboard.html';
       }
     };
   </script>
