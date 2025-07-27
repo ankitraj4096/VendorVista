@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>User Profile | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
     :root {
@@ -16,7 +13,7 @@
       --secondary: #fffef7;
       --card-bg: #f7fdf6;
       --border: #dbeadb;
-      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --shadow: 0 6px 30px rgba(41,88,40,0.12);
       --text-dark: #232c1e;
       --text-light: #526a3b;
       --button: #26c485;
@@ -24,16 +21,9 @@
       --button-text: #fff;
       --accent: #fbe27a;
     }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
@@ -42,426 +32,370 @@
       flex-direction: column;
       align-items: center;
     }
-
     header.navbar {
-      width: 100vw;
-      left: 0;
-      right: 0;
-      padding: 15px 0;
+      width: 100vw; padding: 15px 0;
       background: var(--primary);
       color: #fff;
       font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.35rem;
+      font-weight: 700; font-size: 1.35rem;
       display: flex;
-      justify-content: center;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
+      justify-content: center; align-items: center;
+      position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
-
     .navbar-inner {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 100%; max-width: 1200px;
+      display: flex; justify-content: space-between; align-items: center;
     }
-
     nav.main-nav {
-      display: flex;
-      gap: 26px;
-      flex-wrap: wrap;
-      align-items: center;
+      display: flex; gap: 26px; flex-wrap: wrap; align-items: center;
     }
-
     nav.main-nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      padding-bottom: 2px;
-      border-bottom: 2.5px solid transparent;
+      color: #fff; text-decoration: none; font-weight: 700; font-size: 1.05rem;
+      padding-bottom: 2px; border-bottom: 2.5px solid transparent;
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
-
-    nav.main-nav a:hover,
-    nav.main-nav a.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
+    nav.main-nav a:hover, nav.main-nav a.active {
+      color: var(--accent); border-bottom-color: var(--accent);
     }
-
     main.container {
-      max-width: 900px;
-      width: 95%;
-      margin: 44px auto 60px auto;
+      max-width: 900px; width: 95%; margin: 44px auto 60px auto;
       background: var(--card-bg);
-      box-shadow: var(--shadow);
-      border-radius: 1.3em;
+      box-shadow: var(--shadow); border-radius: 1.3em;
       padding: 36px 36px 48px 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
+      display: flex; flex-direction: column; gap: 32px;
     }
-
     header.page-header {
       font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 2rem;
-      color: var(--primary-dark);
+      font-weight: 800; font-size: 2rem; color: var(--primary-dark);
       margin: 0 0 10px 0;
     }
-
-    section.profile-info {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 32px;
-      align-items: flex-start;
-    }
-
+    #msgBox { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; color: var(--primary-dark); text-align: center; }
+    section.profile-info { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
     .profile-picture {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
-      background-color: #d1f1bd;
-      border: 4px solid var(--primary);
-      box-shadow: 0 7px 30px #a6d38b88;
-      object-fit: cover;
-      flex-shrink: 0;
+      width: 140px; height: 140px;
+      border-radius: 50%; background-color: #d1f1bd;
+      border: 4px solid var(--primary); box-shadow: 0 7px 30px #a6d38b88;
+      display: flex; justify-content: center; align-items: center; flex-shrink: 0;
     }
-
+    .profile-picture svg {
+      width: 90px; height: 90px; stroke: var(--primary-dark);
+    }
     .profile-details {
-      flex: 1;
-      min-width: 280px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      font-size: 1.05rem;
-      color: var(--text-dark);
+      flex: 1; min-width: 280px;
+      display: flex; flex-direction: column; gap: 16px;
+      font-size: 1.05rem; color: var(--text-dark);
     }
-
-    label {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      color: var(--primary-dark);
-      margin-bottom: 4px;
-      display: block;
-    }
-
-    input,
-    textarea {
+    label { font-family: 'Montserrat',sans-serif; font-weight: 700; color: var(--primary-dark); margin-bottom: 4px; display: block; }
+    input, textarea {
       background: #fafaf5;
-      border-radius: 0.8em;
-      border: 1.5px solid var(--border);
-      color: var(--text-dark);
-      width: 100%;
-      padding: 10px 14px;
-      font-family: inherit;
-      font-size: 1rem;
-      resize: vertical;
+      border-radius: .8em; border: 1.5px solid var(--border);
+      color: var(--text-dark); width: 100%; padding: 10px 14px;
+      font-family: inherit; font-size: 1rem; resize: vertical;
       transition: border-color 0.18s, background 0.18s, box-shadow 0.18s;
     }
-
-    input.editable,
-    textarea.editable {
+    input.editable, textarea.editable {
       background: #fffef7;
-      border: 1.5px solid var(--primary);
-      box-shadow: 0 0 0 2px #e6ffd5;
+      border: 1.5px solid var(--primary); box-shadow: 0 0 0 2px #e6ffd5;
     }
-
-    input:not([readonly]):focus,
-    textarea:not([readonly]):focus {
-      outline: none;
-      border-color: var(--primary-dark);
-      background: #fff;
-      box-shadow: 0 0 0 2px #c6fbb2;
+    input:not([readonly]):focus, textarea:not([readonly]):focus {
+      outline: none; border-color: var(--primary-dark); background: #fff; box-shadow: 0 0 0 2px #c6fbb2;
     }
-
-    textarea[readonly] {
-      min-height: 90px;
+    textarea[readonly] { min-height: 90px; }
+    .buttons-row { margin-top: 16px; display: flex; gap: 16px; }
+    button.edit-btn, button.save-btn, button.cancel-btn, button.logout-btn {
+      font-weight: 700; font-family: 'Montserrat',sans-serif; font-size: 1.05rem;
+      padding: 10px 30px; border-radius: 2em; border: none; cursor: pointer; user-select: none;
+      box-shadow: 0 6px 20px #58c061cc; transition: background-color 0.25s;
     }
-
-    .buttons-row {
-      margin-top: 16px;
-      display: flex;
-      gap: 16px;
-    }
-
-    button.edit-btn,
-    button.save-btn,
-    button.cancel-btn,
-    button.logout-btn {
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-      font-size: 1.05rem;
-      padding: 10px 30px;
-      border-radius: 2em;
-      border: none;
-      cursor: pointer;
-      user-select: none;
-      box-shadow: 0 6px 20px #58c061cc;
-      transition: background-color 0.25s ease;
-    }
-
-    button.edit-btn,
-    button.save-btn {
-      background: var(--primary);
-      color: var(--button-text);
-    }
-
-    button.edit-btn:hover,
-    button.edit-btn:focus-visible,
-    button.save-btn:hover,
-    button.save-btn:focus-visible {
-      background: var(--button-hover);
-      outline: none;
-    }
-
-    button.cancel-btn {
-      background: #f0f0f0;
-      color: #666;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
-    }
-
-    button.cancel-btn:hover,
-    button.cancel-btn:focus-visible {
-      background: #e0e0e0;
-      color: #333;
-      outline: none;
-    }
-
-    button.logout-btn {
-      background: #e4e4e6;
-      color: #232c1e;
-      margin-left: auto;
-      min-width: 120px;
-      box-shadow: 0 4px 18px #5bc26122;
-    }
-
-    button.logout-btn:hover,
-    button.logout-btn:focus-visible {
-      background: #fde15d;
-      color: #333;
-      outline: none;
-    }
-
+    button.edit-btn, button.save-btn { background: var(--primary); color: var(--button-text);}
+    button.edit-btn:hover, button.edit-btn:focus-visible, button.save-btn:hover, button.save-btn:focus-visible { background: var(--button-hover); outline: none;}
+    button.cancel-btn { background: #f0f0f0; color: #666; box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);}
+    button.cancel-btn:hover, button.cancel-btn:focus-visible { background: #e0e0e0; color: #333; outline: none;}
+    button.logout-btn { background: #e4e4e6; color: #232c1e; margin-left: auto; min-width: 120px; box-shadow: 0 4px 18px #5bc26122;}
+    button.logout-btn:hover, button.logout-btn:focus-visible { background: #fde15d; color: #333; outline: none;}
     section.vendor-extra {
-      background: #e6f4db;
-      border-radius: 1.1em;
-      padding: 22px 26px;
-      box-shadow: 0 5px 20px #b0dc8966;
-      font-size: 1rem;
-      color: var(--primary-dark);
+      background: #e6f4db; border-radius: 1.1em; padding: 22px 26px;
+      box-shadow: 0 5px 20px #b0dc8966; font-size: 1rem; color: var(--primary-dark);
     }
-
-    section.vendor-extra h3 {
-      margin-top: 0;
-      margin-bottom: 16px;
-      font-weight: 700;
-    }
-
-    section.vendor-extra p {
-      margin: 6px 0;
-      white-space: pre-wrap;
-    }
-
+    section.vendor-extra h3 { margin-top: 0; margin-bottom: 16px; font-weight: 700; }
+    section.vendor-extra p { margin: 6px 0; white-space: pre-wrap; }
+    .loading-box { color: var(--primary-dark); font-weight: 700; font-size: 1.1rem; margin: 20px 0; text-align: center; }
+    .error-box { color: #d32f2f; font-weight: 700; font-size: 1.09rem; margin: 12px 0 4px 0; text-align: center; }
     @media (max-width: 650px) {
-      main.container {
-        padding: 24px 20px 36px 20px;
-        width: 95%;
-        margin: 30px auto 50px auto;
-      }
-
-      section.profile-info {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .profile-details {
-        min-width: auto;
-        width: 100%;
-      }
-
-      .profile-picture {
-        width: 120px;
-        height: 120px;
-      }
-
-      .buttons-row {
-        flex-direction: column;
-        gap: 10px;
-      }
-
-      button.logout-btn {
-        margin-left: 0;
-      }
+      main.container { padding: 24px 20px 36px 20px; width: 95%; margin: 30px auto 50px auto; }
+      section.profile-info { flex-direction: column; align-items: center; }
+      .profile-details { min-width: auto; width: 100%; }
+      .profile-picture { width: 120px; height: 120px; }
+      .buttons-row { flex-direction: column; gap: 10px; }
+      button.logout-btn { margin-left: 0; }
     }
   </style>
 </head>
-
 <body>
-  <script>
-    // Get current user role from localStorage, default buyer
-    const currentUserRole = localStorage.getItem('userRole') || 'buyer';
-  </script>
-
-  <header class="navbar" role="banner">
-    <div class="navbar-inner" id="navbarInner">
-      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
+<header class="navbar" role="banner">
+  <div class="navbar-inner" id="navbarInner">
+    <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+    <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
+  </div>
+</header>
+<main class="container" role="main" aria-label="User Profile Page">
+  <header class="page-header" tabindex="0">My Profile</header>
+  <div id="msgBox"></div>
+  <section class="profile-info" id="profileInfo" style="display:none;">
+    <div class="profile-picture" role="img" aria-label="User profile image">
+      <svg xmlns="http://www.w3.org/2000/svg" width="90" height="90" viewBox="0 0 24 24" fill="none" stroke="var(--primary-dark)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="7" r="4"></circle>
+        <path d="M5.5 21a7.5 7.5 0 0 1 13 0"></path>
+      </svg>
     </div>
-  </header>
-
-  <main class="container" role="main" aria-label="User Profile Page">
-    <header class="page-header" tabindex="0">My Profile</header>
-    <section class="profile-info">
-      <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=200&q=80"
-        alt="User profile thumbnail" class="profile-picture" />
-      <div class="profile-details">
-        <div>
-          <label for="fullName">Full Name</label>
-          <input type="text" id="fullName" readonly value="Ram Kumar" />
-        </div>
-        <div>
-          <label for="emailAddress">Email</label>
-          <input type="text" id="emailAddress" readonly value="ram.kumar@example.com" />
-        </div>
-        <div>
-          <label for="phoneNumber">Phone Number</label>
-          <input type="text" id="phoneNumber" readonly value="+91 98765 43210" />
-        </div>
-        <section class="vendor-extra" aria-label="Vendor Info" tabindex="0" id="vendorExtraInfo" hidden>
-          <h3>Vendor Details</h3>
-          <p><strong>Shop/Farm Name:</strong> Green Valley Farm</p>
-          <p><strong>Location:</strong> Near Sadar Bazaar, Delhi</p>
-          <p><strong>Operating Hours:</strong> Mon-Sun 7:00 AM - 8:00 PM</p>
-          <p><strong>Description:</strong> Trusted provider of fresh and organic vegetables and fruits sourced directly from family-owned farmland, committed to quality and sustainability.</p>
-        </section>
-        <div class="buttons-row">
-          <button class="edit-btn" id="editProfileBtn" aria-label="Edit Profile">Edit Profile</button>
-          <button class="save-btn" id="saveProfileBtn" aria-label="Save Profile" style="display:none;">Save</button>
-          <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile" style="display:none;">Cancel</button>
-          <button class="logout-btn" id="logoutBtn" type="button" aria-label="Log Out">Logout</button>
-        </div>
+    <div class="profile-details">
+      <div>
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" readonly />
       </div>
-    </section>
-  </main>
+      <div>
+        <label for="emailAddress">Email</label>
+        <input type="text" id="emailAddress" readonly />
+      </div>
+      <div>
+        <label for="phoneNumber">Phone Number</label>
+        <input type="text" id="phoneNumber" readonly />
+      </div>
+      <section class="vendor-extra" aria-label="Vendor Info" tabindex="0" id="vendorExtraInfo" hidden>
+        <h3>Vendor Details</h3>
+        <p><strong>Shop/Farm Name:</strong> <span id="vendorShop"></span></p>
+        <p><strong>Location:</strong> <span id="vendorLoc"></span></p>
+        <p><strong>Operating Hours:</strong> <span id="vendorHours"></span></p>
+        <p><strong>Types of Produce:</strong> <span id="vendorProduce"></span></p>
+      </section>
+      <div class="buttons-row">
+        <button class="edit-btn" id="editProfileBtn" aria-label="Edit Profile">Edit Profile</button>
+        <button class="save-btn" id="saveProfileBtn" aria-label="Save Profile" style="display:none;">Save</button>
+        <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile" style="display:none;">Cancel</button>
+        <button class="logout-btn" id="logoutBtn" type="button" aria-label="Log Out">Logout</button>
+      </div>
+    </div>
+  </section>
+</main>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+import { getAuth, signOut, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+  authDomain: "vendorvista-4b958.firebaseapp.com",
+  projectId: "vendorvista-4b958",
+  storageBucket: "vendorvista-4b958.appspot.com",
+  messagingSenderId: "479694426389",
+  appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+};
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
 
-    // Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
-      authDomain: "vendorvista-4b958.firebaseapp.com",
-      projectId: "vendorvista-4b958",
-      storageBucket: "vendorvista-4b958.appspot.com",
-      messagingSenderId: "479694426389",
-      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+/*** Dynamic navbar based on role in localStorage ***/
+const currentUserRole = localStorage.getItem('userRole') || 'buyer';
+(function () {
+  const nav = document.getElementById('navLinks');
+  let navItems = '';
+  if (currentUserRole === 'vendor') {
+    navItems =
+      '<a href="/vendor-dashboard">Dashboard</a>' +
+      '<a href="/vendor-orders">Orders</a>' +
+      '<a href="/vendor-stories">Stories</a>' +
+      '<a href="/vendor-produce">Market</a>' +
+      '<a href="/shared-live-map">Map</a>' +
+      '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
+  } else {
+    navItems =
+      '<a href="/buyer-dashboard">Dashboard</a>' +
+      '<a href="/buyer-fresh-produce">Produce</a>' +
+      '<a href="/buyer-vendor">Favorite Vendors</a>' +
+      '<a href="/buyer-exchange">Ingredient Swap</a>' +
+      '<a href="/shared-live-map">Map</a>' +
+      '<a href="/shared-stories-feed">Stories</a>' +
+      '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
+  }
+  nav.innerHTML = navItems;
+})();
+
+const msgBox = document.getElementById('msgBox');
+const profileInfo = document.getElementById('profileInfo');
+const vendorExtraInfo = document.getElementById('vendorExtraInfo');
+const fullNameInput = document.getElementById('fullName');
+const emailInput = document.getElementById('emailAddress');
+const phoneInput = document.getElementById('phoneNumber');
+const editButton = document.getElementById('editProfileBtn');
+const saveButton = document.getElementById('saveProfileBtn');
+const cancelButton = document.getElementById('cancelEditBtn');
+const logoutButton = document.getElementById('logoutBtn');
+const vendorShop = document.getElementById('vendorShop');
+const vendorLoc = document.getElementById('vendorLoc');
+const vendorHours = document.getElementById('vendorHours');
+const vendorProduce = document.getElementById('vendorProduce');
+let userData = null;
+let originalValues = {};
+
+// Loading message
+msgBox.innerHTML = '<div class="loading-box">Loading profile...</div>';
+profileInfo.style.display = "none";
+
+// Load user data
+async function loadProfile() {
+  const user = auth.currentUser;
+  if (!user) {
+    msgBox.innerHTML = '<div class="error-box">You are not logged in. Please <a href="/login">login</a>.</div>';
+    return;
+  }
+  try {
+    const docRef = doc(db, "users", user.uid);
+    const snap = await getDoc(docRef);
+    if (!snap.exists()) {
+      msgBox.innerHTML = '<div class="error-box">Profile not found. Please contact support.</div>';
+      return;
+    }
+    userData = snap.data();
+    fullNameInput.value = userData.name || '';
+    emailInput.value = userData.email || '';
+    phoneInput.value = userData.phone || '';
+    if (userData.role === "vendor") {
+      vendorShop.textContent = userData.businessName || '';
+      vendorLoc.textContent = userData.farmLocation || '';
+      vendorHours.textContent = userData.operatingHours || '';
+      vendorProduce.textContent = userData.produceType || '';
+      vendorExtraInfo.hidden = false;
+    } else {
+      vendorExtraInfo.hidden = true;
+    }
+    msgBox.innerHTML = '';
+    profileInfo.style.display = "flex";
+  } catch (err) {
+    msgBox.innerHTML = '<div class="error-box">Error loading profile: ' + err.message + '</div>';
+  }
+}
+editButton.addEventListener('click', () => {
+  [fullNameInput, emailInput, phoneInput].forEach(input => {
+    input.removeAttribute('readonly');
+    input.classList.add('editable');
+  });
+  if (userData && userData.role === "vendor") {
+    vendorShop.contentEditable = "true";
+    vendorLoc.contentEditable = "true";
+    vendorHours.contentEditable = "true";
+    vendorProduce.contentEditable = "true";
+    vendorShop.style.background = vendorLoc.style.background = vendorHours.style.background = vendorProduce.style.background = "#fffef7";
+    vendorShop.style.borderRadius = vendorLoc.style.borderRadius = vendorHours.style.borderRadius = vendorProduce.style.borderRadius = "0.3em";
+    vendorShop.style.outline = vendorLoc.style.outline = vendorHours.style.outline = vendorProduce.style.outline = "1.5px solid #58c061";
+  }
+  originalValues = {
+    fullName: fullNameInput.value,
+    email: emailInput.value,
+    phone: phoneInput.value,
+    businessName: vendorShop.textContent,
+    farmLocation: vendorLoc.textContent,
+    operatingHours: vendorHours.textContent,
+    produceType: vendorProduce.textContent
+  };
+  editButton.style.display = 'none';
+  saveButton.style.display = 'inline-block';
+  cancelButton.style.display = 'inline-block';
+});
+cancelButton.addEventListener('click', () => {
+  fullNameInput.value = originalValues.fullName;
+  emailInput.value = originalValues.email;
+  phoneInput.value = originalValues.phone;
+  [fullNameInput, emailInput, phoneInput].forEach(input => {
+    input.setAttribute('readonly', true);
+    input.classList.remove('editable');
+  });
+  if (userData && userData.role === "vendor") {
+    vendorShop.textContent = originalValues.businessName;
+    vendorLoc.textContent = originalValues.farmLocation;
+    vendorHours.textContent = originalValues.operatingHours;
+    vendorProduce.textContent = originalValues.produceType;
+    [vendorShop, vendorLoc, vendorHours, vendorProduce].forEach(f => {
+      f.contentEditable = "false";
+      f.style.background = ""; f.style.borderRadius=""; f.style.outline="";
+    });
+  }
+  editButton.style.display = 'inline-block';
+  saveButton.style.display = 'none';
+  cancelButton.style.display = 'none';
+  msgBox.innerHTML = '';
+});
+saveButton.addEventListener('click', async () => {
+  const nameVal = fullNameInput.value.trim();
+  const emailVal = emailInput.value.trim();
+  const phoneVal = phoneInput.value.trim();
+  if (!nameVal || !emailVal) {
+    msgBox.innerHTML = '<div class="error-box">Name and Email cannot be empty.</div>';
+    return;
+  }
+  let updatedFields = {
+    name: nameVal,
+    email: emailVal,
+    phone: phoneVal
+  };
+  if (userData && userData.role === "vendor") {
+    updatedFields = {
+      ...updatedFields,
+      businessName: vendorShop.textContent.trim(),
+      farmLocation: vendorLoc.textContent.trim(),
+      operatingHours: vendorHours.textContent.trim(),
+      produceType: vendorProduce.textContent.trim()
     };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Dynamic navbar injection based on user role
-    (function () {
-      const nav = document.getElementById('navLinks');
-      let navItems = '';
-      if (currentUserRole === 'vendor') {
-        navItems =
-          '<a href="/vendor-dashboard">Dashboard</a>' +
-          '<a href="/vendor-orders">Orders</a>' +
-          '<a href="/vendor-stories">Stories</a>' +
-          '<a href="/vendor-produce">Market</a>' +
-          '<a href="/shared-live-map">Map</a>' +
-          '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
-        document.getElementById('vendorExtraInfo').hidden = false;
-      } else {
-        navItems =
-          '<a href="/buyer-dashboard">Dashboard</a>' +
-          '<a href="/buyer-fresh-produce">Produce</a>' +
-          '<a href="/buyer-vendor">Favorite Vendors</a>' +
-          '<a href="/buyer-exchange">Ingredient Swap</a>' +
-          '<a href="/shared-live-map">Map</a>' +
-          '<a href="/shared-stories-feed">Stories</a>' +
-          '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
-      }
-      nav.innerHTML = navItems;
-    })();
-
-    // Profile editing functions
-    const editButton = document.getElementById('editProfileBtn');
-    const saveButton = document.getElementById('saveProfileBtn');
-    const cancelButton = document.getElementById('cancelEditBtn');
-    const fullNameInput = document.getElementById('fullName');
-    const emailInput = document.getElementById('emailAddress');
-    const phoneInput = document.getElementById('phoneNumber');
-    let originalValues = {};
-
-    editButton.addEventListener('click', () => {
-      [fullNameInput, emailInput, phoneInput].forEach(input => {
-        input.removeAttribute('readonly');
-        input.classList.add('editable');
-      });
-      originalValues = {
-        fullName: fullNameInput.value,
-        email: emailInput.value,
-        phone: phoneInput.value
-      };
-      editButton.style.display = 'none';
-      saveButton.style.display = 'inline-block';
-      cancelButton.style.display = 'inline-block';
+  }
+  try {
+    await updateDoc(doc(db, "users", auth.currentUser.uid), updatedFields);
+    if (auth.currentUser.displayName !== nameVal) {
+      await updateProfile(auth.currentUser, { displayName: nameVal });
+    }
+    if (auth.currentUser.email !== emailVal) {
+      await auth.currentUser.updateEmail(emailVal);
+    }
+    [fullNameInput, emailInput, phoneInput].forEach(input => {
+      input.setAttribute('readonly', true);
+      input.classList.remove('editable');
     });
-
-    cancelButton.addEventListener('click', () => {
-      fullNameInput.value = originalValues.fullName;
-      emailInput.value = originalValues.email;
-      phoneInput.value = originalValues.phone;
-      [fullNameInput, emailInput, phoneInput].forEach(input => {
-        input.setAttribute('readonly', true);
-        input.classList.remove('editable');
-      });
-      editButton.style.display = 'inline-block';
-      saveButton.style.display = 'none';
-      cancelButton.style.display = 'none';
-    });
-
-    saveButton.addEventListener('click', () => {
-      if (!fullNameInput.value.trim() || !emailInput.value.trim()) {
-        alert('Full Name and Email cannot be empty.');
-        return;
-      }
-      [fullNameInput, emailInput, phoneInput].forEach(input => {
-        input.setAttribute('readonly', true);
-        input.classList.remove('editable');
-      });
-      editButton.style.display = 'inline-block';
-      saveButton.style.display = 'none';
-      cancelButton.style.display = 'none';
-      alert('Profile saved successfully!');
-      // TODO: Add backend save using firebase here if needed
-    });
-
-    // Logout button handler - sign out from Firebase and redirect home
-    const logoutButton = document.getElementById('logoutBtn');
-    if (logoutButton) {
-      logoutButton.addEventListener('click', async () => {
-        try {
-          await signOut(auth);
-          localStorage.removeItem('userRole'); // Clear stored role on logout
-          window.location.href = '/'; // Redirect to index page on logout
-        } catch (err) {
-          alert("Error logging out: " + err.message);
-        }
+    if (userData && userData.role === "vendor") {
+      [vendorShop, vendorLoc, vendorHours, vendorProduce].forEach(f => {
+        f.contentEditable = "false";
+        f.style.background = ""; f.style.borderRadius=""; f.style.outline="";
       });
     }
-  </script>
-
+    editButton.style.display = 'inline-block';
+    saveButton.style.display = 'none';
+    cancelButton.style.display = 'none';
+    msgBox.innerHTML = '<div class="loading-box" style="color:green;">Profile updated successfully!</div>';
+    setTimeout(()=>{msgBox.innerHTML='';},1100);
+    await loadProfile();
+  } catch (err) {
+    msgBox.innerHTML = '<div class="error-box">Failed to update: ' + err.message + '</div>';
+  }
+});
+logoutButton.addEventListener('click', async () => {
+  try {
+    await signOut(auth);
+    localStorage.removeItem('userRole');
+    window.location.href = '/';
+  } catch (err) {
+    msgBox.innerHTML = '<div class="error-box">'+err.message+'</div>';
+  }
+});
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    loadProfile();
+  } else {
+    msgBox.innerHTML = '<div class="error-box">You are not logged in. Please <a href="/login">login</a>.</div>';
+    profileInfo.style.display="none";
+  }
+});
+</script>
 </body>
-
 </html>
+ 
