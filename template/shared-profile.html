@@ -434,8 +434,9 @@
     logoutButton.addEventListener('click', () => {
       localStorage.removeItem('userRole');
       alert('You have logged out.');
-      window.location.href = 'index.html'; // or your login page URL
+      window.location.href = '/'; // <-- This is the correct Flask home route
     });
+
   </script>
 </body>
 </html>
