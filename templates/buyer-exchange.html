@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ingredient Swap | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --button: #26c485;
+      --button-text: #fff;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --button-hover: #1fa471;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-dark);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    /* Navbar at top */
+    header.navbar {
+      width: 100vw;
+      left: 0; right: 0;
+      padding: 15px 0;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
+    }
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
+      position: relative;
+    }
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    main.container {
+      max-width: 900px;
+      width: 95%;
+      margin: 44px auto 60px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    header.page-header {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+
+    button.add-swap-btn {
+      background: var(--primary);
+      color: var(--button-text);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      padding: 12px 28px;
+      border-radius: 1.3em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 18px #58c061bb;
+      transition: background 0.3s ease;
+      align-self: flex-start;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    button.add-swap-btn:hover,
+    button.add-swap-btn:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+
+    section.swap-requests {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      max-height: 440px;
+      overflow-y: auto;
+      padding-right: 8px; /* For scrollbar spacing */
+    }
+    section.swap-requests::-webkit-scrollbar {
+      width: 9px;
+    }
+    section.swap-requests::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    section.swap-requests::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 6px;
+    }
+
+    .swap-item {
+      background: #effff5;
+      border-left: 5px solid var(--accent);
+      border-radius: 22px;
+      padding: 14px 20px 18px 20px;
+      box-shadow: 0 3px 12px #b4e7a357;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 1rem;
+      color: var(--text-dark);
+      user-select: text;
+    }
+    .swap-item strong {
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+    .swap-item .notes {
+      font-size: 0.88rem;
+      color: var(--text-light);
+      font-style: italic;
+      margin-top: 4px;
+    }
+
+    /* Modal styles */
+    #modalBackdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(41, 88, 40, 0.25);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #modalBackdrop.active {
+      display: flex;
+      animation: fadein 0.2s ease forwards;
+    }
+    @keyframes fadein {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    .modal-drawer {
+      background: var(--secondary);
+      border-radius: 1.3em;
+      box-shadow: 0 8px 56px #5bc26140, 0 2px 20px #afd37544;
+      padding: 30px 34px 28px 34px;
+      width: 375px;
+      max-width: 95vw;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-family: 'Poppins', Arial, sans-serif;
+      animation: popin 0.25s ease forwards;
+    }
+    @keyframes popin {
+      0% {opacity: 0; transform: scale(0.95);}
+      100% {opacity: 1; transform: scale(1);}
+    }
+    .modal-drawer h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+      margin: 0 0 12px 0;
+    }
+    .modal-close {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      user-select: none;
+    }
+    .modal-close:hover,
+    .modal-close:focus-visible {
+      color: var(--primary-dark);
+      outline: none;
+    }
+    form.swap-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    form.swap-form label {
+      font-weight: 600;
+      color: var(--text-dark);
+    }
+    form.swap-form input[type="text"],
+    form.swap-form textarea {
+      padding: 10px 14px;
+      font-size: 1rem;
+      border-radius: 0.9em;
+      border: 1.6px solid var(--border);
+      font-family: inherit;
+      color: var(--text-dark);
+      resize: vertical;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    form.swap-form textarea {
+      min-height: 80px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 14px;
+      margin-top: 6px;
+    }
+    .modal-btn {
+      padding: 10px 28px;
+      font-weight: 700;
+      border-radius: 2em;
+      border: none;
+      font-size: 1.1rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      transition: background-color 0.23s ease;
+      user-select: none;
+    }
+    .modal-btn.submit {
+      background: var(--primary);
+      color: var(--button-text);
+      box-shadow: 0 6px 20px #58c061cc;
+    }
+    .modal-btn.submit:hover,
+    .modal-btn.submit:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+    .modal-btn.cancel {
+      background: #f0f0f0;
+      color: #666;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+    }
+    .modal-btn.cancel:hover,
+    .modal-btn.cancel:focus-visible {
+      background: #e0e0e0;
+      color: #333;
+      outline: none;
+    }
+    @media (max-width: 480px) {
+      main.container {
+        margin: 20px 14px 40px 14px;
+        padding: 0;
+        width: 100%;
+      }
+      .modal-drawer {
+        width: 98vw;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="/buyer-dashboard">Dashboard</a>
+        <a href="/buyer-fresh-produce">Produce</a>
+        <a href="/buyer-vendor">Favorite Vendors</a>
+        <a href="/buyer-exchange" class="active" aria-current="page">Ingredient Swap</a>
+        <a href="/shared-live-map">Map</a>
+        <a href="/shared-stories-feed">Stories</a>
+        <a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main" aria-label="Ingredient Swap Management">
+    <header class="page-header" tabindex="0">Ingredient Swap</header>
+
+    <button class="add-swap-btn" id="addSwapBtn" aria-haspopup="dialog" aria-controls="modalBackdrop" aria-expanded="false">
+      <i class="bi bi-plus-circle"></i> Add New Swap
+    </button>
+
+    <section class="swap-requests" aria-live="polite" aria-relevant="additions removals" id="swapList" tabindex="0">
+      <div class="swap-item">
+        <strong>Need:</strong> Onions (2kg) &nbsp;&nbsp; <strong>Offer:</strong> Mint Leaves (1kg)
+        <div class="notes">Looking to swap fresh onions for mint leaves this week.</div>
+      </div>
+      <div class="swap-item">
+        <strong>Need:</strong> Tomatoes (4kg) &nbsp;&nbsp; <strong>Offer:</strong> Boiled Potatoes (3kg)
+      </div>
+      <!-- Additional swaps loaded dynamically -->
+    </section>
+  </main>
+
+  <!-- Modal backdrop -->
+  <div id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
+
+  <script>
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const addSwapBtn = document.getElementById('addSwapBtn');
+    const swapList = document.getElementById('swapList');
+
+    function openModal() {
+      const modalHtml = `
+        <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
+          <button class="modal-close" aria-label="Close">&times;</button>
+          <h2 id="modalTitle">Add New Ingredient Swap</h2>
+          <form id="swapForm" class="swap-form" autocomplete="off" novalidate>
+            <label for="swapNeed">Need (what you require)*</label>
+            <input type="text" id="swapNeed" name="swapNeed" maxlength="60" required placeholder="e.g., Tomatoes 5kg" />
+            <label for="swapOffer">Offer (what you provide)*</label>
+            <input type="text" id="swapOffer" name="swapOffer" maxlength="60" required placeholder="e.g., Potatoes 3kg" />
+            <label for="swapNotes">Additional Notes</label>
+            <textarea id="swapNotes" name="swapNotes" maxlength="120" rows="3" placeholder="Optional"></textarea>
+            <div class="modal-actions">
+              <button type="button" class="modal-btn cancel">Cancel</button>
+              <button type="submit" class="modal-btn submit">Add Swap</button>
+            </div>
+          </form>
+        </div>
+      `;
+      modalBackdrop.innerHTML = modalHtml;
+      modalBackdrop.classList.add('active');
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+
+      // Focus first input
+      const firstInput = modalBackdrop.querySelector('#swapNeed');
+      if (firstInput) firstInput.focus();
+
+      // Close modal handlers
+      modalBackdrop.querySelector('.modal-close').addEventListener('click', closeModal);
+      modalBackdrop.querySelector('.modal-btn.cancel').addEventListener('click', closeModal);
+
+      // Trap keyboard focus inside modal
+      trapFocus(modalBackdrop.querySelector('.modal-drawer'));
+    }
+
+    function closeModal() {
+      modalBackdrop.classList.remove('active');
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+      modalBackdrop.innerHTML = '';
+      addSwapBtn.setAttribute('aria-expanded', 'false');
+      addSwapBtn.focus();
+    }
+
+    addSwapBtn.addEventListener('click', () => {
+      openModal();
+      addSwapBtn.setAttribute('aria-expanded', 'true');
+    });
+
+    modalBackdrop.addEventListener('click', (e) => {
+      if (e.target === modalBackdrop) {
+        closeModal();
+      }
+    });
+
+    modalBackdrop.addEventListener('submit', e => {
+      e.preventDefault();
+      const form = e.target;
+      if (form.id === 'swapForm') {
+        const need = form.swapNeed.value.trim();
+        const offer = form.swapOffer.value.trim();
+        const notes = form.swapNotes.value.trim();
+
+        if (!need || !offer) {
+          alert('Please fill both the Need and the Offer fields.');
+          return;
+        }
+
+        // Append new swap item - replace or extend with backend integration
+        const newItem = document.createElement('div');
+        newItem.className = 'swap-item';
+        newItem.innerHTML = `<strong>Need:</strong> ${need} &nbsp;&nbsp; <strong>Offer:</strong> ${offer}`;
+        if (notes) {
+          const notesDiv = document.createElement('div');
+          notesDiv.className = 'notes';
+          notesDiv.textContent = notes;
+          newItem.appendChild(notesDiv);
+        }
+        swapList.appendChild(newItem);
+
+        alert(`New swap added:\nNeed: ${need}\nOffer: ${offer}\nNotes: ${notes}`);
+
+        closeModal();
+      }
+    });
+
+    // Focus trap helper for accessibility inside modal
+    function trapFocus(container) {
+      const focusableSelectors = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]';
+      const focusableElements = container.querySelectorAll(focusableSelectors);
+      if (focusableElements.length === 0) return;
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+
+      container.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            // Shift + Tab
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            // Tab
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        } else if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+    }
+  </script>
+</body>
+</html>
