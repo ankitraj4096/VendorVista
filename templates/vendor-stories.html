@@ -9,7 +9,7 @@
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
-    /* Your original styles here (exactly as you had them) */
+    /* Your original styles here, exactly as before */
     :root {
       --primary: #58c061;
       --primary-dark: #357138;
@@ -24,9 +24,7 @@
       --button-text: #fff;
       --accent: #f2da58;
     }
-    *, *::before, *::after {
-      box-sizing: border-box;
-    }
+    *, *::before, *::after { box-sizing: border-box; }
     body {
       margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
@@ -241,6 +239,21 @@
       border-radius: 50%;
       user-select: none;
     }
+    .delete-btn {
+      background: #e45858;
+      color: white;
+      font-weight: 700;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 1.2em;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 0.95rem;
+    }
+    .delete-btn:hover, .delete-btn:focus-visible {
+      background: #b13a3a;
+      outline: none;
+    }
     #modalBackdrop {
       display: none;
       position: fixed;
@@ -378,210 +391,232 @@
     <section class="stories-list" id="storiesList" tabindex="0" aria-live="polite" aria-relevant="additions"></section>
   </main>
   <div id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-    import { 
-      getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp,
-      doc, updateDoc, increment 
-    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import { 
+    getFirestore, collection, query, orderBy, onSnapshot, addDoc, serverTimestamp,
+    doc, updateDoc, increment, deleteDoc 
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
-      authDomain: "vendorvista-4b958.firebaseapp.com",
-      projectId: "vendorvista-4b958",
-      storageBucket: "vendorvista-4b958.appspot.com",
-      messagingSenderId: "479694426389",
-      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
-    };
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+  const firebaseConfig = {
+    apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+    authDomain: "vendorvista-4b958.firebaseapp.com",
+    projectId: "vendorvista-4b958",
+    storageBucket: "vendorvista-4b958.appspot.com",
+    messagingSenderId: "479694426389",
+    appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const addStoryBtn = document.getElementById('addStoryBtn');
-    const storiesList = document.getElementById('storiesList');
-    const nav = document.getElementById('navLinks');
+  const modalBackdrop = document.getElementById('modalBackdrop');
+  const addStoryBtn = document.getElementById('addStoryBtn');
+  const storiesList = document.getElementById('storiesList');
+  const nav = document.getElementById('navLinks');
 
-    let currentUser;
+  let currentUser;
 
-    function escapeHtml(text) {
-      const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
-      return text.replace(/[&<>"']/g, m => map[m]);
+  function escapeHtml(text) {
+    const map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+    return text.replace(/[&<>"']/g, m => map[m]);
+  }
+
+  function renderStories(stories) {
+    storiesList.innerHTML = '';
+    if (stories.length === 0) {
+      storiesList.innerHTML = '<p>No stories available.</p>';
+      return;
     }
+    stories.forEach(story => {
+      const article = document.createElement('article');
+      article.className = 'story-card';
+      article.tabIndex = 0;
+      article.setAttribute('role', 'article');
+      article.setAttribute('aria-label', `Story titled "${escapeHtml(story.title)}", posted on ${escapeHtml(story.timestamp)}`);
 
-    function renderStories(stories) {
-      storiesList.innerHTML = '';
-      if (stories.length === 0) {
-        storiesList.innerHTML = '<p>No stories available.</p>';
-        return;
-      }
-      stories.forEach(story => {
-        const article = document.createElement('article');
-        article.className = 'story-card';
-        article.tabIndex = 0;
-        article.setAttribute('role', 'article');
-        article.setAttribute('aria-label', `Story titled "${escapeHtml(story.title)}", posted on ${escapeHtml(story.timestamp)}`);
-        article.innerHTML = `
-          <header>
-            <div class="story-author">${escapeHtml(story.title)}</div>
-            <div class="story-date">${escapeHtml(story.timestamp)}</div>
-          </header>
-          <div class="story-content">${escapeHtml(story.content)}</div>
-          <div class="story-actions">
-            <button class="like-btn" aria-label="Like story titled ${escapeHtml(story.title)}">
-              <i class="bi bi-hand-thumbs-up"></i>
-              <span class="like-count">${story.likes}</span>
-            </button>
-            <button class="comment-bubble" aria-label="View comments for story titled ${escapeHtml(story.title)}" data-count="${story.comments}">
-              <i class="bi bi-chat"></i>
-            </button>
-          </div>`;
-        storiesList.appendChild(article);
+      // Render Delete button only if currentUser is the author
+      const deleteButtonHtml = (currentUser && story.uid === currentUser.uid)
+        ? `<button class="delete-btn" aria-label="Delete story titled ${escapeHtml(story.title)}">Delete</button>`
+        : '';
 
-        article.querySelector('.like-btn').addEventListener('click', async () => {
-          try {
-            // Optimistically update UI:
-            story.likes++;
-            renderStories(stories);
-
-            // Update likes count in Firestore with atomic increment:
-            const storyRef = doc(db, 'stories', story.id);
-            await updateDoc(storyRef, {
-              likes: increment(1)
-            });
-          } catch (err) {
-            console.error('Failed to update likes:', err);
-            alert('Failed to update likes. Please try again.');
-          }
-        });
-
-        article.querySelector('.comment-bubble').addEventListener('click', () => {
-          alert('Comment feature coming soon!');
-        });
-      });
-    }
-
-    function openModal() {
-      modalBackdrop.innerHTML = `
-        <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
-          <button class="modal-close" aria-label="Close">&times;</button>
-          <h2 id="modalTitle">Add New Story</h2>
-          <form id="storyForm" class="story-form" autocomplete="off" novalidate>
-            <label for="storyTitle">Title*</label>
-            <input type="text" id="storyTitle" name="storyTitle" maxlength="100" required aria-required="true" />
-            <label for="storyContent">Content*</label>
-            <textarea id="storyContent" name="storyContent" maxlength="1000" required aria-required="true"></textarea>
-            <div class="story-form-buttons">
-              <button type="button" class="modal-close-btn btn-cancel">Cancel</button>
-              <button type="submit" class="btn-submit">Add Story</button>
-            </div>
-          </form>
+      article.innerHTML = `
+        <header>
+          <div class="story-author">${escapeHtml(story.title)}</div>
+          <div class="story-date">${escapeHtml(story.timestamp)}</div>
+        </header>
+        <div class="story-content">${escapeHtml(story.content)}</div>
+        <div class="story-actions">
+          <button class="like-btn" aria-label="Like story titled ${escapeHtml(story.title)}">
+            <i class="bi bi-hand-thumbs-up"></i>
+            <span class="like-count">${story.likes}</span>
+          </button>
+          <button class="comment-bubble" aria-label="View comments for story titled ${escapeHtml(story.title)}" data-count="${story.comments}">
+            <i class="bi bi-chat"></i>
+          </button>
+          ${deleteButtonHtml}
         </div>`;
-      modalBackdrop.classList.add('active');
-      modalBackdrop.setAttribute('aria-hidden', 'false');
+      storiesList.appendChild(article);
 
-      setTimeout(() => {
-        const firstInput = modalBackdrop.querySelector('#storyTitle');
-        if (firstInput) firstInput.focus();
-      }, 50);
-
-      modalBackdrop.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn =>
-        btn.addEventListener('click', closeModal)
-      );
-
-      trapFocus(modalBackdrop.querySelector('.modal-drawer'));
-
-      modalBackdrop.querySelector('#storyForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const title = e.target.storyTitle.value.trim();
-        const content = e.target.storyContent.value.trim();
-        if (!title || !content) {
-          alert('Please fill both Title and Content fields.');
-          return;
-        }
+      article.querySelector('.like-btn').addEventListener('click', async () => {
         try {
-          await addDoc(collection(db, 'stories'), {
-            uid: currentUser.uid,
-            title,
-            content,
-            likes: 0,
-            comments: 0,
-            createdAt: serverTimestamp()
+          // Optimistically update UI:
+          story.likes++;
+          renderStories(stories);
+
+          // Update likes count in Firestore with atomic increment:
+          const storyRef = doc(db, 'stories', story.id);
+          await updateDoc(storyRef, {
+            likes: increment(1)
           });
-          closeModal();
         } catch (err) {
-          console.error('Error adding story:', err);
-          alert('Failed to add story. Please try again.');
+          console.error('Failed to update likes:', err);
+          alert('Failed to update likes. Please try again.');
         }
       });
-    }
 
-    function closeModal() {
-      modalBackdrop.classList.remove('active');
-      modalBackdrop.setAttribute('aria-hidden', 'true');
-      modalBackdrop.innerHTML = '';
-      addStoryBtn.focus();
-    }
-
-    function trapFocus(container) {
-      const focusableElements = container.querySelectorAll('a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])');
-      if (!focusableElements.length) return;
-      const firstEl = focusableElements[0];
-      const lastEl = focusableElements[focusableElements.length - 1];
-      container.addEventListener('keydown', (e) => {
-        if (e.key === 'Tab') {
-          if (e.shiftKey && document.activeElement === firstEl) {
-            e.preventDefault(); lastEl.focus();
-          } else if (document.activeElement === lastEl) {
-            e.preventDefault(); firstEl.focus();
-          }
-        } else if (e.key === 'Escape') closeModal();
+      article.querySelector('.comment-bubble').addEventListener('click', () => {
+        alert('Comment feature coming soon!');
       });
-    }
 
-    function buildNavigation() {
-      const role = localStorage.getItem('userRole') || 'vendor';
-      nav.innerHTML = role === 'vendor'
-        ? '<a href="/vendor-dashboard">Dashboard</a><a href="/vendor-orders">Orders</a><a href="/vendor-stories" class="active" aria-current="page">Stories</a><a href="/vendor-produce">Market</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>'
-        : '<a href="/buyer-dashboard">Dashboard</a><a href="/buyer-fresh-produce">Produce</a><a href="/buyer-vendor">Favorite Vendors</a><a href="/buyer-exchange">Ingredient Swap</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
-    }
+      if(currentUser && story.uid === currentUser.uid) {
+        article.querySelector('.delete-btn').addEventListener('click', async () => {
+          const confirmed = confirm('Are you sure you want to delete this story?');
+          if(!confirmed) return;
+          try {
+            await deleteDoc(doc(db, 'stories', story.id));
+            // Firestore onSnapshot updates UI automatically
+          } catch(err) {
+            console.error('Failed to delete story:', err);
+            alert('Failed to delete the story. Please try again.');
+          }
+        });
+      }
+    });
+  }
 
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        window.location.href = '/login';
+  function openModal() {
+    modalBackdrop.innerHTML = `
+      <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
+        <button class="modal-close" aria-label="Close">&times;</button>
+        <h2 id="modalTitle">Add New Story</h2>
+        <form id="storyForm" class="story-form" autocomplete="off" novalidate>
+          <label for="storyTitle">Title*</label>
+          <input type="text" id="storyTitle" name="storyTitle" maxlength="100" required aria-required="true" />
+          <label for="storyContent">Content*</label>
+          <textarea id="storyContent" name="storyContent" maxlength="1000" required aria-required="true"></textarea>
+          <div class="story-form-buttons">
+            <button type="button" class="modal-close-btn btn-cancel">Cancel</button>
+            <button type="submit" class="btn-submit">Add Story</button>
+          </div>
+        </form>
+      </div>`;
+    modalBackdrop.classList.add('active');
+    modalBackdrop.setAttribute('aria-hidden', 'false');
+
+    setTimeout(() => {
+      const firstInput = modalBackdrop.querySelector('#storyTitle');
+      if (firstInput) firstInput.focus();
+    }, 50);
+
+    modalBackdrop.querySelectorAll('.modal-close, .modal-close-btn').forEach(btn =>
+      btn.addEventListener('click', closeModal)
+    );
+
+    trapFocus(modalBackdrop.querySelector('.modal-drawer'));
+
+    modalBackdrop.querySelector('#storyForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const title = e.target.storyTitle.value.trim();
+      const content = e.target.storyContent.value.trim();
+      if (!title || !content) {
+        alert('Please fill both Title and Content fields.');
         return;
       }
-      currentUser = user;
-      buildNavigation();
-
-      const storiesQuery = query(collection(db, 'stories'), orderBy('createdAt', 'desc'));
-      onSnapshot(storiesQuery, (querySnapshot) => {
-        const stories = [];
-        querySnapshot.forEach((docSnap) => {
-          const data = docSnap.data();
-          stories.push({
-            id: docSnap.id,
-            title: data.title || 'No Title',
-            timestamp: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Unknown date',
-            content: data.content || '',
-            likes: data.likes || 0,
-            liked: false,
-            comments: data.comments || 0,
-          });
+      try {
+        await addDoc(collection(db, 'stories'), {
+          uid: currentUser.uid,
+          title,
+          content,
+          likes: 0,
+          comments: 0,
+          createdAt: serverTimestamp()
         });
-        renderStories(stories);
+        closeModal();
+      } catch (err) {
+        console.error('Error adding story:', err);
+        alert('Failed to add story. Please try again.');
+      }
+    });
+  }
+
+  function closeModal() {
+    modalBackdrop.classList.remove('active');
+    modalBackdrop.setAttribute('aria-hidden', 'true');
+    modalBackdrop.innerHTML = '';
+    addStoryBtn.focus();
+  }
+
+  function trapFocus(container) {
+    const focusableElements = container.querySelectorAll('a[href],button:not([disabled]),textarea,input,select,[tabindex]:not([tabindex="-1"])');
+    if (!focusableElements.length) return;
+    const firstEl = focusableElements[0];
+    const lastEl = focusableElements[focusableElements.length - 1];
+    container.addEventListener('keydown', (e) => {
+      if (e.key === 'Tab') {
+        if (e.shiftKey && document.activeElement === firstEl) {
+          e.preventDefault(); lastEl.focus();
+        } else if (document.activeElement === lastEl) {
+          e.preventDefault(); firstEl.focus();
+        }
+      } else if (e.key === 'Escape') closeModal();
+    });
+  }
+
+  function buildNavigation() {
+    const role = localStorage.getItem('userRole') || 'vendor';
+    nav.innerHTML = role === 'vendor'
+      ? '<a href="/vendor-dashboard">Dashboard</a><a href="/vendor-orders">Orders</a><a href="/vendor-stories" class="active" aria-current="page">Stories</a><a href="/vendor-produce">Market</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>'
+      : '<a href="/buyer-dashboard">Dashboard</a><a href="/buyer-fresh-produce">Produce</a><a href="/buyer-vendor">Favorite Vendors</a><a href="/buyer-exchange">Ingredient Swap</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+  }
+
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      window.location.href = '/login';
+      return;
+    }
+    currentUser = user;
+    buildNavigation();
+
+    const storiesQuery = query(collection(db, 'stories'), orderBy('createdAt', 'desc'));
+    onSnapshot(storiesQuery, (querySnapshot) => {
+      const stories = [];
+      querySnapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        stories.push({
+          id: docSnap.id,
+          uid: data.uid,
+          title: data.title || 'No Title',
+          timestamp: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Unknown date',
+          content: data.content || '',
+          likes: data.likes || 0,
+          comments: data.comments || 0,
+        });
       });
+      renderStories(stories);
     });
+  });
 
-    addStoryBtn.addEventListener('click', () => {
-      openModal();
-      addStoryBtn.setAttribute('aria-expanded', 'true');
-    });
+  addStoryBtn.addEventListener('click', () => {
+    openModal();
+    addStoryBtn.setAttribute('aria-expanded', 'true');
+  });
 
-    modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) closeModal();
-    });
+  modalBackdrop.addEventListener('click', (e) => {
+    if (e.target === modalBackdrop) closeModal();
+  });
   </script>
 </body>
 </html>
