@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Create Account | StreetSymphony</title>
@@ -22,7 +21,6 @@
       --text-dark: #232c1e;
       --text-light: #526a3b;
     }
-
     body {
       background: #fafef3;
       font-family: 'Poppins', Arial, sans-serif;
@@ -33,7 +31,6 @@
       align-items: flex-start;
       padding-top: 42px;
     }
-
     .reg-container {
       background: #fff;
       padding: 32px 34px 22px 34px;
@@ -48,19 +45,10 @@
       animation: up 0.77s;
       position: relative;
     }
-
     @keyframes up {
-      0% {
-        transform: translateY(24px);
-        opacity: 0;
-      }
-
-      100% {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      0% { transform: translateY(24px); opacity: 0; }
+      100% { transform: translateY(0); opacity: 1; }
     }
-
     .reg-title {
       font-family: "Montserrat", sans-serif;
       font-weight: 800;
@@ -70,17 +58,16 @@
       letter-spacing: 1px;
       text-align: center;
     }
-
     form {
       width: 100%;
       display: flex;
       flex-direction: column;
     }
-
     .input-group {
       margin-bottom: 16px;
+      display: flex;
+      flex-direction: column;
     }
-
     label {
       font-weight: 700;
       margin-bottom: 5px;
@@ -88,10 +75,7 @@
       font-size: 1rem;
       color: #2b321d;
     }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
+    input[type="text"], input[type="email"], input[type="password"], select {
       width: 100%;
       padding: 10px 13px;
       border-radius: 1em;
@@ -101,13 +85,10 @@
       font-family: inherit;
       transition: border-color 0.18s;
     }
-
-    input:focus,
-    select:focus {
+    input:focus, select:focus {
       outline: none;
       border-color: #58c061;
     }
-
     .checkbox-row {
       display: flex;
       gap: 22px;
@@ -116,7 +97,6 @@
       align-items: center;
       font-weight: 600;
     }
-
     input[type="checkbox"] {
       accent-color: #58c061;
       width: 18px;
@@ -124,14 +104,11 @@
       vertical-align: middle;
       margin-right: 4px;
     }
-
-    .category-section,
-    .produce-section {
+    .category-section, .produce-section {
       margin-bottom: 8px;
       padding-left: 8px;
       border-left: 3px solid #afd375;
     }
-
     .reg-btn {
       margin: 17px 0 6px 0;
       background: linear-gradient(90deg, #30b14b 0%, #58c061 92%);
@@ -145,12 +122,11 @@
       cursor: pointer;
       transition: background 0.21s;
       box-shadow: 0 4px 18px #afd37533;
+      user-select: none;
     }
-
     .reg-btn:hover {
       background: linear-gradient(90deg, #357138 0%, #4dc05b 99%);
     }
-
     .switch-link {
       margin-top: 6px;
       text-align: center;
@@ -162,8 +138,8 @@
       font-family: inherit;
       text-decoration: underline;
       cursor: pointer;
+      user-select: none;
     }
-
     .error-msg {
       color: #e53935;
       font-size: 0.98em;
@@ -171,8 +147,6 @@
       text-align: center;
       min-height: 24px;
     }
-
-    /* Loading overlay styles for centered Eclipse.svg */
     #loadingOverlay {
       display: none;
       position: fixed;
@@ -182,21 +156,13 @@
       justify-content: center;
       align-items: center;
     }
-
     #loadingOverlay img {
       width: 64px;
       height: 64px;
       display: block;
       animation: spinner 1.2s linear infinite;
     }
-
-    @keyframes spinner {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
-
-    /* Location input and button styling */
+    @keyframes spinner { 100% { transform: rotate(360deg); } }
     #locationInput {
       width: 100%;
       padding: 10px 13px;
@@ -208,12 +174,10 @@
       transition: border-color 0.18s;
       margin-bottom: 8px;
     }
-
     #locationInput:focus {
       outline: none;
       border-color: #58c061;
     }
-
     #geoBtn {
       background: linear-gradient(90deg, #30b14b 0%, #58c061 92%);
       color: white;
@@ -234,18 +198,88 @@
       margin-bottom: 22px;
       user-select: none;
     }
-
-    #geoBtn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
+    #geoBtn:disabled { opacity: 0.6; cursor: not-allowed; }
     #geoBtn:hover:not(:disabled) {
       background: linear-gradient(90deg, #357138 0%, #4dc05b 99%);
     }
+    .working-hours-container {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .working-hours-container > div {
+      flex: 1 1 100%;
+    }
+    @media(min-width: 400px) {
+      .working-hours-container > div {
+        flex: 1 1 48%;
+      }
+    }
+    .time-range-group { display: flex; gap: 8px; align-items: center; }
+    .time-range-group label {
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: #2b321d;
+      white-space: nowrap;
+    }
+    .time-range-group input[type="time"] {
+      flex-grow: 1;
+      padding: 8px;
+      border-radius: 0.8em;
+      border: 1.4px solid #afd375;
+      font-size: 1rem;
+      font-family: inherit;
+      color: #232c1e;
+      transition: border-color 0.18s;
+    }
+    .time-range-group input[type="time"]:focus { outline: none; border-color: #58c061; }
+
+    /* Working days circle-style checkboxes */
+    .days-circle-list {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .days-circle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .days-circle input[type="checkbox"] { display: none; }
+    .circle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #e7f7e2;
+      color: var(--primary-dark);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #afd375;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 3px;
+      transition: background 0.18s, color 0.18s, border 0.18s;
+      user-select: none;
+    }
+    .days-circle input[type="checkbox"]:checked + .circle-btn {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary-dark);
+    }
+    .days-circle label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text-light);
+      text-align: center;
+      cursor: pointer;
+    }
   </style>
 </head>
-
 <body>
   <div class="reg-container">
     <div class="reg-title" id="regTitle">Create Account</div>
@@ -267,17 +301,14 @@
         <label for="phoneInput">Phone Number</label>
         <input type="text" id="phoneInput" required pattern="^[0-9+\- ]{8,15}$" />
       </div>
-
-      <!-- Location input -->
+      <!-- Coordinates input -->
       <div class="input-group">
-        <label for="locationInput">Location (address or coordinates)</label>
-        <input type="text" id="locationInput" placeholder="Enter your location or click button below" />
+        <label for="locationInput">Coordinates (latitude, longitude)</label>
+        <input type="text" id="locationInput" placeholder="Enter your coordinates or click button below" />
       </div>
-
       <button type="button" id="geoBtn" class="reg-btn">
         <i class="bi bi-geo-alt"></i> Get Current Location
       </button>
-
       <!-- Vendor specific fields: only for vendors -->
       <div id="vendorFields" style="display:none;">
         <div class="input-group checkbox-row">
@@ -291,23 +322,71 @@
           <input type="text" id="businessNameVeg" placeholder="Name of your farm/shop" />
           <label for="produceType">Types of Produce</label>
           <input type="text" id="produceType" placeholder="E.g., Tomatoes, Carrots" />
+
+          <!-- Working Days (circle checkboxes) and Operating Hours -->
+          <div class="working-hours-container">
+            <div>
+              <label>Working Days</label>
+              <div class="days-circle-list" id="daysCircleList">
+                <div class="days-circle">
+                  <input type="checkbox" id="day-mon" value="Monday" checked />
+                  <span class="circle-btn" tabindex="0">M</span>
+                  <label for="day-mon">Mon</label>
+                </div>
+                <div class="days-circle">
+                  <input type="checkbox" id="day-tue" value="Tuesday" checked />
+                  <span class="circle-btn" tabindex="0">T</span>
+                  <label for="day-tue">Tue</label>
+                </div>
+                <div class="days-circle">
+                  <input type="checkbox" id="day-wed" value="Wednesday" checked />
+                  <span class="circle-btn" tabindex="0">W</span>
+                  <label for="day-wed">Wed</label>
+                </div>
+                <div class="days-circle">
+                  <input type="checkbox" id="day-thu" value="Thursday" checked />
+                  <span class="circle-btn" tabindex="0">T</span>
+                  <label for="day-thu">Thu</label>
+                </div>
+                <div class="days-circle">
+                  <input type="checkbox" id="day-fri" value="Friday" checked />
+                  <span class="circle-btn" tabindex="0">F</span>
+                  <label for="day-fri">Fri</label>
+                </div>
+                <div class="days-circle">
+                  <input type="checkbox" id="day-sat" value="Saturday" checked />
+                  <span class="circle-btn" tabindex="0">S</span>
+                  <label for="day-sat">Sat</label>
+                </div>
+                <div class="days-circle">
+                  <input type="checkbox" id="day-sun" value="Sunday" checked />
+                  <span class="circle-btn" tabindex="0">S</span>
+                  <label for="day-sun">Sun</label>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label>Operating Hours</label>
+              <div class="time-range-group">
+                <label for="openTime">From</label>
+                <input id="openTime" type="time" value="07:00" />
+                <label for="closeTime">To</label>
+                <input id="closeTime" type="time" value="20:00" />
+              </div>
+            </div>
+          </div>
           <label for="farmLocation">Farm or Shop Location</label>
           <input type="text" id="farmLocation" placeholder="Your address or area" />
-          <label for="operatingHoursVeg">Operating Hours</label>
-          <input type="text" id="operatingHoursVeg" placeholder="E.g., Mon-Sun 7:00-20:00" />
         </div>
       </div>
-
       <button type="submit" class="reg-btn">Create Account</button>
     </form>
     <button class="switch-link" id="toLoginBtn">Already have an account? Login</button>
   </div>
-
   <!-- Loading overlay -->
   <div id="loadingOverlay" role="alert" aria-live="assertive">
     <img src="/static/Eclipse.svg" alt="Loading..." />
   </div>
-
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import {
@@ -321,7 +400,6 @@
       setDoc,
       serverTimestamp
     } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -330,7 +408,6 @@
       messagingSenderId: "479694426389",
       appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
     };
-
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -362,19 +439,16 @@
     // Location input elements
     const locationInput = document.getElementById('locationInput');
     const geoBtn = document.getElementById('geoBtn');
-
     geoBtn.addEventListener('click', () => {
       if (!navigator.geolocation) {
         alert("Geolocation is not supported by your browser.");
         return;
       }
-
       geoBtn.disabled = true;
       geoBtn.textContent = "Locating…";
-
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          const { latitude, longitude } = position.coords;
+          const {latitude, longitude} = position.coords;
           locationInput.value = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
           geoBtn.textContent = "Get Current Location";
           geoBtn.disabled = false;
@@ -385,6 +459,23 @@
           geoBtn.disabled = false;
         }
       );
+    });
+
+    // Clickable circle checkboxes (toggle on label click)
+    Array.from(document.querySelectorAll('.days-circle .circle-btn')).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const checkbox = btn.previousElementSibling;
+        checkbox.checked = !checkbox.checked;
+        btn.blur();
+      });
+      // Allow keyboard toggle
+      btn.addEventListener('keydown', (e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          e.preventDefault();
+          const checkbox = btn.previousElementSibling;
+          checkbox.checked = !checkbox.checked;
+        }
+      });
     });
 
     // Link to login (preserve role)
@@ -403,10 +494,8 @@
       errorMsg.style.color = "#e53935";
       errorMsg.textContent = "";
 
-      // Show loading animation
       loadingOverlay.style.display = 'flex';
 
-      // Gather inputs
       const name = document.getElementById('nameInput').value.trim();
       const email = document.getElementById('emailInput').value.trim();
       const password = document.getElementById('passwordInput').value.trim();
@@ -418,7 +507,6 @@
         loadingOverlay.style.display = 'none';
         return;
       }
-
       if (!email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
         errorMsg.textContent = "Invalid email format.";
         loadingOverlay.style.display = 'none';
@@ -441,15 +529,41 @@
         const businessName = document.getElementById('businessNameVeg').value.trim();
         const produceType = document.getElementById('produceType').value.trim();
         const farmLocation = document.getElementById('farmLocation').value.trim();
-        const operatingHours = document.getElementById('operatingHoursVeg').value.trim();
 
-        if (!businessName || !produceType || !farmLocation || !operatingHours) {
+        // Collect working days from circles
+        const workingDays = Array.from(document.querySelectorAll('.days-circle input[type="checkbox"]:checked')).map(cb => cb.value);
+
+        const openTime = document.getElementById('openTime').value;
+        const closeTime = document.getElementById('closeTime').value;
+
+        if (!businessName || !produceType || !farmLocation) {
           errorMsg.textContent = "Please fill all vendor fields.";
           loadingOverlay.style.display = 'none';
           return;
         }
 
-        extraData = { businessName, produceType, farmLocation, operatingHours, role: 'vendor' };
+        if (workingDays.length === 0) {
+          errorMsg.textContent = "Please select at least one working day.";
+          loadingOverlay.style.display = 'none';
+          return;
+        }
+        if (!openTime || !closeTime) {
+          errorMsg.textContent = "Please specify operating hours.";
+          loadingOverlay.style.display = 'none';
+          return;
+        }
+
+        extraData = {
+          businessName,
+          produceType,
+          farmLocation,
+          workingDays,
+          operatingHours: {
+            from: openTime,
+            to: closeTime
+          },
+          role: 'vendor'
+        };
       } else if (userRole === 'buyer') {
         extraData = { role: 'buyer' };
       } else {
@@ -463,7 +577,6 @@
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-
         await updateProfile(userCredential.user, { displayName: name });
 
         await setDoc(doc(db, "users", userCredential.user.uid), {
@@ -475,15 +588,10 @@
           createdAt: serverTimestamp()
         });
 
-        // Save role in localStorage for client usage
         localStorage.setItem('userRole', userRole);
 
         errorMsg.textContent = "Registration successful! Redirecting…";
-
-        // Hide loading overlay before redirect
         loadingOverlay.style.display = 'none';
-
-        // Redirect based on role
         window.location.href = userRole === 'vendor' ? '/vendor-dashboard' : '/buyer-dashboard';
 
       } catch (err) {
@@ -494,5 +602,4 @@
     };
   </script>
 </body>
-
 </html>
