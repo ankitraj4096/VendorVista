@@ -150,7 +150,7 @@
     // Navigate to registration page with role param
     document.getElementById('createAccountBtn').onclick = function() {
       const params = new URLSearchParams(window.location.search);
-      window.location.href = "register.html" + (params.has('role') ? "?role=" + params.get('role') : "");
+      window.location.href = "/register" + (params.has('role') ? "?role=" + params.get('role') : "");
     };
 
     // Handle login form submission
@@ -168,12 +168,12 @@
 
       // Simulate backend login, redirect as per role
       if (role === 'buyer') {
-        window.location.href = 'buyer-dashboard.html';
+        window.location.href = '/buyer-dashboard';
       } else if (role === 'vendor') {
-        window.location.href = 'vendor-dashboard.html';
+        window.location.href = '/vendor-dashboard';
       } else {
         // Default fallback
-        window.location.href = 'buyer-dashboard.html';
+        window.location.href = '/buyer-dashboard';
       }
     };
   </script>

@@ -204,7 +204,7 @@
 
     // Redirect to login page preserving role param
     document.getElementById('toLoginBtn').onclick = () => {
-      let url = 'login.html';
+      let url = '/login';
       if(userRole) url += '?role=' + userRole;
       window.location.href = url;
     };
@@ -263,7 +263,7 @@
 
       // Optionally redirect after registration
       // For now, redirect to login page for the same role:
-      let loginUrl = 'login.html';
+      let loginUrl = '/login';
       if (userRole) loginUrl += '?role=' + userRole;
       window.location.href = loginUrl;
     };

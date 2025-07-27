@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Buyer Dashboard | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
+    rel="stylesheet" />
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
@@ -23,11 +25,16 @@
       --button-hover: #1fa471;
       --button-text: #fff;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
+
     body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
@@ -36,10 +43,12 @@
       flex-direction: column;
       align-items: center;
     }
+
     /* Navbar at top */
     header.navbar {
       width: 100vw;
-      left: 0; right: 0;
+      left: 0;
+      right: 0;
       padding: 15px 0;
       background: var(--primary);
       color: #fff;
@@ -52,10 +61,11 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
+
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -63,12 +73,14 @@
       justify-content: space-between;
       align-items: center;
     }
+
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
+
     nav.main-nav a {
       color: #fff;
       text-decoration: none;
@@ -79,6 +91,7 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
+
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
@@ -94,6 +107,7 @@
       flex-direction: column;
       gap: 32px;
     }
+
     h1.welcome-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
@@ -101,6 +115,7 @@
       color: var(--primary-dark);
       margin: 0;
     }
+
     p.welcome-subtitle {
       font-size: 1.22rem;
       color: var(--text-light);
@@ -109,12 +124,14 @@
       font-weight: 600;
       max-width: 680px;
     }
+
     section.cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 26px;
       width: 100%;
     }
+
     article.card {
       background: var(--card-bg);
       border-radius: 1.3em;
@@ -128,12 +145,14 @@
       outline-offset: 4px;
       min-width: 0;
     }
+
     article.card:hover,
     article.card:focus-within {
-      box-shadow: 0 16px 60px rgba(80,150,50,0.16);
+      box-shadow: 0 16px 60px rgba(80, 150, 50, 0.16);
       transform: translateY(-6px);
       outline: none;
     }
+
     article.card h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -144,6 +163,7 @@
       align-items: center;
       gap: 10px;
     }
+
     article.card p {
       font-size: 1.04rem;
       color: var(--text-light);
@@ -151,6 +171,7 @@
       line-height: 1.55;
       margin: 0 0 26px 0;
     }
+
     article.card a.btn-link {
       background: var(--primary);
       color: var(--button-text);
@@ -167,72 +188,93 @@
       display: inline-block;
       box-shadow: 0 5px 20px rgba(60, 160, 70, 0.10);
     }
+
     article.card a.btn-link:hover,
     article.card a.btn-link:focus-visible {
       background: var(--button-hover);
       outline: none;
       box-shadow: 0 8px 28px rgba(70, 190, 98, 0.12);
     }
+
     @media (max-width: 650px) {
       h1.welcome-header {
         font-size: 2rem;
       }
+
       p.welcome-subtitle {
         font-size: 1rem;
       }
-      .navbar-inner { flex-direction: column; gap: 12px; }
-      nav.main-nav { gap: 12px; }
-      article.card a.btn-link { padding: 10px 20px; font-size: 1.01rem; }
-      main.container { margin-top: 22px; }
+
+      .navbar-inner {
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      nav.main-nav {
+        gap: 12px;
+      }
+
+      article.card a.btn-link {
+        padding: 10px 20px;
+        font-size: 1.01rem;
+      }
+
+      main.container {
+        margin-top: 22px;
+      }
     }
   </style>
 </head>
+
 <body>
   <!-- Wide-top Navbar -->
   <header class="navbar" role="banner">
     <div class="navbar-inner">
-      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <span
+        style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
       <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="buyer-dashboard.html" class="active" aria-current="page">Dashboard</a>
-        <a href="buyer-fresh-produce.html">Produce</a>
-        <a href="buyer-vendor.html">Favorite Vendors</a>
-        <a href="buyer-exchange.html">Ingredient Swap</a>
-        <a href="shared-live-map.html">Map</a>
-        <a href="shared-stories-feed.html">Stories</a>
-        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+        <a href="{{ url_for('buyer_dashboard') }}" class="active" aria-current="page">Dashboard</a>
+        <a href="{{ url_for('buyer_fresh_produce') }}">Produce</a>
+        <a href="{{ url_for('buyer_vendor') }}">Favorite Vendors</a>
+        <a href="{{ url_for('buyer_exchange') }}">Ingredient Swap</a>
+        <a href="{{ url_for('shared_live_map') }}">Map</a>
+        <a href="{{ url_for('shared_stories_feed') }}">Stories</a>
+        <a href="{{ url_for('shared_profile') }}" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
       </nav>
     </div>
   </header>
 
   <main class="container" role="main" aria-label="Buyer Dashboard">
     <h1 class="welcome-header" tabindex="0">Welcome back, Ram Kumar!</h1>
-    <p class="welcome-subtitle">Discover the freshest fruits and vegetables, connect with favorite vendors, swap ingredients, and explore inspiring community stories.</p>
+    <p class="welcome-subtitle">Discover the freshest fruits and vegetables, connect with favorite vendors, swap
+      ingredients, and explore inspiring community stories.</p>
 
     <section class="cards-grid" aria-label="Buyer Quick Access Cards">
       <article class="card" tabindex="0" role="region" aria-labelledby="card1Title" aria-describedby="card1Desc">
         <h2 id="card1Title"><i class="bi bi-shop-window"></i> Fresh Produce Market</h2>
         <p id="card1Desc">Browse fresh vegetables and fruits sourced directly from local farmers nearby.</p>
-        <a href="buyer-fresh-produce.html" class="btn-link" aria-label="Browse Fresh Produce Market">Browse</a>
+        <a href="/buyer-fresh-produce" class="btn-link" aria-label="Browse Fresh Produce Market">Browse</a>
       </article>
 
       <article class="card" tabindex="0" role="region" aria-labelledby="card2Title" aria-describedby="card2Desc">
         <h2 id="card2Title"><i class="bi bi-people-fill"></i> Favorite Vendors</h2>
         <p id="card2Desc">See your favorite vendor profiles, produce offerings, and their updates.</p>
-        <a href="buyer-vendor.html" class="btn-link" aria-label="View Favorite Vendors">View</a>
+        <a href="/buyer-vendor" class="btn-link" aria-label="View Favorite Vendors">View</a>
       </article>
 
       <article class="card" tabindex="0" role="region" aria-labelledby="card3Title" aria-describedby="card3Desc">
         <h2 id="card3Title"><i class="bi bi-arrow-repeat"></i> Ingredient Swap</h2>
         <p id="card3Desc">Swap ingredients with other sellers. Offer what you have and request what you need.</p>
-        <a href="buyer-exchange.html" class="btn-link" aria-label="Go to Ingredient Swap">Swap</a>
+        <a href="/buyer-exchange" class="btn-link" aria-label="Go to Ingredient Swap">Swap</a>
       </article>
 
       <article class="card" tabindex="0" role="region" aria-labelledby="card4Title" aria-describedby="card4Desc">
         <h2 id="card4Title"><i class="bi bi-journal-text"></i> Community Stories</h2>
         <p id="card4Desc">Stay updated with the latest stories and announcements from vendors and fellow buyers.</p>
-        <a href="shared-stories-feed.html" class="btn-link" aria-label="Read Community Stories">Read Stories</a>
+        <a href="/shared-stories-feed" class="btn-link" aria-label="Read Community Stories">Read Stories</a>
       </article>
     </section>
   </main>
 </body>
+
 </html>

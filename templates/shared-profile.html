@@ -308,18 +308,18 @@
       const nav = document.getElementById('navLinks');
       let dashboardLink = '';
       if(currentUserRole === 'vendor'){
-        dashboardLink = '<a href="vendor-dashboard.html">Dashboard</a>';
+        dashboardLink = '<a href="/vendor-dashboard">Dashboard</a>';
         document.getElementById('vendorExtraInfo').hidden = false;
       } else {
-        dashboardLink = '<a href="buyer-dashboard.html">Dashboard</a>';
+        dashboardLink = '<a href="/buyer-dashboard">Dashboard</a>';
       }
       nav.innerHTML = dashboardLink +
-        '<a href="buyer-fresh-produce.html">Produce</a>' +
-        '<a href="buyer-vendor.html">Favorite Vendors</a>' +
-        '<a href="buyer-exchange.html">Ingredient Swap</a>' +
-        '<a href="shared-live-map.html">Map</a>' +
-        '<a href="shared-stories-feed.html">Stories</a>' +
-        '<a href="shared-profile.html" class="active" aria-current="page" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+        '<a href="/buyer-fresh-produce">Produce</a>' +
+        '<a href="/buyer-vendor">Favorite Vendors</a>' +
+        '<a href="/buyer-exchange">Ingredient Swap</a>' +
+        '<a href="/shared-live-map">Map</a>' +
+        '<a href="/shared-stories-feed">Stories</a>' +
+        '<a href="/shared-profile" class="active" aria-current="page" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
     })();
 
     // Profile editing and logout
@@ -375,7 +375,7 @@
     });
     logoutButton.addEventListener('click', () => {
       alert('You have logged out.');
-      window.location.href = 'index.html';
+      window.location.href = '/index';
     });
   </script>
 </body>
