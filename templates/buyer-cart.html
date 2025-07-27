@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cart | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+      --accent: #fbe27a;
+      --status-pending: #f9a825;
+      --status-inprogress: #42a5f5;
+      --status-completed: #66bb6a;
+      --status-cancelled: #ef5350;
+    }
+    *,*::before,*::after{box-sizing:border-box;}
+    body {
+      margin: 0; padding: 0; font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary); color: var(--text-dark);
+      min-height: 100vh; display: flex; flex-direction: column; align-items: center;
+    }
+    main.container {
+      max-width: 900px; width: 97%; margin: 44px auto 60px auto;
+      display: flex; flex-direction: column; gap: 24px;
+    }
+    header.page-header {
+      font-family: 'Montserrat',sans-serif; font-weight: 800;
+      font-size: 2rem; color: var(--primary-dark); margin: 0 0 16px 0;
+      align-self: flex-start;
+    }
+    /* Back button styling */
+    .back-btn {
+      background: var(--primary);
+      border: none;
+      color: var(--button-text);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      padding: 10px 20px;
+      border-radius: 1.3em;
+      cursor: pointer;
+      box-shadow: 0 5px 18px #58c061bb;
+      transition: background 0.3s ease;
+      width: fit-content;
+      user-select: none;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px;
+      font-size: 1rem;
+    }
+    .back-btn:hover,
+    .back-btn:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+    .vendor-order {
+      background: #e9fbe7;
+      padding: 24px 24px 18px 24px;
+      border-radius: 1em;
+      box-shadow: 0 6px 20px #b8e0c770;
+      margin-bottom: 24px;
+    }
+    .vendor-order h3 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary-dark); font-weight: 800;
+      margin-top: 0; margin-bottom: 15px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .vendor-order-list {
+      list-style: none;
+      padding-left: 0;
+      margin-bottom: 12px;
+    }
+    .vendor-order-list li {
+      font-size: 1rem;
+      color: var(--text-dark);
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between;
+    }
+    .order-total {
+      font-weight: 700;
+      font-size: 1.15rem;
+      margin-top: 12px;
+      text-align: right;
+      color: var(--primary-dark);
+    }
+    button.place-order-btn {
+      background: var(--primary);
+      border: none;
+      color: var(--button-text);
+      cursor: pointer;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      padding: 12px 28px;
+      border-radius: 1.6em;
+      font-size: 1.1rem;
+      box-shadow: 0 6px 20px #58c061cc;
+      transition: background-color 0.25s;
+      user-select: none;
+      float: right;
+      margin-top: 8px;
+    }
+    button.place-order-btn:hover,
+    button.place-order-btn:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+    .order-msg {
+      margin-top: 12px;
+      font-weight: 700;
+      color: green;
+      font-size: 1rem;
+    }
+    /* Order Tracking Section */
+    #orderTrackSection {
+      margin-top: 40px;
+    }
+    #orderTrackSection header {
+      font-family: 'Montserrat',sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+    #orderList {
+      max-height: 320px;
+      overflow-y: auto;
+      border: 1.5px solid var(--border);
+      border-radius: 1em;
+      background: var(--card-bg);
+      padding: 18px 22px;
+      font-size: 1rem;
+      color: var(--text-dark);
+    }
+    .order-item {
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    .order-item:last-child {
+      border-bottom: none;
+    }
+    .order-id {
+      font-weight: 700;
+      color: var(--primary-dark);
+      margin-bottom: 4px;
+    }
+    .order-vendor, .order-date, .order-status {
+      margin-bottom: 4px;
+    }
+    .status-badge {
+      padding: 5px 14px;
+      border-radius: 1.2em;
+      font-weight: 700;
+      color: #fff;
+      display: inline-block;
+      user-select: none;
+    }
+    .status-pending {
+      background-color: var(--status-pending);
+      color: #3e2723;
+    }
+    .status-inprogress {
+      background-color: var(--status-inprogress);
+    }
+    .status-completed {
+      background-color: var(--status-completed);
+    }
+    .status-cancelled {
+      background-color: var(--status-cancelled);
+    }
+    .no-orders-msg {
+      font-style: italic;
+      color: var(--text-light);
+      text-align: center;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<main class="container" role="main" aria-label="Shopping Cart">
+  <header class="page-header" tabindex="0">Your Cart</header>
+
+  <!-- Back button -->
+  <button class="back-btn" aria-label="Back to Fresh Produce Marketplace" onclick="window.location.href='/buyer-fresh-produce';">
+    <i class="bi bi-arrow-left-circle"></i> Back to Fresh Produce
+  </button>
+
+  <section id="cartContent"></section>
+
+  <!-- Order Tracking Section -->
+  <section id="orderTrackSection" aria-live="polite" aria-label="Your current orders" tabindex="0" style="display:none;">
+    <header>Your Orders</header>
+    <div id="orderList"><!-- Orders inserted here --></div>
+  </section>
+</main>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import {
+    getFirestore, collection, addDoc, serverTimestamp,
+    query, where, getDocs, doc, getDoc
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+    authDomain: "vendorvista-4b958.firebaseapp.com",
+    projectId: "vendorvista-4b958",
+    storageBucket: "vendorvista-4b958.appspot.com",
+    messagingSenderId: "479694426389",
+    appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  const cartContent = document.getElementById('cartContent');
+  const orderTrackSection = document.getElementById('orderTrackSection');
+  const orderList = document.getElementById('orderList');
+
+  let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+  function money(val) {
+    return `₹${val.toFixed(2)}`;
+  }
+
+  // Render Cart
+  function renderCart() {
+    cartContent.innerHTML = '';
+    if(Object.keys(cart).length === 0) {
+      cartContent.innerHTML = '<p>Your cart is empty.</p>';
+      return;
+    }
+    Object.entries(cart).forEach(([vendorId, shopData]) => {
+      if(!shopData.items || shopData.items.length === 0) return;
+      const container = document.createElement('section');
+      container.className = 'vendor-order';
+      container.innerHTML = `
+        <h3><i class="bi bi-shop"></i> ${shopData.vendorName}</h3>
+        <ul class="vendor-order-list">
+          ${shopData.items.map(item => `
+            <li>${item.name} x ${item.qty} @ ${money(item.price)} each
+              <span>${money(item.price * item.qty)}</span>
+            </li>
+          `).join('')}
+        </ul>
+        <div class="order-total">
+          Total: ${money(shopData.items.reduce((sum, i) => sum + i.price*i.qty, 0))}
+        </div>
+        <button class="place-order-btn" data-vendor="${vendorId}">Place Order</button>
+        <div id="orderMsg_${vendorId}" class="order-msg"></div>
+      `;
+      cartContent.appendChild(container);
+
+      const btn = container.querySelector('button.place-order-btn');
+      btn.addEventListener('click', async () => {
+        if(!auth.currentUser) {
+          alert("Please login to place orders.");
+          return;
+        }
+        btn.disabled = true;
+        const orderMsg = document.getElementById(`orderMsg_${vendorId}`);
+        orderMsg.textContent = "Placing order...";
+        const orderData = {
+          buyerId: auth.currentUser.uid,
+          vendorId: vendorId,
+          items: shopData.items,
+          total: shopData.items.reduce((sum, i) => sum + i.price * i.qty, 0),
+          status: "pending",
+          orderTimestamp: serverTimestamp()
+        };
+        try {
+          await addDoc(collection(db, "orders"), orderData);
+          orderMsg.style.color = "green";
+          orderMsg.textContent = "Order placed successfully!";
+          // Clear this vendor's cart items
+          delete cart[vendorId];
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+          // Refresh order tracking
+          fetchUserOrders();
+        } catch (err) {
+          orderMsg.style.color = "red";
+          orderMsg.textContent = 'Failed to place order: ' + err.message;
+          btn.disabled = false;
+        }
+      });
+    });
+  }
+
+  // Format Firestore Timestamp to YYYY-MM-DD
+  function formatDate(ts){
+    try {
+      if(ts && ts.toDate){
+        return ts.toDate().toISOString().slice(0,10);
+      }
+      if(typeof ts === 'string'){
+        return ts.split('T')[0];
+      }
+    } catch { }
+    return '';
+  }
+
+  // Status badge classes for order tracking
+  const statusMap = {
+    pending: { label: 'Pending', className: 'status-pending' },
+    inprogress: { label: 'In Progress', className: 'status-inprogress' },
+    completed: { label: 'Completed', className: 'status-completed' },
+    cancelled: { label: 'Cancelled', className: 'status-cancelled' }
+  };
+
+  // Fetch all buy orders by current user and display in tracking section
+  async function fetchUserOrders() {
+    const user = auth.currentUser;
+    if(!user) {
+      orderTrackSection.style.display = 'none';
+      return;
+    }
+    orderTrackSection.style.display = 'block';
+    orderList.innerHTML = '<p>Loading your orders...</p>';
+
+    // Fetch orders where buyerId == currentUser.uid
+    const q = query(collection(db, "orders"), where("buyerId", "==", user.uid));
+    const snap = await getDocs(q);
+
+    if(snap.empty) {
+      orderList.innerHTML = '<p class="no-orders-msg">You have no current orders.</p>';
+      return;
+    }
+
+    let ordersArr = [];
+    let vendorIds = new Set();
+
+    snap.forEach(docSnap => {
+      const d = docSnap.data();
+      ordersArr.push({...d, oid: docSnap.id});
+      if(d.vendorId) vendorIds.add(d.vendorId);
+    });
+
+    // Map vendor IDs to vendor names
+    const vendorMap = {};
+    for (const vid of vendorIds) {
+      try {
+        const docSnap = await getDoc(doc(db, "users", vid));
+        if(docSnap.exists()) {
+          vendorMap[vid] = docSnap.data().businessName || docSnap.data().name || vid;
+        } else {
+          vendorMap[vid] = vid;
+        }
+      } catch {
+        vendorMap[vid] = vid;
+      }
+    }
+
+    // Sort orders by newest first
+    ordersArr.sort((a,b) => {
+      const aTime = a.orderTimestamp?.seconds || 0;
+      const bTime = b.orderTimestamp?.seconds || 0;
+      return bTime - aTime;
+    });
+
+    // Render orders list
+    orderList.innerHTML = '';
+    ordersArr.forEach(order => {
+      const div = document.createElement('div');
+      div.className = 'order-item';
+      const statusInfo = statusMap[order.status] || {label: order.status || 'Unknown', className: ''};
+      div.innerHTML = `
+        <div class="order-id">Order ID: ${order.oid}</div>
+        <div class="order-vendor"><strong>Vendor:</strong> ${vendorMap[order.vendorId] || order.vendorId}</div>
+        <div class="order-date"><strong>Order Date:</strong> ${formatDate(order.orderTimestamp)}</div>
+        <div class="order-status"><strong>Status:</strong> <span class="status-badge ${statusInfo.className}">${statusInfo.label}</span></div>
+        <div><strong>Items:</strong></div>
+        <ul>
+          ${order.items.map(i => `<li>${i.qty} x ${i.name} @ ₹${i.price}/kg</li>`).join('')}
+        </ul>
+      `;
+      orderList.appendChild(div);
+    });
+  }
+
+  onAuthStateChanged(auth, user => {
+    if(user){
+      renderCart();
+      fetchUserOrders();
+    } else {
+      cartContent.innerHTML = '<p>Please log in to view your cart and orders.</p>';
+      orderTrackSection.style.display = 'none';
+    }
+  });
+</script>
+</body>
+</html>

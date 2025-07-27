@@ -1,16 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Produce Listings | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
-    rel="stylesheet" />
-  <!-- Bootstrap Icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
+
     :root {
       --primary: #58c061;
       --primary-dark: #357138;
@@ -363,27 +361,21 @@
     }
   </style>
 </head>
-
 <body>
   <!-- Navbar -->
   <header class="navbar" role="banner">
     <div class="navbar-inner" id="navbarInner">
-      <span
-        style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
       <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
   <main class="container" role="main" aria-label="Manage Produce Listings">
     <header class="page-header" tabindex="0">Produce Listings</header>
-
     <button class="add-produce-btn" id="addProduceBtn" aria-haspopup="dialog" aria-controls="produceModalBackdrop">
       <i class="bi bi-plus-circle"></i> Add Produce Item
     </button>
-
-    <ul class="produce-list" id="produceList">
-      <!-- Dynamic produce items go here -->
-    </ul>
+    <ul class="produce-list" id="produceList"></ul>
   </main>
 
   <!-- Add/Edit Produce Modal -->
@@ -394,9 +386,9 @@
     import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    // --- Navbar links injection (role-based, works for vendor and buyer) ---
+    // ---- Nav Bar -----
     const nav = document.getElementById('navLinks');
-    const currentUserRole = localStorage.getItem('userRole') || 'vendor'; // You can adjust this to get the actual user role if needed
+    const currentUserRole = localStorage.getItem('userRole') || 'vendor';
     let navItems = '';
     if (currentUserRole === 'vendor') {
       navItems =
@@ -418,8 +410,7 @@
     }
     nav.innerHTML = navItems;
 
-
-    // ----- Firebase config -----
+    // ------------ Firebase -------------
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -428,8 +419,6 @@
       messagingSenderId: "479694426389",
       appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
     };
-
-    // ----- Initialize services -----
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
@@ -447,13 +436,12 @@
     // ----------- AUTH + REAL-TIME FETCH -----------
     onAuthStateChanged(auth, user => {
       if (!user) {
-        window.location.href = '/login'; // Must be logged in
+        window.location.href = '/login';
       } else {
         vendorUid = user.uid;
-        // Live sync with their produce doc
+        // Listen live: instantly track your own produce stock
         const ref = doc(db, 'vendor_produce', vendorUid);
-        // Remove previous listener if any
-        if (unsub) { unsub(); }
+        if (unsub) unsub();
         unsub = onSnapshot(ref, snap => {
           if (snap.exists() && Array.isArray(snap.data().produce)) {
             produceData = snap.data().produce;
@@ -469,7 +457,6 @@
     async function saveProduceToFirebase() {
       if (!vendorUid) return;
       const ref = doc(db, "vendor_produce", vendorUid);
-      // Save/overwrite entire array each time (safe for small-medium vendor data)
       await setDoc(ref, { produce: produceData });
     }
 
@@ -484,20 +471,19 @@
         const li = document.createElement('li');
         li.className = 'produce-item';
         li.innerHTML = `
-        <div class="produce-info">
-          <div class="produce-title">${item.name}</div>
-          <div class="produce-desc">${item.desc || ''}</div>
-          <div class="produce-meta">
-            <span>Qty: ${item.qty}kg</span>
-            <span>₹${item.price}/kg</span>
+          <div class="produce-info">
+            <div class="produce-title">${item.name}</div>
+            <div class="produce-desc">${item.desc || ''}</div>
+            <div class="produce-meta">
+              <span>Qty: <span style="font-weight:700">${item.qty}</span>kg</span>
+              <span>₹${item.price}/kg</span>
+            </div>
           </div>
-        </div>
-        <div class="actions">
-          <button class="edit-btn" aria-label="Edit ${item.name}">Edit</button>
-          <button class="remove-btn" aria-label="Remove ${item.name}">Remove</button>
-        </div>
-      `;
-        // Attach handlers
+          <div class="actions">
+            <button class="edit-btn" aria-label="Edit ${item.name}">Edit</button>
+            <button class="remove-btn" aria-label="Remove ${item.name}">Remove</button>
+          </div>
+        `;
         li.querySelector('.edit-btn').onclick = () => openModal('Edit Produce', item);
         li.querySelector('.remove-btn').onclick = async () => {
           if (confirm('Are you sure you want to remove this produce item?')) {
@@ -509,29 +495,29 @@
       });
     }
 
-    // MODAL LOGIC
+    // ---------- Modal Logic ----------
     function openModal(title, data = {}) {
       editingProduceId = data.id || null;
       modalBackdrop.innerHTML = `
-      <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
-        <button class="modal-close" aria-label="Close">&times;</button>
-        <h2 id="modalTitle">${title}</h2>
-        <form class="produce-form" id="produceForm">
-          <label for="produceName">Produce Name*</label>
-          <input type="text" id="produceName" name="produceName" maxlength="40" required value="${data.name || ''}" />
-          <label for="produceDesc">Description</label>
-          <textarea id="produceDesc" name="produceDesc" maxlength="160">${data.desc || ''}</textarea>
-          <label for="produceQty">Quantity (kg)*</label>
-          <input type="number" id="produceQty" name="produceQty" min="1" max="9999" required value="${data.qty || ''}" />
-          <label for="producePrice">Price per kg (₹)*</label>
-          <input type="number" id="producePrice" name="producePrice" min="1" max="9999" required value="${data.price || ''}" />
-          <div class="modal-actions">
-            <button type="button" class="modal-btn cancel">Cancel</button>
-            <button type="submit" class="modal-btn submit">${editingProduceId ? "Save" : "Add"}</button>
-          </div>
-        </form>
-      </div>
-    `;
+        <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
+          <button class="modal-close" aria-label="Close">&times;</button>
+          <h2 id="modalTitle">${title}</h2>
+          <form class="produce-form" id="produceForm">
+            <label for="produceName">Produce Name*</label>
+            <input type="text" id="produceName" name="produceName" maxlength="40" required value="${data.name || ''}" />
+            <label for="produceDesc">Description</label>
+            <textarea id="produceDesc" name="produceDesc" maxlength="160">${data.desc || ''}</textarea>
+            <label for="produceQty">Quantity (kg)*</label>
+            <input type="number" id="produceQty" name="produceQty" min="1" max="9999" required value="${data.qty || ''}" />
+            <label for="producePrice">Price per kg (₹)*</label>
+            <input type="number" id="producePrice" name="producePrice" min="1" max="9999" required value="${data.price || ''}" />
+            <div class="modal-actions">
+              <button type="button" class="modal-btn cancel">Cancel</button>
+              <button type="submit" class="modal-btn submit">${editingProduceId ? "Save" : "Add"}</button>
+            </div>
+          </form>
+        </div>
+      `;
       modalBackdrop.classList.add('active');
       modalBackdrop.setAttribute('aria-hidden', 'false');
       modalBackdrop.querySelector('.modal-close').onclick = closeModal;
@@ -559,12 +545,13 @@
           const id = Date.now();
           produceData.push({ id, name, desc, qty, price });
         }
-        await saveProduceToFirebase(); // That will be auto-refreshed by the snapshot listener
+        await saveProduceToFirebase();
         closeModal();
         editingProduceId = null;
       };
       trapFocus(modalBackdrop.querySelector('.modal-drawer'));
     }
+
     function closeModal() {
       modalBackdrop.classList.remove('active');
       modalBackdrop.setAttribute('aria-hidden', 'true');
@@ -594,7 +581,5 @@
       };
     }
   </script>
-
 </body>
-
 </html>
