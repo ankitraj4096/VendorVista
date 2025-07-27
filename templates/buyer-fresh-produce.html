@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Fresh Produce Market | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
     :root {
@@ -23,312 +21,125 @@
       --text-dark: #232c1e;
       --text-light: #526a3b;
     }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
+    *, *::before, *::after { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
     }
-
     header.navbar {
-      width: 100vw;
-      padding: 15px 0;
-      background: var(--primary);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.35rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
-      border-radius: 0 0 18px 18px;
-      min-width: 0;
+      width: 100vw; padding: 15px 0; background: var(--primary);
+      color: #fff; font-family: 'Montserrat',sans-serif; font-weight: 700; font-size: 1.35rem;
+      display: flex; justify-content: center; align-items: center; position: sticky; top: 0; z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13); border-radius: 0 0 18px 18px; min-width: 0;
     }
-
     .navbar-inner {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 100%; max-width: 1200px; display: flex; justify-content: space-between; align-items: center;
     }
-
-    nav.main-nav {
-      display: flex;
-      gap: 26px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
+    nav.main-nav { display: flex; gap: 26px; flex-wrap: wrap; align-items: center; }
     nav.main-nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      padding-bottom: 2px;
-      border-bottom: 2.5px solid transparent;
-      transition: color 0.2s, border-bottom-color 0.2s;
+      color: #fff; text-decoration: none; font-weight: 700; font-size: 1.05rem;
+      padding-bottom: 2px; border-bottom: 2.5px solid transparent; transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
-
-    nav.main-nav a:hover,
-    nav.main-nav a.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
+    nav.main-nav a:hover, nav.main-nav a.active { color: var(--accent); border-bottom-color: var(--accent); }
     main.container {
-      max-width: 900px;
-      width: 97%;
-      margin: 44px auto 60px auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
+      max-width: 900px; width: 97%; margin: 44px auto 60px auto; display: flex; flex-direction: column; gap: 24px;
     }
-
     header.page-header {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 2rem;
-      color: var(--primary-dark);
-      margin: 0 0 16px 0;
+      font-family: 'Montserrat',sans-serif; font-weight: 800; font-size: 2rem; color: var(--primary-dark); margin: 0 0 16px 0;
     }
-
     .back-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
     }
-
     button.btn-back {
-      background: var(--primary);
-      border: none;
-      color: var(--button-text);
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-      padding: 10px 26px;
-      border-radius: 1.3em;
-      cursor: pointer;
-      box-shadow: 0 5px 18px #58c061bb;
-      transition: background 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      user-select: none;
-      font-size: 1rem;
+      background: var(--primary); border: none; color: var(--button-text); font-weight: 700;
+      font-family: 'Montserrat',sans-serif; padding: 10px 26px; border-radius: 1.3em; cursor: pointer;
+      box-shadow: 0 5px 18px #58c061bb; transition: background 0.3s ease; display: flex; align-items: center; gap: 10px;
+      user-select: none; font-size: 1rem;
     }
-
-    button.btn-back:hover,
-    button.btn-back:focus-visible {
-      background: var(--button-hover);
-      outline: none;
-    }
-
-    .vendors-list {
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
-      margin-bottom: 50px;
-    }
-
+    button.btn-back:hover, button.btn-back:focus-visible { background: var(--button-hover); outline: none; }
+    .vendors-list { display: flex; flex-direction: column; gap: 36px; margin-bottom: 50px; }
     .shop-card {
-      background: #e9fbe7;
-      border-radius: 1em;
-      box-shadow: 0 6px 20px #b8e0c770;
+      background: #e9fbe7; border-radius: 1em; box-shadow: 0 6px 20px #b8e0c770;
       padding: 28px 28px 18px 28px;
-      display: flex;
-      flex-direction: column;
-      gap: 13px;
-      min-width: 0;
-      position: relative;
+      display: flex; flex-direction: column; gap: 13px; min-width: 0; position: relative;
     }
-
     .shop-header {
-      display: flex;
-      align-items: center;
-      gap: 13px;
-      margin-bottom: 7px;
+      display: flex; align-items: center; gap: 13px; margin-bottom: 7px;
     }
-
     .shop-header .vendor-name {
-      font-family: 'Montserrat', sans-serif;
-      color: var(--primary-dark);
-      font-size: 1.22rem;
-      font-weight: 800;
-      letter-spacing: 0.5px;
+      font-family: 'Montserrat',sans-serif; color: var(--primary-dark);
+      font-size: 1.22rem; font-weight: 800; letter-spacing: 0.5px;
     }
-
-    .shop-header .bi-shop {
-      font-size: 1.3rem;
-      color: var(--primary-dark);
-    }
-
+    .shop-header .bi-shop { font-size: 1.3rem; color: var(--primary-dark); }
     .produce-row {
-      display: flex;
-      gap: 22px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--primary) #eee;
+      display: flex; gap: 22px; overflow-x: auto; padding-bottom: 8px;
+      scrollbar-width: thin; scrollbar-color: var(--primary) #eee;
     }
-
     .produce-row::-webkit-scrollbar {
       height: 7px;
     }
-
     .produce-row::-webkit-scrollbar-thumb {
       background: var(--primary);
       border-radius: 8px;
     }
-
     .produce-item {
-      background: #fffefb;
-      border-radius: 1em;
-      box-shadow: 0 2px 12px #a3e0b788;
+      background: #fffefb; border-radius: 1em; box-shadow: 0 2px 12px #a3e0b788;
       padding: 18px 14px 14px 14px;
-      min-width: 112px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      min-width: 112px; display: flex; flex-direction: column; align-items: center; gap: 8px;
       font-size: 0.96rem;
     }
-
     .produce-title {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      color: var(--primary-dark);
-      font-size: 1.07rem;
-      margin-bottom: 2px;
+      font-family: 'Montserrat',sans-serif; font-weight: 700; color: var(--primary-dark);
+      font-size: 1.07rem; margin-bottom: 2px;
     }
-
     .produce-price {
-      color: var(--text-dark);
-      font-size: 0.97rem;
-      margin-bottom: 7px;
+      color: var(--text-dark); font-size: 0.97rem; margin-bottom: 7px;
     }
-
     .quantity-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 2px;
+      display: flex; align-items: center; gap: 10px; margin-top: 2px;
     }
-
     .qty-btn {
-      background: var(--accent);
-      border: none;
-      border-radius: 50%;
-      width: 2em;
-      height: 2em;
-      color: #825c06;
-      font-size: 1.3em;
-      font-weight: 700;
-      box-shadow: 0 2px 7px #a9e07860;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      background: var(--accent); border: none; border-radius: 50%; width: 2em; height: 2em;
+      color: #825c06; font-size: 1.3em; font-weight: 700; box-shadow: 0 2px 7px #a9e07860;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
       transition: background 0.13s;
     }
-
-    .qty-btn:active {
-      background: #ffe29b;
-    }
-
+    .qty-btn:active { background: #ffe29b; }
     .qty-num {
-      min-width: 1.8em;
-      text-align: center;
-      font-weight: 700;
-      font-size: 1.13em;
-      color: var(--primary-dark);
-      display: inline-block;
-      user-select: none;
+      min-width: 1.8em; text-align: center; font-weight: 700; font-size: 1.13em;
+      color: var(--primary-dark); display: inline-block; user-select: none;
     }
-
     /* Floating cart button */
     .cart-btn-floating {
-      position: fixed;
-      bottom: 28px;
-      right: 28px;
-      z-index: 2222;
-      background: var(--primary-dark);
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 59px;
-      height: 59px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 38px #7cd587c0;
-      font-size: 2.2rem;
-      cursor: pointer;
-      transition: background 0.24s;
+      position: fixed; bottom: 28px; right: 28px; z-index: 2222;
+      background: var(--primary-dark); color: #fff; border: none; border-radius: 50%;
+      width: 59px; height: 59px; display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 8px 38px #7cd587c0; font-size: 2.2rem; cursor: pointer; transition: background 0.24s;
     }
-
     .cart-btn-floating:hover,
     .cart-btn-floating:focus-visible {
       background: var(--primary);
     }
-
     @media (max-width: 550px) {
-      main.container {
-        padding: 0;
-      }
-
-      .shop-card {
-        padding: 17px 9px 10px 10px;
-      }
-
-      .shop-header .vendor-name {
-        font-size: 1.06rem;
-      }
-
-      .produce-row {
-        gap: 11px;
-      }
-
-      .produce-item {
-        padding: 13px 6px 8px 6px;
-        min-width: 95px;
-        font-size: 0.93rem;
-      }
-
-      .cart-btn-floating {
-        width: 48px;
-        height: 48px;
-        font-size: 1.48rem;
-        bottom: 16px;
-        right: 11px;
-      }
+      main.container { padding: 0; }
+      .shop-card { padding: 17px 9px 10px 10px;}
+      .shop-header .vendor-name { font-size: 1.06rem; }
+      .produce-row { gap: 11px; }
+      .produce-item { padding: 13px 6px 8px 6px; min-width: 95px; font-size: 0.93rem; }
+      .cart-btn-floating { width: 48px; height: 48px; font-size: 1.48rem; bottom: 16px; right: 11px; }
     }
   </style>
 </head>
-
 <body>
   <!-- Navbar -->
   <header class="navbar" role="banner">
     <div class="navbar-inner">
-      <span
-        style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
       <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
@@ -339,19 +150,18 @@
         <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
       </button>
     </div>
-    <!-- Main Vendor Produce Listing -->
+    <!-- Vendor Produce Listing -->
     <section class="vendors-list" id="vendorsList"></section>
     <!-- Floating Go to Cart button -->
     <button class="cart-btn-floating" id="gotoCartBtn" title="Go to Cart" aria-label="Go to Cart (dummy)">
       <i class="bi bi-cart3"></i>
     </button>
   </main>
+
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, collection, getDocs, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -363,7 +173,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // -------- Navbar injection --------
     const nav = document.getElementById('navLinks');
     const currentUserRole = localStorage.getItem('userRole') || 'buyer';
     let navItems = '';
@@ -387,45 +196,36 @@
     }
     nav.innerHTML = navItems;
 
-    // --------- Fetch & Render Vendors ---------
     const vendorsList = document.getElementById('vendorsList');
 
-    // Helper: Get vendor display name from user profile
+    // Helper: Get vendor business name or fallback to name or 'Unknown Vendor'
     async function getVendorName(uid) {
       try {
         const profSnap = await getDoc(doc(db, "users", uid));
-        if (profSnap.exists() && profSnap.data().name) {
-          return profSnap.data().businessName || profSnap.data().name || 'No Name';
+        if (profSnap.exists()) {
+          return profSnap.data().businessName || profSnap.data().name || 'Unknown Vendor';
         }
       } catch (e) { }
       return 'Unknown Vendor';
     }
 
+    // Show alert when max quantity reached
     function showQtyLimitMsg(max) {
-      // Simple alert, or make it fancier as a toast!
-      alert(`You have reached the maximum quantity available for this item (${max}).`);
+      alert(`You have reached the maximum available quantity (${max}).`);
     }
-
 
     async function fetchAndRenderVendors() {
       vendorsList.innerHTML = '<div style="color:var(--text-light);padding:40px;text-align:center">Loading fresh produce...</div>';
-      const querySnapshot = await getDocs(collection(db, "vendor_produce"));
 
-      // Array of all vendors (will fill below)
+      const querySnapshot = await getDocs(collection(db, "vendor_produce"));
       const vendorsData = [];
 
       for (const docSnap of querySnapshot.docs) {
         const uid = docSnap.id;
         const produceArr = Array.isArray(docSnap.data().produce) ? docSnap.data().produce : [];
-        if (produceArr.length === 0) continue; // Don't show empty stalls
-
-        // Get vendor stall/farm name (try businessName, else name, else "Vendor")
+        if (produceArr.length === 0) continue;
         let vendorName = await getVendorName(uid);
-
-        vendorsData.push({
-          vendorName,
-          produceArr
-        });
+        vendorsData.push({ vendorId: uid, vendorName, produceArr });
       }
 
       if (!vendorsData.length) {
@@ -433,66 +233,110 @@
         return;
       }
 
-      // Render vendors and their produce
       vendorsList.innerHTML = '';
       vendorsData.forEach((shop, shopIdx) => {
         const card = document.createElement('div');
         card.className = 'shop-card';
         card.innerHTML = `
-      <div class="shop-header">
-        <i class="bi bi-shop"></i>
-        <span class="vendor-name">${shop.vendorName}</span>
-      </div>
-      <div class="produce-row">
-        ${shop.produceArr.map((item, prodIdx) => `
-          <div class="produce-item" tabindex="0" aria-label="${item.name} ₹${item.price}/kg">
-            <div class="produce-title">${item.name}</div>
-            <div class="produce-price"><i class="bi bi-currency-rupee"></i>${item.price}/kg</div>
-            <div class="quantity-row" data-shop="${shopIdx}" data-prod="${prodIdx}">
-              <button class="qty-btn minus-btn" type="button" aria-label="Decrease quantity"><i class="bi bi-dash"></i></button>
-              <span class="qty-num" id="qty_${shopIdx}_${prodIdx}">0</span>
-              <button class="qty-btn plus-btn" type="button" aria-label="Increase quantity"><i class="bi bi-plus"></i></button>
-            </div>
+          <div class="shop-header">
+            <i class="bi bi-shop"></i>
+            <span class="vendor-name">${shop.vendorName}</span>
           </div>
-        `).join('')}
-      </div>
-    `;
+          <div class="produce-row">
+            ${shop.produceArr.map((item, prodIdx) => `
+              <div class="produce-item" tabindex="0" aria-label="${item.name} ₹${item.price}/kg">
+                <div class="produce-title">${item.name}</div>
+                <div class="produce-price"><i class="bi bi-currency-rupee"></i>${item.price}/kg</div>
+                <div class="quantity-row" data-shop="${shopIdx}" data-prod="${prodIdx}">
+                  <button class="qty-btn minus-btn" type="button" aria-label="Decrease quantity"><i class="bi bi-dash"></i></button>
+                  <span class="qty-num" id="qty_${shopIdx}_${prodIdx}">0</span>
+                  <button class="qty-btn plus-btn" type="button" aria-label="Increase quantity"><i class="bi bi-plus"></i></button>
+                </div>
+              </div>
+            `).join('')}
+          </div>
+        `;
         vendorsList.appendChild(card);
       });
 
-      // Set up quantity state & listeners
+      // Setup quantities array: [vendor][produce] = qty
       const qtyState = vendorsData.map(shop => shop.produceArr.map(() => 0));
+
+      // Add event listeners for buttons
       document.querySelectorAll('.quantity-row').forEach(row => {
         const shopIdx = +row.dataset.shop;
         const prodIdx = +row.dataset.prod;
-        const maxQty = vendorsData[shopIdx].produceArr[prodIdx].qty || 0;
+        const maxQty = vendorsData[shopIdx].produceArr[prodIdx].qty || 9999; // default large max if none
 
         row.querySelector('.minus-btn').onclick = function () {
           qtyState[shopIdx][prodIdx] = Math.max(0, qtyState[shopIdx][prodIdx] - 1);
           document.getElementById(`qty_${shopIdx}_${prodIdx}`).textContent = qtyState[shopIdx][prodIdx];
+          saveCart(vendorsData, qtyState);
         };
-
         row.querySelector('.plus-btn').onclick = function () {
           if (qtyState[shopIdx][prodIdx] < maxQty) {
             qtyState[shopIdx][prodIdx]++;
             document.getElementById(`qty_${shopIdx}_${prodIdx}`).textContent = qtyState[shopIdx][prodIdx];
+            saveCart(vendorsData, qtyState);
           } else {
             showQtyLimitMsg(maxQty);
           }
         };
       });
+
+      // Load saved cart & update qty display if any
+      loadCart(vendorsData, qtyState);
     }
-    // Initial fetch
-    fetchAndRenderVendors();
 
-    // Optional: Real-time update (if you want to listen live, you can set a snapshot or refetch on interval)
-    // But for this "market" demo, periodic refresh or button-triggered fetch is usually enough
+    // Save cart to localStorage grouped by vendorId
+    function saveCart(vendorsData, qtyState) {
+      const cart = {};
+      vendorsData.forEach((shop, si) => {
+        const items = [];
+        qtyState[si].forEach((qty, pi) => {
+          if (qty > 0) {
+            const p = shop.produceArr[pi];
+            items.push({
+              produceId: p.id || `${shop.vendorId}_${pi}`, // fallback id
+              name: p.name,
+              price: p.price,
+              qty
+            });
+          }
+        });
+        if (items.length > 0) {
+          cart[shop.vendorId] = { vendorName: shop.vendorName, items };
+        }
+      });
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
 
-    // Dummy Go to Cart button
+    // Load cart from storage, update qtyState and UI
+    function loadCart(vendorsData, qtyState) {
+      const cartStr = localStorage.getItem('cart');
+      if (!cartStr) return;
+      try {
+        const cart = JSON.parse(cartStr);
+        vendorsData.forEach((shop, si) => {
+          const saved = cart[shop.vendorId];
+          if (!saved) return;
+          saved.items.forEach(item => {
+            const pi = shop.produceArr.findIndex(p => p.name === item.name);
+            if (pi >= 0) {
+              qtyState[si][pi] = item.qty;
+              const qtySpan = document.getElementById(`qty_${si}_${pi}`);
+              if (qtySpan) qtySpan.textContent = item.qty;
+            }
+          });
+        });
+      } catch { /* ignore parse errors */ }
+    }
+
     document.getElementById('gotoCartBtn').onclick = function () {
-      alert("Cart functionality coming soon!");
+      window.location.href = '/buyer-cart';
     }
+
+    fetchAndRenderVendors();
   </script>
 </body>
-
 </html>

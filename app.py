@@ -58,6 +58,9 @@ def vendor_produce():
 @app.route("/vendor-stories")
 def vendor_stories():
     return render_template("vendor-stories.html")
+@app.route("/buyer-cart")
+def buyer_cart():
+    return render_template("buyer-cart.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

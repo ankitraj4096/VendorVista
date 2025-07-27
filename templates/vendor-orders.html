@@ -1,419 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <title>Vendor Orders | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
     :root {
-      --primary: #58c061;
-      --primary-dark: #357138;
-      --secondary: #fffef7;
-      --accent: #fbe27a;
-      --card-bg: #f7fdf6;
-      --border: #dbeadb;
-      --button: #26c485;
-      --button-hover: #1fa471;
-      --button-text: #fff;
-      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
-      --text-dark: #232c1e;
-      --text-light: #526a3b;
-      --status-pending: #f9a825;
-      --status-inprogress: #42a5f5;
-      --status-completed: #66bb6a;
-      --status-cancelled: #ef5350;
+      --primary: #58c061; --primary-dark: #357138; --secondary: #fffef7; --accent: #fbe27a;
+      --card-bg: #f7fdf6; --border: #dbeadb; --button: #26c485; --button-hover: #1fa471;
+      --button-text: #fff; --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e; --text-light: #526a3b;
+      --status-pending: #f9a825; --status-inprogress: #42a5f5;
+      --status-completed: #66bb6a; --status-cancelled: #ef5350;
     }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Poppins', Arial, sans-serif;
-      background: var(--secondary);
-      color: var(--text-dark);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* Navbar at top */
-    header.navbar {
-      width: 100vw;
-      left: 0;
-      right: 0;
-      padding: 15px 0;
-      background: var(--primary);
-      color: #fff;
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.35rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
-      border-radius: 0 0 18px 18px;
-      min-width: 0;
-    }
-
-    .navbar-inner {
-      width: 100%;
-      max-width: 1200px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    nav.main-nav {
-      display: flex;
-      gap: 26px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-
-    nav.main-nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 1.05rem;
-      padding-bottom: 2px;
-      border-bottom: 2.5px solid transparent;
-      transition: color 0.2s, border-bottom-color 0.2s;
-      position: relative;
-    }
-
-    nav.main-nav a:hover,
-    nav.main-nav a.active {
-      color: var(--accent);
-      border-bottom-color: var(--accent);
-    }
-
-    main.container {
-      max-width: 900px;
-      width: 95%;
-      margin: 44px auto 60px auto;
-      background: var(--card-bg);
-      box-shadow: var(--shadow);
-      border-radius: 1.3em;
-      padding: 36px 36px 48px 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 28px;
-      overflow-x: auto;
-    }
-
-    header.page-header {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 2rem;
-      color: var(--primary-dark);
-      margin: 0;
-    }
-
-    table.orders-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 1rem;
-    }
-
-    table.orders-table thead {
-      background: var(--primary);
-      color: #fff;
-      font-weight: 700;
-    }
-
-    table.orders-table th,
-    table.orders-table td {
-      padding: 12px 16px;
-      border-bottom: 1.6px solid var(--border);
-      text-align: left;
-      vertical-align: middle;
-    }
-
-    table.orders-table tbody tr:hover {
-      background: #dff0d8;
-    }
-
-    .status-badge {
-      padding: 5px 16px;
-      border-radius: 1.2em;
-      font-weight: 700;
-      color: #fff;
-      display: inline-block;
-      user-select: none;
-    }
-
-    .status-pending {
-      background-color: var(--status-pending);
-      color: #3e2723;
-    }
-
-    .status-inprogress {
-      background-color: var(--status-inprogress);
-    }
-
-    .status-completed {
-      background-color: var(--status-completed);
-    }
-
-    .status-cancelled {
-      background-color: var(--status-cancelled);
-    }
-
-    button.action-btn {
-      background: var(--primary);
-      color: var(--button-text);
-      border: none;
-      font-weight: 700;
-      font-family: 'Montserrat', sans-serif;
-      padding: 6px 20px;
-      border-radius: 1.2em;
-      cursor: pointer;
-      transition: background 0.25s ease;
-      user-select: none;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 14px rgba(88, 192, 97, 0.2);
-    }
-
-    button.action-btn[disabled] {
-      background: var(--border);
-      color: var(--text-light);
-      cursor: default;
-      box-shadow: none;
-    }
-
-    button.action-btn:hover:not([disabled]),
-    button.action-btn:focus-visible:not([disabled]) {
-      background: var(--primary-dark);
-      outline: none;
-    }
-
-    @media (max-width: 650px) {
-      main.container {
-        padding: 20px 20px 40px 20px;
-        margin: 30px auto 50px auto;
-      }
-
-      table.orders-table th,
-      table.orders-table td {
-        padding: 10px 12px;
-      }
-
-      header.page-header {
-        font-size: 1.6rem;
-      }
-
-      button.action-btn {
-        padding: 6px 14px;
-        font-size: 0.9rem;
-      }
+    *,*::before,*::after{box-sizing:border-box;}
+    body{margin:0;padding:0;font-family:'Poppins',Arial,sans-serif;background:var(--secondary);color:var(--text-dark);min-height:100vh;display:flex;flex-direction:column;align-items:center;}
+    header.navbar{width:100vw;left:0;right:0;padding:15px 0;background:var(--primary);color:#fff;font-family:'Montserrat',sans-serif;font-weight:700;font-size:1.35rem;display:flex;justify-content:center;align-items:center;position:sticky;top:0;z-index:1000;box-shadow:0 4px 14px rgba(0,0,0,0.13);border-radius:0 0 18px 18px;}
+    .navbar-inner{width:100%;max-width:1200px;display:flex;justify-content:space-between;align-items:center;}
+    nav.main-nav{display:flex;gap:26px;flex-wrap:wrap;align-items:center;}
+    nav.main-nav a{color:#fff;text-decoration:none;font-weight:700;font-size:1.05rem;padding-bottom:2px;border-bottom:2.5px solid transparent;transition:color .2s,border-bottom-color .2s;position:relative;}
+    nav.main-nav a:hover,nav.main-nav a.active{color:var(--accent);border-bottom-color:var(--accent);}
+    main.container{max-width:900px;width:95%;margin:44px auto 60px auto;background:var(--card-bg);box-shadow:var(--shadow);border-radius:1.3em;padding:36px 36px 48px 36px;display:flex;flex-direction:column;gap:28px;overflow-x:auto;}
+    header.page-header{font-family:'Montserrat',sans-serif;font-weight:800;font-size:2rem;color:var(--primary-dark);margin:0;}
+    table.orders-table{width:100%;border-collapse:collapse;font-size:1rem;}
+    table.orders-table thead{background:var(--primary);color:#fff;font-weight:700;}
+    table.orders-table th,table.orders-table td{padding:12px 16px;border-bottom:1.6px solid var(--border);text-align:left;vertical-align:middle;}
+    table.orders-table tbody tr:hover{background:#dff0d8;}
+    .status-badge{padding:5px 16px;border-radius:1.2em;font-weight:700;color:#fff;display:inline-block;user-select:none;}
+    .status-pending{background-color:var(--status-pending);color:#3e2723;}
+    .status-inprogress{background-color:var(--status-inprogress);}
+    .status-completed{background-color:var(--status-completed);}
+    .status-cancelled{background-color:var(--status-cancelled);}
+    button.action-btn{background:var(--primary);color:var(--button-text);border:none;font-weight:700;font-family:'Montserrat',sans-serif;padding:6px 20px;border-radius:1.2em;cursor:pointer;transition:background 0.25s ease;user-select:none;font-size:0.95rem;box-shadow:0 4px 14px rgba(88,192,97,0.2);}
+    button.action-btn[disabled]{background:var(--border);color:var(--text-light);cursor:default;box-shadow:none;}
+    button.action-btn:hover:not([disabled]),button.action-btn:focus-visible:not([disabled]){background:var(--primary-dark);outline:none;}
+    .order-msg { color: green; font-weight: 700; margin: 7px 0 0 0; }
+    .order-id-small { font-size: 0.93em; color: #888; }
+    @media (max-width:650px){
+      main.container{padding:20px 20px 40px 20px;margin:30px auto 50px auto;}
+      table.orders-table th,table.orders-table td{padding:10px 12px;}
+      header.page-header{font-size:1.6rem;}
+      button.action-btn{padding:6px 12px;font-size:0.9rem;}
     }
   </style>
 </head>
-
 <body>
-  <header class="navbar" role="banner">
-    <div class="navbar-inner">
-      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
-    </div>
-  </header>
+<header class="navbar" role="banner">
+  <div class="navbar-inner">
+    <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+    <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
+  </div>
+</header>
+<main class="container" role="main" aria-label="Vendor Orders Page">
+  <header class="page-header" tabindex="0">Manage Orders</header>
+  <div id="orderMsgBar"></div>
+  <table class="orders-table" aria-describedby="ordersDescription">
+    <caption id="ordersDescription" class="sr-only">List of recent orders with status and actions</caption>
+    <thead>
+      <tr>
+        <th scope="col">Order #</th>
+        <th scope="col">Buyer</th>
+        <th scope="col">Items</th>
+        <th scope="col">Order Date</th>
+        <th scope="col">Status</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody id="ordersBody">
+    </tbody>
+  </table>
+</main>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  import {
+    getFirestore,
+    collection,
+    query,
+    where,
+    getDocs,
+    updateDoc,
+    doc,
+    getDoc,
+    serverTimestamp,
+    runTransaction
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  <main class="container" role="main" aria-label="Vendor Orders Page">
-    <header class="page-header" tabindex="0">Manage Orders</header>
+  const firebaseConfig = {
+    apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+    authDomain: "vendorvista-4b958.firebaseapp.com",
+    projectId: "vendorvista-4b958",
+    storageBucket: "vendorvista-4b958.appspot.com",
+    messagingSenderId: "479694426389",
+    appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+  };
 
-    <table class="orders-table" aria-describedby="ordersDescription">
-      <caption id="ordersDescription" class="sr-only">List of recent orders with status and actions</caption>
-      <thead>
-        <tr>
-          <th scope="col">Order #</th>
-          <th scope="col">Buyer</th>
-          <th scope="col">Items</th>
-          <th scope="col">Order Date</th>
-          <th scope="col">Status</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody id="ordersBody">
-        <!-- Orders rows will be injected here -->
-      </tbody>
-    </table>
-  </main>
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
 
-  <script>
-    // Inject navbar dynamically based on userRole from localStorage
-    (function () {
-      const nav = document.getElementById('navLinks');
-      const currentUserRole = localStorage.getItem('userRole') || 'vendor'; // default to vendor here
-      let navItems = '';
-      if (currentUserRole === 'vendor') {
-        navItems =
-          '<a href="/vendor-dashboard">Dashboard</a>' +
-          '<a href="/vendor-orders" class="active" aria-current="page">Orders</a>' +
-          '<a href="/vendor-stories">Stories</a>' +
-          '<a href="/vendor-produce">Market</a>' +
-          '<a href="/shared-live-map">Map</a>' +
-          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
-      } else {
-        navItems =
-          '<a href="/buyer-dashboard">Dashboard</a>' +
-          '<a href="/buyer-fresh-produce">Produce</a>' +
-          '<a href="/buyer-vendor">Favorite Vendors</a>' +
-          '<a href="/buyer-exchange">Ingredient Swap</a>' +
-          '<a href="/shared-live-map">Map</a>' +
-          '<a href="/shared-stories-feed">Stories</a>' +
-          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+  (function () {
+    const nav = document.getElementById('navLinks');
+    const currentUserRole = localStorage.getItem('userRole') || 'vendor';
+    nav.innerHTML = currentUserRole === 'vendor'
+      ? '<a href="/vendor-dashboard">Dashboard</a><a href="/vendor-orders" class="active">Orders</a><a href="/vendor-stories">Stories</a><a href="/vendor-produce">Market</a><a href="/shared-live-map">Map</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>'
+      : '<a href="/buyer-dashboard">Dashboard</a><a href="/buyer-fresh-produce">Produce</a><a href="/buyer-vendor">Favorite Vendors</a><a href="/buyer-exchange">Ingredient Swap</a><a href="/shared-live-map">Map</a><a href="/shared-stories-feed">Stories</a><a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+  })();
+
+  const statusMap = {
+    pending: { label: 'Pending', className: 'status-pending' },
+    inprogress: { label: 'In Progress', className: 'status-inprogress' },
+    completed: { label: 'Completed', className: 'status-completed' },
+    cancelled: { label: 'Cancelled', className: 'status-cancelled' }
+  };
+
+  function formatDate(ts) {
+    try {
+      if (ts && ts.toDate) {
+        return ts.toDate().toISOString().slice(0, 10);
+      } else if (typeof ts === "string") {
+        return ts.split('T')[0];
       }
-      nav.innerHTML = navItems;
-    })();
+    } catch (e) { }
+    return '';
+  }
 
-    // Sample orders data (replace with real backend data)
-    const orders = [
-      {
-        id: 'A1001',
-        buyerName: 'Ram Kumar',
-        items: '10kg Tomatoes, 5kg Onions',
-        orderDate: '2025-07-21',
-        status: 'pending',
-      },
-      {
-        id: 'A1002',
-        buyerName: 'Sunita Devi',
-        items: '3kg Carrots, 2kg Spinach',
-        orderDate: '2025-07-22',
-        status: 'inprogress',
-      },
-      {
-        id: 'A1003',
-        buyerName: 'Ravi Patel',
-        items: '15kg Potatoes',
-        orderDate: '2025-07-20',
-        status: 'completed',
-      },
-      {
-        id: 'A1004',
-        buyerName: 'Neha Sharma',
-        items: '5kg Tomatoes',
-        orderDate: '2025-07-21',
-        status: 'cancelled',
-      },
-    ];
-
-    // Map status to badge classes and text labels
-    const statusMap = {
-      pending: { label: 'Pending', className: 'status-pending' },
-      inprogress: { label: 'In Progress', className: 'status-inprogress' },
-      completed: { label: 'Completed', className: 'status-completed' },
-      cancelled: { label: 'Cancelled', className: 'status-cancelled' },
-    };
-
-    // Function to create action buttons based on order status
-    function createActionButtons(order) {
-      const container = document.createElement('div');
-      container.style.display = 'flex';
-      container.style.gap = '12px';
-
-      if (order.status === 'pending') {
-        const btnInProgress = document.createElement('button');
-        btnInProgress.textContent = 'Start Order';
-        btnInProgress.className = 'action-btn';
-        btnInProgress.setAttribute('aria-label', `Mark order ${order.id} as In Progress`);
-        btnInProgress.onclick = () => updateOrderStatus(order.id, 'inprogress');
-        container.appendChild(btnInProgress);
-
-        const btnCancel = document.createElement('button');
-        btnCancel.textContent = 'Cancel Order';
-        btnCancel.className = 'action-btn';
-        btnCancel.style.backgroundColor = 'var(--status-cancelled)';
-        btnCancel.style.color = '#fff';
-        btnCancel.setAttribute('aria-label', `Cancel order ${order.id}`);
-        btnCancel.onclick = () => updateOrderStatus(order.id, 'cancelled');
-        container.appendChild(btnCancel);
-
-      } else if (order.status === 'inprogress') {
-        const btnComplete = document.createElement('button');
-        btnComplete.textContent = 'Mark Completed';
-        btnComplete.className = 'action-btn';
-        btnComplete.setAttribute('aria-label', `Mark order ${order.id} as Completed`);
-        btnComplete.onclick = () => updateOrderStatus(order.id, 'completed');
-        container.appendChild(btnComplete);
-
-      } else {
-        const span = document.createElement('span');
-        span.textContent = 'No actions available';
-        span.style.color = 'var(--text-light)';
-        span.style.fontStyle = 'italic';
-        container.appendChild(span);
-      }
-
-      return container;
+  function renderOrders(orderArr, buyerMap) {
+    const tbody = document.getElementById('ordersBody');
+    tbody.innerHTML = '';
+    if (!orderArr.length) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#aaa;">No orders yet.</td></tr>`;
+      return;
     }
+    orderArr.forEach(order => {
+      const tr = document.createElement('tr');
+      const tdId = document.createElement('td');
+      tdId.innerHTML = `<span class="order-id-small">${order.oid || order.id || ''}</span>`;
+      tr.appendChild(tdId);
+      const tdBuyer = document.createElement('td');
+      tdBuyer.textContent = buyerMap[order.buyerId] || order.buyerId || '';
+      tr.appendChild(tdBuyer);
+      const tdItems = document.createElement('td');
+      tdItems.innerHTML = order.items.map(i => `${i.qty}kg ${i.name}`).join(', ');
+      tr.appendChild(tdItems);
+      const tdDate = document.createElement('td');
+      tdDate.textContent = formatDate(order.orderTimestamp) || '';
+      tr.appendChild(tdDate);
+      const tdStatus = document.createElement('td');
+      const info = statusMap[order.status] || { label: order.status, className: '' };
+      const spanStatus = document.createElement('span');
+      spanStatus.className = `status-badge ${info.className}`;
+      spanStatus.textContent = info.label;
+      tdStatus.appendChild(spanStatus);
+      tr.appendChild(tdStatus);
+      const tdActions = document.createElement('td');
+      tdActions.appendChild(createActionButtons(order));
+      tr.appendChild(tdActions);
+      tbody.appendChild(tr);
+    });
+  }
 
-    // Function to render orders table rows
-    function renderOrders() {
-      const tbody = document.getElementById('ordersBody');
-      tbody.innerHTML = '';
+  function createActionButtons(order) {
+    const container = document.createElement('div');
+    container.style.display = 'flex';
+    container.style.gap = '12px';
 
-      orders.forEach(order => {
-        const tr = document.createElement('tr');
+    if (order.status === 'pending') {
+      const btnStart = document.createElement('button');
+      btnStart.textContent = 'Start Order';
+      btnStart.className = 'action-btn';
+      btnStart.onclick = () => updateOrderStatus(order.docRef, 'inprogress', order);
+      container.appendChild(btnStart);
 
-        const tdId = document.createElement('td');
-        tdId.textContent = order.id;
-        tr.appendChild(tdId);
+      const btnCancel = document.createElement('button');
+      btnCancel.textContent = 'Cancel Order';
+      btnCancel.className = 'action-btn';
+      btnCancel.style.backgroundColor = 'var(--status-cancelled)';
+      btnCancel.style.color = '#fff';
+      btnCancel.onclick = () => updateOrderStatus(order.docRef, 'cancelled', order);
+      container.appendChild(btnCancel);
+    } else if (order.status === 'inprogress') {
+      const btnComplete = document.createElement('button');
+      btnComplete.textContent = 'Mark Completed';
+      btnComplete.className = 'action-btn';
+      btnComplete.onclick = () => updateOrderStatus(order.docRef, 'completed', order);
+      container.appendChild(btnComplete);
+    } else {
+      const span = document.createElement('span');
+      span.textContent = 'No actions available';
+      span.style.color = 'var(--text-light)';
+      span.style.fontStyle = 'italic';
+      container.appendChild(span);
+    }
+    return container;
+  }
 
-        const tdBuyer = document.createElement('td');
-        tdBuyer.textContent = order.buyerName;
-        tr.appendChild(tdBuyer);
+  async function updateOrderStatus(docRef, newStatus, orderObj) {
+    if (!docRef) return;
+    const orderMsgBar = document.getElementById('orderMsgBar');
+    orderMsgBar.textContent = "Updating order status...";
+    try {
+      await runTransaction(db, async (tx) => {
+        // Read current order doc inside transaction
+        const orderSnapshot = await tx.get(docRef);
+        if (!orderSnapshot.exists()) throw new Error("Order not found");
+        const currentStatus = orderSnapshot.data().status;
 
-        const tdItems = document.createElement('td');
-        tdItems.textContent = order.items;
-        tr.appendChild(tdItems);
+        // Read vendor produce doc
+        const vendorProduceRef = doc(db, 'vendor_produce', orderObj.vendorId);
+        const produceSnapshot = await tx.get(vendorProduceRef);
+        if (!produceSnapshot.exists()) throw new Error("Vendor produce record missing!");
+        let produceArr = produceSnapshot.data().produce || [];
 
-        const tdDate = document.createElement('td');
-        tdDate.textContent = order.orderDate;
-        tr.appendChild(tdDate);
+        // Determine if need to decrement stock:
+        // Only decrement if changing from 'pending' to 'inprogress' (first acceptance)
+        if (currentStatus === "pending" && newStatus === "inprogress") {
+          for (const orderedItem of orderObj.items) {
+            let idx = -1;
+            if (orderedItem.id !== undefined) {
+              idx = produceArr.findIndex(p => p.id === orderedItem.id);
+            }
+            if (idx === -1) idx = produceArr.findIndex(p => p.name === orderedItem.name);
 
-        const tdStatus = document.createElement('td');
-        const statusInfo = statusMap[order.status] || { label: order.status, className: '' };
-        const spanStatus = document.createElement('span');
-        spanStatus.className = `status-badge ${statusInfo.className}`;
-        spanStatus.textContent = statusInfo.label;
-        tdStatus.appendChild(spanStatus);
-        tr.appendChild(tdStatus);
+            if (idx === -1) throw new Error(`Produce "${orderedItem.name}" not found`);
+            const currentQty = produceArr[idx].qty ?? 0;
+            if (currentQty < orderedItem.qty) throw new Error(
+              `Not enough stock of "${orderedItem.name}".`
+            );
+            produceArr[idx].qty = currentQty - orderedItem.qty;
+          }
+          // Update produce array after decrement
+          tx.update(vendorProduceRef, { produce: produceArr });
+        }
 
-        const tdActions = document.createElement('td');
-        tdActions.appendChild(createActionButtons(order));
-        tr.appendChild(tdActions);
-
-        tbody.appendChild(tr);
+        // Update order status and timestamp
+        tx.update(docRef, { status: newStatus, statusUpdated: serverTimestamp() });
       });
-    }
 
-    // Function to update order status and refresh the table
-    function updateOrderStatus(orderId, newStatus) {
-      const order = orders.find(o => o.id === orderId);
-      if (!order) return;
-      order.status = newStatus;
-      alert(`Order ${orderId} status updated to "${statusMap[newStatus].label}"`);
-      renderOrders();
+      orderMsgBar.style.color = "green";
+      orderMsgBar.textContent = "Order status & inventory updated!";
+      setTimeout(() => { orderMsgBar.textContent = ""; }, 1500);
+      await loadOrders();
+    } catch (err) {
+      orderMsgBar.style.color = "red";
+      orderMsgBar.textContent = `Error: ${err.message || err}`;
+      console.error(err);
     }
+  }
 
-    // Initial rendering of orders table on page load
-    renderOrders();
-  </script>
+  async function getBuyerNames(buyerIds) {
+    const buyerMap = {};
+    for (const uid of buyerIds) {
+      try {
+        const dsnap = await getDoc(doc(db, "users", uid));
+        if (dsnap.exists()) buyerMap[uid] = dsnap.data().name || uid;
+      } catch {}
+    }
+    return buyerMap;
+  }
+
+  async function loadOrders() {
+    const tbody = document.getElementById('ordersBody');
+    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#bbb;">Loading orders...</td></tr>`;
+    const user = auth.currentUser;
+    if (!user) {
+      tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;color:#f44;">Please log in as vendor to view orders.</td></tr>`;
+      return;
+    }
+    const q = query(collection(db, "orders"), where("vendorId", "==", user.uid));
+    const qsnap = await getDocs(q);
+    const ordersArr = [];
+    const buyerSet = new Set();
+    qsnap.forEach(docSnap => {
+      const d = docSnap.data();
+      ordersArr.push({ ...d, docRef: docSnap.ref, oid: docSnap.id });
+      if (d.buyerId) buyerSet.add(d.buyerId);
+    });
+    const buyerMap = await getBuyerNames([...buyerSet]);
+    renderOrders(ordersArr.sort((a,b) => (b.orderTimestamp && a.orderTimestamp) ? b.orderTimestamp.seconds - a.orderTimestamp.seconds : 0), buyerMap);
+  }
+
+  onAuthStateChanged(auth, user => {
+    if (!user) {
+      document.getElementById('ordersBody').innerHTML = `<tr><td colspan="6" style="text-align:center;color:#f44;">Please log in as vendor to view orders.</td></tr>`;
+      return;
+    }
+    loadOrders();
+  });
+</script>
 </body>
-
 </html>
