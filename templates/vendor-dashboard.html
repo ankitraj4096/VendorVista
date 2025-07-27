@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Vendor Dashboard | StreetSymphony</title>
@@ -23,11 +24,16 @@
       --button-hover: #1fa471;
       --button-text: #fff;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
+
     body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
@@ -36,10 +42,12 @@
       flex-direction: column;
       align-items: center;
     }
+
     /* Navbar at top */
     header.navbar {
       width: 100vw;
-      left: 0; right: 0;
+      left: 0;
+      right: 0;
       padding: 15px 0;
       background: var(--primary);
       color: #fff;
@@ -55,7 +63,10 @@
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
       border-radius: 0 0 18px 18px;
       min-width: 0;
+      flex-wrap: wrap;
+      gap: 12px;
     }
+
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -65,12 +76,14 @@
       flex-wrap: wrap;
       gap: 12px;
     }
+
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
+
     nav.main-nav a {
       color: #fff;
       text-decoration: none;
@@ -81,11 +94,13 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
+
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
+
     main.container {
       max-width: 900px;
       width: 95%;
@@ -94,6 +109,7 @@
       flex-direction: column;
       gap: 32px;
     }
+
     h1.welcome-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
@@ -101,6 +117,7 @@
       color: var(--primary-dark);
       margin: 0;
     }
+
     p.welcome-subtitle {
       font-size: 1.22rem;
       color: var(--text-light);
@@ -109,12 +126,14 @@
       font-weight: 600;
       max-width: 680px;
     }
+
     section.cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 26px;
       width: 100%;
     }
+
     article.card {
       background: var(--card-bg);
       border-radius: 1.3em;
@@ -128,12 +147,14 @@
       outline-offset: 4px;
       min-width: 0;
     }
+
     article.card:hover,
     article.card:focus-within {
       box-shadow: 0 16px 60px rgba(41, 88, 40, 0.25);
       transform: translateY(-6px);
       outline: none;
     }
+
     article.card h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -144,6 +165,7 @@
       align-items: center;
       gap: 10px;
     }
+
     article.card p {
       font-size: 1.04rem;
       color: var(--text-light);
@@ -151,6 +173,7 @@
       line-height: 1.55;
       margin: 0 0 26px 0;
     }
+
     article.card a.btn-link {
       background: var(--primary);
       color: var(--button-text);
@@ -167,49 +190,50 @@
       display: inline-block;
       box-shadow: 0 5px 20px rgba(41, 88, 40, 0.25);
     }
+
     article.card a.btn-link:hover,
     article.card a.btn-link:focus-visible {
       background: var(--accent);
       color: var(--text-dark);
       outline: none;
     }
+
     @media (max-width: 650px) {
       h1.welcome-header {
         font-size: 2rem;
       }
+
       p.welcome-subtitle {
         font-size: 1rem;
       }
+
       .navbar-inner {
         flex-direction: column;
         gap: 12px;
       }
+
       nav.main-nav {
         gap: 12px;
       }
+
       article.card a.btn-link {
         padding: 10px 20px;
         font-size: 1.01rem;
       }
+
       main.container {
         margin: 22px auto 60px auto;
       }
     }
   </style>
 </head>
+
 <body>
   <!-- Navbar -->
   <header class="navbar" role="banner">
-    <div class="navbar-inner">
-      <span style="font-family:'Montserrat', sans-serif; font-size:1.4rem; font-weight:900; letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="/vendor-dashboard" class="active" aria-current="page">Dashboard</a>
-        <a href="/vendor-orders">Orders</a>
-        <a href="/vendor-stories">Stories</a>
-        <a href="/vendor-produce">Market</a>
-        <a href="/shared-live-map">Map</a>
-        <a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+    <div class="navbar-inner" id="navbarInner">
+      <span style="font-family:'Montserrat',sans-serif; font-size:1.4rem; font-weight:900; letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
@@ -237,57 +261,78 @@
       </article>
     </section>
   </main>
+
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-  // Your Firebase config (ensure this matches your project)
-  const firebaseConfig = {
-    apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
-    authDomain: "vendorvista-4b958.firebaseapp.com",
-    projectId: "vendorvista-4b958",
-    storageBucket: "vendorvista-4b958.appspot.com",
-    messagingSenderId: "479694426389",
-    appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+      authDomain: "vendorvista-4b958.firebaseapp.com",
+      projectId: "vendorvista-4b958",
+      storageBucket: "vendorvista-4b958.appspot.com",
+      messagingSenderId: "479694426389",
+      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  // Select the welcome header element you want to update
-  const welcomeHeader = document.querySelector(".welcome-header");
+    const welcomeHeader = document.querySelector(".welcome-header");
 
-  // Monitor auth state - triggers at initial load and later login/logout
-  onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      // User is signed in, get the user UID
-      const uid = user.uid;
+    // Inject navbar dynamically based on user role in localStorage
+    (function () {
+      const nav = document.getElementById("navLinks");
+      const userRole = localStorage.getItem("userRole") || "vendor"; // Default vendor on this page
 
-      try {
-        // Fetch user details from Firestore users collection by UID
-        const userDoc = await getDoc(doc(db, "users", uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          const shopName = userData.shopName || userData.name || "Vendor";
-
-          // Update the welcome message dynamically
-          welcomeHeader.textContent = `Welcome back, ${shopName}!`;
-        } else {
-          // If user profile not found, fallback message or redirect to profile creation
-          welcomeHeader.textContent = "Welcome back, Vendor!";
-          console.warn("No user profile found in Firestore for UID:", uid);
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-        welcomeHeader.textContent = "Welcome back, Vendor!";
+      let navItems = '';
+      if(userRole === 'vendor'){
+        navItems =
+          '<a href="/vendor-dashboard" class="active" aria-current="page">Dashboard</a>'+
+          '<a href="/vendor-orders">Orders</a>'+
+          '<a href="/vendor-stories">Stories</a>'+
+          '<a href="/vendor-produce">Market</a>'+
+          '<a href="/shared-live-map">Map</a>'+
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        // If buyer visits vendor dashboard, fallback to buyer nav (optional)
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
       }
-    } else {
-      // User not logged in - optionally redirect to login page
-      window.location.href = "/login";
-    }
+      nav.innerHTML = navItems;
+    })();
+
+    // Monitor Firebase auth state to set welcome name, or redirect if not signed in
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, "users", user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            // Vendor may have "shopName" for friendly greeting
+            const welcomeName = userData.shopName || userData.name || "Vendor";
+            welcomeHeader.textContent = `Welcome back, ${welcomeName}!`;
+          } else {
+            welcomeHeader.textContent = "Welcome back, Vendor!";
+            console.warn("User profile not found in Firestore");
+          }
+        } catch (err) {
+          console.error("Error fetching user data:", err);
+          welcomeHeader.textContent = "Welcome back, Vendor!";
+        }
+      } else {
+        // Not signed-in, redirect to login page
+        window.location.href = "/login";
+      }
     });
-    </script>
+  </script>
 </body>
 </html>

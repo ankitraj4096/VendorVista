@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Fresh Produce Market | StreetSymphony</title>
@@ -40,7 +41,8 @@
     /* Navbar at top */
     header.navbar {
       width: 100vw;
-      left: 0; right: 0;
+      left: 0;
+      right: 0;
       padding: 15px 0;
       background: var(--primary);
       color: #fff;
@@ -53,7 +55,7 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
@@ -85,6 +87,7 @@
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
+
 
     main.container {
       max-width: 900px;
@@ -124,11 +127,13 @@
       outline: none;
     }
 
+
     .produce-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill,minmax(160px,1fr));
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
       gap: 20px;
     }
+
 
     article.produce-card {
       background: #daffe1;
@@ -168,6 +173,7 @@
       gap: 4px;
     }
 
+
     @media (max-width: 480px) {
       main.container {
         margin: 20px 14px 40px 14px;
@@ -175,7 +181,7 @@
         width: 100%;
       }
       .produce-grid {
-        grid-template-columns: repeat(auto-fill,minmax(140px,1fr));
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
       }
       button.btn-back {
         padding: 9px 22px;
@@ -184,29 +190,25 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Wide-top Navbar -->
   <header class="navbar" role="banner">
     <div class="navbar-inner">
       <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="/buyer-dashboard">Dashboard</a>
-        <a href="/buyer-fresh-produce" class="active" aria-current="page">Produce</a>
-        <a href="/buyer-vendor">Favorite Vendors</a>
-        <a href="/buyer-exchange">Ingredient Swap</a>
-        <a href="/shared-live-map">Map</a>
-        <a href="/shared-stories-feed">Stories</a>
-        <a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
+
 
   <main class="container" role="main" aria-label="Fresh produce marketplace">
     <header class="page-header" tabindex="0">Fresh Produce Marketplace</header>
 
+
     <button class="btn-back" onclick="window.location.href='/buyer-dashboard';" aria-label="Back to Dashboard">
       <i class="bi bi-arrow-left-circle"></i> Back to Dashboard
     </button>
+
 
     <section class="produce-grid" id="produceGrid" tabindex="0" aria-live="polite">
       <!-- Example produce cards -->
@@ -228,5 +230,35 @@
       <!-- Add more produce cards dynamically here -->
     </section>
   </main>
+
+  <script>
+    (function () {
+      const nav = document.getElementById('navLinks');
+      const currentUserRole = localStorage.getItem('userRole') || 'buyer';
+      let navItems = '';
+
+      if (currentUserRole === 'vendor') {
+        navItems =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce" class="active" aria-current="page">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+
+      nav.innerHTML = navItems;
+    })();
+  </script>
 </body>
+
 </html>

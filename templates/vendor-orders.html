@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Vendor Orders | StreetSymphony</title>
@@ -27,11 +28,16 @@
       --status-completed: #66bb6a;
       --status-cancelled: #ef5350;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
+
     body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
@@ -40,10 +46,12 @@
       flex-direction: column;
       align-items: center;
     }
+
     /* Navbar at top */
     header.navbar {
       width: 100vw;
-      left: 0; right: 0;
+      left: 0;
+      right: 0;
       padding: 15px 0;
       background: var(--primary);
       color: #fff;
@@ -56,10 +64,11 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
+
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -67,12 +76,14 @@
       justify-content: space-between;
       align-items: center;
     }
+
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
+
     nav.main-nav a {
       color: #fff;
       text-decoration: none;
@@ -83,6 +94,7 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
+
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
@@ -102,6 +114,7 @@
       gap: 28px;
       overflow-x: auto;
     }
+
     header.page-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -109,16 +122,19 @@
       color: var(--primary-dark);
       margin: 0;
     }
+
     table.orders-table {
       width: 100%;
       border-collapse: collapse;
       font-size: 1rem;
     }
+
     table.orders-table thead {
       background: var(--primary);
       color: #fff;
       font-weight: 700;
     }
+
     table.orders-table th,
     table.orders-table td {
       padding: 12px 16px;
@@ -126,9 +142,11 @@
       text-align: left;
       vertical-align: middle;
     }
+
     table.orders-table tbody tr:hover {
       background: #dff0d8;
     }
+
     .status-badge {
       padding: 5px 16px;
       border-radius: 1.2em;
@@ -137,19 +155,24 @@
       display: inline-block;
       user-select: none;
     }
+
     .status-pending {
       background-color: var(--status-pending);
       color: #3e2723;
     }
+
     .status-inprogress {
       background-color: var(--status-inprogress);
     }
+
     .status-completed {
       background-color: var(--status-completed);
     }
+
     .status-cancelled {
       background-color: var(--status-cancelled);
     }
+
     button.action-btn {
       background: var(--primary);
       color: var(--button-text);
@@ -164,29 +187,35 @@
       font-size: 0.95rem;
       box-shadow: 0 4px 14px rgba(88, 192, 97, 0.2);
     }
+
     button.action-btn[disabled] {
       background: var(--border);
       color: var(--text-light);
       cursor: default;
       box-shadow: none;
     }
+
     button.action-btn:hover:not([disabled]),
     button.action-btn:focus-visible:not([disabled]) {
       background: var(--primary-dark);
       outline: none;
     }
+
     @media (max-width: 650px) {
       main.container {
         padding: 20px 20px 40px 20px;
         margin: 30px auto 50px auto;
       }
+
       table.orders-table th,
       table.orders-table td {
         padding: 10px 12px;
       }
+
       header.page-header {
         font-size: 1.6rem;
       }
+
       button.action-btn {
         padding: 6px 14px;
         font-size: 0.9rem;
@@ -194,18 +223,12 @@
     }
   </style>
 </head>
+
 <body>
   <header class="navbar" role="banner">
     <div class="navbar-inner">
       <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="/vendor-dashboard">Dashboard</a>
-        <a href="/vendor-orders" class="active" aria-current="page">Orders</a>
-        <a href="/vendor-stories">Stories</a>
-        <a href="/vendor-produce">Market</a>
-        <a href="/shared-live-map">Map</a>
-        <a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
@@ -231,6 +254,32 @@
   </main>
 
   <script>
+    // Inject navbar dynamically based on userRole from localStorage
+    (function () {
+      const nav = document.getElementById('navLinks');
+      const currentUserRole = localStorage.getItem('userRole') || 'vendor'; // default to vendor here
+      let navItems = '';
+      if (currentUserRole === 'vendor') {
+        navItems =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders" class="active" aria-current="page">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+      nav.innerHTML = navItems;
+    })();
+
     // Sample orders data (replace with real backend data)
     const orders = [
       {
@@ -277,9 +326,7 @@
       container.style.display = 'flex';
       container.style.gap = '12px';
 
-      // Depending on status, show different actions
       if (order.status === 'pending') {
-        // Button to mark as In Progress
         const btnInProgress = document.createElement('button');
         btnInProgress.textContent = 'Start Order';
         btnInProgress.className = 'action-btn';
@@ -287,7 +334,6 @@
         btnInProgress.onclick = () => updateOrderStatus(order.id, 'inprogress');
         container.appendChild(btnInProgress);
 
-        // Button to cancel
         const btnCancel = document.createElement('button');
         btnCancel.textContent = 'Cancel Order';
         btnCancel.className = 'action-btn';
@@ -298,15 +344,14 @@
         container.appendChild(btnCancel);
 
       } else if (order.status === 'inprogress') {
-        // Button to mark as Completed
         const btnComplete = document.createElement('button');
         btnComplete.textContent = 'Mark Completed';
         btnComplete.className = 'action-btn';
         btnComplete.setAttribute('aria-label', `Mark order ${order.id} as Completed`);
         btnComplete.onclick = () => updateOrderStatus(order.id, 'completed');
         container.appendChild(btnComplete);
+
       } else {
-        // No actions for completed or cancelled orders
         const span = document.createElement('span');
         span.textContent = 'No actions available';
         span.style.color = 'var(--text-light)';
@@ -357,7 +402,7 @@
       });
     }
 
-    // Function to update order status and re-render
+    // Function to update order status and refresh the table
     function updateOrderStatus(orderId, newStatus) {
       const order = orders.find(o => o.id === orderId);
       if (!order) return;
@@ -366,8 +411,9 @@
       renderOrders();
     }
 
-    // Initial render
+    // Initial rendering of orders table on page load
     renderOrders();
   </script>
 </body>
+
 </html>

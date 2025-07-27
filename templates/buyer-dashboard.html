@@ -6,8 +6,7 @@
   <title>Buyer Dashboard | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
@@ -232,15 +231,7 @@
     <div class="navbar-inner">
       <span
         style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="{{ url_for('buyer_dashboard') }}" class="active" aria-current="page">Dashboard</a>
-        <a href="{{ url_for('buyer_fresh_produce') }}">Produce</a>
-        <a href="{{ url_for('buyer_vendor') }}">Favorite Vendors</a>
-        <a href="{{ url_for('buyer_exchange') }}">Ingredient Swap</a>
-        <a href="{{ url_for('shared_live_map') }}">Map</a>
-        <a href="{{ url_for('shared_stories_feed') }}">Stories</a>
-        <a href="{{ url_for('shared_profile') }}" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
@@ -275,6 +266,36 @@
       </article>
     </section>
   </main>
+
+  <script>
+    (function () {
+      const nav = document.getElementById('navLinks');
+      const currentUserRole = localStorage.getItem('userRole') || 'buyer';
+      let navItems = '';
+
+      if (currentUserRole === 'vendor') {
+        // Redirect vendor to vendor dashboard maybe, but here just build nav for vendor
+        navItems =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navItems =
+          '<a href="/buyer-dashboard" class="active" aria-current="page">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+
+      nav.innerHTML = navItems;
+    })();
+  </script>
 </body>
 
 </html>

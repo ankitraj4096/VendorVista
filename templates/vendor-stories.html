@@ -2,33 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Vendor Stories | StreetSymphony</title>
+  <title>Vendor Stories | StreetSypmhony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
   <style>
     :root {
       --primary: #58c061;
       --primary-dark: #357138;
       --secondary: #fffef7;
-      --card-bg: #f7fdf6;
+      --card-bg: #f7f7f7;
       --border: #dbeadb;
-      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
-      --text-dark: #232c1e;
-      --text-light: #526a3b;
-      --button: #26c485;
-      --button-hover: #1fa471;
+      --shadow: 0 0 10px rgba(0,0,0,0.1);
+      --text-dark: #232c21;
+      --text-light: #526b47;
+      --button-bg: #58c061;
+      --button-hover-bg: #357138;
       --button-text: #fff;
-      --accent: #fbe27a;
+      --accent: #f2da58;
     }
     *, *::before, *::after {
       box-sizing: border-box;
     }
+
     body {
-      margin: 0;
-      padding: 0;
+      margin: 0; padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
@@ -37,14 +37,12 @@
       flex-direction: column;
       align-items: center;
     }
-    /* Navbar at top */
+
     header.navbar {
       width: 100vw;
-      left: 0;
-      right: 0;
       padding: 15px 0;
       background: var(--primary);
-      color: #fff;
+      color: var(--button-text);
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
       font-size: 1.35rem;
@@ -58,6 +56,7 @@
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
+
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -67,14 +66,16 @@
       flex-wrap: wrap;
       gap: 12px;
     }
+
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
+
     nav.main-nav a {
-      color: #fff;
+      color: var(--button-text);
       text-decoration: none;
       font-weight: 700;
       font-size: 1.05rem;
@@ -83,6 +84,7 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
+
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
@@ -97,6 +99,7 @@
       flex-direction: column;
       gap: 28px;
     }
+
     header.page-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -104,9 +107,10 @@
       color: var(--primary-dark);
       margin: 0;
     }
+
     button.add-story-btn {
       align-self: flex-start;
-      background: var(--primary);
+      background: var(--button-bg);
       color: var(--button-text);
       font-weight: 700;
       font-family: 'Montserrat', sans-serif;
@@ -115,16 +119,17 @@
       border-radius: 1.3em;
       border: none;
       cursor: pointer;
-      box-shadow: 0 5px 18px #58c061bb;
-      transition: background 0.3s ease;
+      box-shadow: 0 5px 18px rgba(88,192,97,0.6);
       display: flex;
       align-items: center;
       gap: 10px;
       user-select: none;
+      transition: background 0.3s;
     }
+
     button.add-story-btn:hover,
     button.add-story-btn:focus-visible {
-      background: var(--button-hover);
+      background: var(--button-hover-bg);
       outline: none;
     }
 
@@ -134,11 +139,13 @@
       gap: 28px;
       max-height: 520px;
       overflow-y: auto;
-      padding-right: 8px; /* scrollbar space */
+      padding-right: 8px;
     }
+
     .stories-list::-webkit-scrollbar {
       width: 9px;
     }
+
     .stories-list::-webkit-scrollbar-thumb {
       background-color: var(--primary);
       border-radius: 6px;
@@ -146,18 +153,20 @@
 
     article.story-card {
       background: var(--card-bg);
-      border-radius: 1.3em;
+      border-radius: 1em;
       box-shadow: var(--shadow);
       padding: 24px 28px 26px 28px;
       position: relative;
       user-select: text;
-      transition: box-shadow 0.25s ease;
+      transition: box-shadow 0.25s;
     }
+
     article.story-card:hover,
     article.story-card:focus-within {
-      box-shadow: 0 14px 44px #8bda88aa;
+      box-shadow: 0 14px 44px rgba(56, 128, 20, 0.22);
       outline: none;
     }
+
     article.story-card header {
       display: flex;
       justify-content: space-between;
@@ -166,6 +175,7 @@
       gap: 8px;
       margin-bottom: 16px;
     }
+
     .story-author {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -173,6 +183,7 @@
       color: var(--primary-dark);
       user-select: none;
     }
+
     .story-date {
       font-size: 0.9rem;
       font-style: italic;
@@ -180,22 +191,31 @@
       white-space: nowrap;
       user-select: none;
     }
+
     .story-content {
       font-size: 1rem;
-      line-height: 1.55;
+      line-height: 1.6;
       color: var(--text-dark);
       white-space: pre-wrap;
       margin-bottom: 24px;
       min-height: 60px;
     }
+
+    .story-content:empty::before {
+      content: "(No content)";
+      font-style: italic;
+      color: var(--text-light);
+    }
+
     .story-actions {
       display: flex;
-      gap: 28px;
+      gap: 24px;
       align-items: center;
       font-size: 1rem;
       color: var(--text-light);
       user-select: none;
     }
+
     .story-actions button {
       background: none;
       border: none;
@@ -209,22 +229,28 @@
       border-radius: 1.2em;
       transition: color 0.2s;
     }
-    .story-actions button:hover,
-    .story-actions button.liked {
-      color: var(--primary);
-      background: #dcf5d2;
+
+    .story-actions button.liked,
+    .story-actions button:hover {
+      color: var(--accent);
+      background: #f2ef9b11;
+      outline: none;
     }
-    .story-actions button:disabled {
+
+    .story-actions button[disabled] {
       cursor: default;
-      opacity: 0.6;
+      opacity: 0.5;
     }
+
     .like-count {
       font-weight: 700;
     }
+
     .comment-bubble {
       position: relative;
       cursor: pointer;
     }
+
     .comment-bubble::after {
       content: attr(data-count);
       position: absolute;
@@ -241,175 +267,165 @@
       border-radius: 50%;
       user-select: none;
     }
+
     /* Modal styles */
     #modalBackdrop {
       display: none;
       position: fixed;
       inset: 0;
-      background: rgba(41, 88, 40, 0.25);
+      background: rgba(56, 128, 20, 0.3);
       z-index: 9999;
       align-items: center;
       justify-content: center;
     }
+
     #modalBackdrop.active {
       display: flex;
-      animation: fadein 0.2s ease forwards;
+      animation: fadein 0.2s forwards;
     }
+
     @keyframes fadein {
       from {opacity: 0;}
       to {opacity: 1;}
     }
+
     .modal-drawer {
       background: var(--secondary);
-      border-radius: 1.3em;
-      box-shadow: 0 8px 56px #5bc26140, 0 2px 20px #afd37544;
-      padding: 30px 34px 30px 34px;
+      border-radius: 1em;
+      box-shadow: 0 0 40px rgba(56,128,20,0.4);
+      padding: 24px 30px 24px 30px;
       width: 400px;
-      max-width: 95vw;
+      max-width: 90vw;
       position: relative;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      font-family: 'Poppins', Arial, sans-serif;
+      font-family: 'Montserrat', sans-serif;
       animation: popin 0.25s ease forwards;
     }
+
     @keyframes popin {
-      0% {opacity: 0; transform: scale(0.95);}
-      100% {opacity: 1; transform: scale(1);}
+      from {opacity: 0; transform: scale(0.95);}
+      to {opacity: 1; transform: scale(1);}
     }
+
     .modal-drawer h2 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 700;
-      font-size: 1.5rem;
+      font-size: 1.7rem;
+      margin: 0;
       color: var(--primary-dark);
-      margin: 0 0 12px 0;
+      font-weight: 900;
     }
+
     .modal-close {
       position: absolute;
-      top: 22px;
-      right: 26px;
+      top: 12px;
+      right: 12px;
       background: none;
       border: none;
       font-size: 1.6rem;
-      color: #888;
+      color: var(--primary);
       cursor: pointer;
-      transition: color 0.2s ease;
+      transition: color 0.3s;
       user-select: none;
     }
+
     .modal-close:hover,
     .modal-close:focus-visible {
       color: var(--primary-dark);
       outline: none;
     }
+
     form.story-form {
       display: flex;
       flex-direction: column;
       gap: 18px;
     }
+
     form.story-form label {
       font-weight: 700;
-      color: var(--text-dark);
-      font-size: 1.05rem;
-    }
-    form.story-form input[type="text"],
-    form.story-form textarea {
-      padding: 10px 16px;
-      font-size: 1rem;
-      border-radius: 0.9em;
-      border: 1.6px solid var(--border);
-      font-family: inherit;
-      color: var(--text-dark);
-      resize: vertical;
-      width: 100%;
-      box-sizing: border-box;
-      min-height: 38px;
-    }
-    form.story-form textarea {
-      min-height: 100px;
-    }
-    .modal-actions {
-      display: flex;
-      justify-content: flex-end;
-      gap: 16px;
-      margin-top: 4px;
-    }
-    .modal-btn {
-      padding: 12px 30px;
-      font-weight: 700;
-      border-radius: 2em;
-      border: none;
       font-size: 1.1rem;
-      font-family: 'Montserrat', sans-serif;
-      cursor: pointer;
-      transition: background-color 0.25s ease;
-      user-select: none;
+      color: var(--primary-dark);
     }
-    .modal-btn.submit {
+
+    form.story-form input,
+    form.story-form textarea {
+      padding: 12px 16px;
+      font-size: 1rem;
+      border-radius: 0.5em;
+      border: 1.8px solid var(--border);
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-dark);
+    }
+
+    form.story-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    form.story-form input:focus,
+    form.story-form textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 8px #9ccc6599;
+    }
+
+    form.story-form button {
+      align-self: flex-end;
       background: var(--primary);
       color: var(--button-text);
-      box-shadow: 0 6px 20px #58c061cc;
+      border: none;
+      border-radius: 1.5em;
+      padding: 12px 28px;
+      font-weight: 700;
+      font-size: 1.05rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.3s ease;
     }
-    .modal-btn.submit:hover,
-    .modal-btn.submit:focus-visible {
+
+    form.story-form button:hover,
+    form.story-form button:focus-visible {
       background: var(--button-hover);
       outline: none;
     }
-    .modal-btn.cancel {
-      background: #f0f0f0;
-      color: #666;
-      box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
-    }
-    .modal-btn.cancel:hover,
-    .modal-btn.cancel:focus-visible {
-      background: #e0e0e0;
-      color: #333;
-      outline: none;
-    }
-    @media (max-width: 500px) {
+
+    @media (max-width: 470px) {
       main.container {
-        margin: 25px 14px 50px 14px;
+        margin: 20px 10px 40px 10px;
         width: 100%;
-        padding: 0;
       }
       .modal-drawer {
-        width: 98vw;
+        width: 90vw;
+        padding: 20px;
       }
       button.add-story-btn {
-        padding: 10px 20px;
         font-size: 1rem;
+        padding: 10px 20px;
       }
     }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <header class="navbar" role="banner">
+  <header class="navbar" role="banner" aria-label="Main site navigation">
     <div class="navbar-inner">
-      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="vendor-dashboard">Dashboard</a>
-        <a href="vendor-orders">Orders</a>
-        <a href="vendor-stories" class="active" aria-current="page">Stories</a>
-        <a href="vendor-produce">Market</a>
-        <a href="shared-live-map">Map</a>
-        <a href="shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+      <span style="font-family:'Montserrat', sans-serif; font-weight:900; font-size:1.35rem; letter-spacing:1px; color:#fff;">StreetSypmhony</span>
+      <nav class="main-nav" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
   <main class="container" role="main" aria-label="Vendor Stories Management">
     <header class="page-header" tabindex="0">Vendor Stories</header>
 
-    <button class="add-story-btn" id="addStoryBtn" aria-haspopup="dialog" aria-controls="modalBackdrop" aria-expanded="false">
+    <button id="addStoryBtn" class="add-story-btn" aria-haspopup="dialog" aria-controls="modalBackdrop" aria-expanded="false">
       <i class="bi bi-plus-circle"></i> Add New Story
     </button>
 
-    <section class="stories-list" id="storiesList" tabindex="0" aria-live="polite" aria-relevant="additions removals">
+    <section class="stories-list" id="storiesList" tabindex="0" aria-live="polite" aria-relevant="additions">
       <!-- Stories will be rendered here -->
     </section>
   </main>
 
-  <!-- Modal backdrop -->
   <div id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
 
   <script>
@@ -417,39 +433,41 @@
     const addStoryBtn = document.getElementById('addStoryBtn');
     const storiesList = document.getElementById('storiesList');
 
-    // Example stories data - replace with backend integration
+    // Sample stories data — replace with backend integration as needed
     let storiesData = [
       {
         id: 1,
         title: 'A Busy Day at the Market',
         timestamp: '2025-07-23 15:32',
-        content: "Great response to our organic carrots today! Thanks to all customers.",
+        content: "Great response to our organic carrots! Thank you to all our amazing customers.",
         likes: 26,
         liked: false,
-        comments: 3,
+        comments: 3
       },
       {
         id: 2,
         title: 'New Store Launch',
         timestamp: '2025-07-20 11:10',
-        content: "We are excited to open our new roadside stall on Main Street. Visit us for fresh produce!",
+        content: "Excited to announce the opening of our new roadside stall on Main Street. Come visit!",
         likes: 48,
         liked: false,
-        comments: 7,
+        comments: 7
       }
     ];
 
-    // Utility: escape HTML
+    // Utility to escape HTML for XSS safety
     function escapeHtml(text) {
-      return text
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
+      const map = {
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      };
+      return text.replace(/[&<>"']/g, function(m) { return map[m]; });
     }
 
-    // Render stories in the list
+    // Render stories list
     function renderStories() {
       storiesList.innerHTML = '';
       if (storiesData.length === 0) {
@@ -457,33 +475,31 @@
         return;
       }
       storiesData.forEach(story => {
-        const el = document.createElement('article');
-        el.className = 'story-card';
-        el.setAttribute('tabindex', '0');
-        el.setAttribute('role', 'article');
-        el.setAttribute('aria-label', `Story titled "${story.title}", posted on ${story.timestamp}`);
+        const article = document.createElement('article');
+        article.className = 'story-card';
+        article.tabIndex = 0;
+        article.setAttribute('role', 'article');
+        article.setAttribute('aria-label', `Story titled "${escapeHtml(story.title)}", posted on ${escapeHtml(story.timestamp)}`);
 
-        el.innerHTML = `
+        article.innerHTML = `
           <header>
             <div class="story-author">${escapeHtml(story.title)}</div>
             <div class="story-date">${escapeHtml(story.timestamp)}</div>
           </header>
           <div class="story-content">${escapeHtml(story.content)}</div>
           <div class="story-actions">
-            <button aria-pressed="${story.liked}" aria-label="${story.liked ? 'Unlike' : 'Like'} story titled ${escapeHtml(story.title)}" class="like-btn" type="button">
-              <i class="bi bi-hand-thumbs-up${story.liked ? '-fill' : ''}"></i> 
+            <button class="like-btn ${story.liked ? 'liked' : ''}" aria-pressed="${story.liked}" aria-label="${story.liked ? 'Unlike' : 'Like'} story titled ${escapeHtml(story.title)}">
+              <i class="bi ${story.liked ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}"></i>
               <span class="like-count">${story.likes}</span>
             </button>
-            <button aria-label="View comments for story titled ${escapeHtml(story.title)}" class="comment-bubble" data-count="${story.comments}" type="button">
-              <i class="bi bi-chat-dots"></i>
-            </button>
+            <button class="comment-bubble" aria-label="View comments for story titled ${escapeHtml(story.title)}" data-count="${story.comments}"><i class="bi bi-chat"></i></button>
           </div>
         `;
 
-        storiesList.appendChild(el);
+        storiesList.appendChild(article);
 
         // Like button toggle handler
-        const likeBtn = el.querySelector('.like-btn');
+        const likeBtn = article.querySelector('.like-btn');
         likeBtn.addEventListener('click', () => {
           story.liked = !story.liked;
           story.likes += story.liked ? 1 : -1;
@@ -491,45 +507,72 @@
         });
 
         // Comment button placeholder handler
-        const commentBtn = el.querySelector('.comment-bubble');
+        const commentBtn = article.querySelector('.comment-bubble');
         commentBtn.addEventListener('click', () => {
-          alert('Comments feature coming soon!');
+          alert('Comment feature coming soon!');
         });
       });
     }
 
-    // Open modal for adding new story
+    // Show story add modal
     function openModal() {
-      const content = `
+      modalBackdrop.innerHTML = `
         <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
           <button class="modal-close" aria-label="Close">&times;</button>
-          <h2 id="modalTitle">Add New Vendor Story</h2>
+          <h2 id="modalTitle">Add New Story</h2>
           <form id="storyForm" class="story-form" autocomplete="off" novalidate>
             <label for="storyTitle">Title*</label>
-            <input type="text" id="storyTitle" name="storyTitle" maxlength="60" required placeholder="Story title" />
+            <input type="text" id="storyTitle" name="storyTitle" maxlength="100" required aria-required="true" />
             <label for="storyContent">Content*</label>
-            <textarea id="storyContent" name="storyContent" maxlength="400" required placeholder="Write your story..."></textarea>
-            <div class="modal-actions">
-              <button type="button" class="modal-btn cancel">Cancel</button>
-              <button type="submit" class="modal-btn submit">Add Story</button>
+            <textarea id="storyContent" name="storyContent" maxlength="1000" required aria-required="true"></textarea>
+            <div class="story-form-buttons">
+              <button type="button" class="modal-close-btn btn-cancel">Cancel</button>
+              <button type="submit" class="btn-submit">Add Story</button>
             </div>
           </form>
         </div>
       `;
-      modalBackdrop.innerHTML = content;
       modalBackdrop.classList.add('active');
       modalBackdrop.setAttribute('aria-hidden', 'false');
 
-      // Focus first input
-      const firstInput = modalBackdrop.querySelector('#storyTitle');
-      if(firstInput) firstInput.focus();
+      // Focus the first input after short delay
+      setTimeout(() => {
+        const firstInput = modalBackdrop.querySelector('#storyTitle');
+        if (firstInput) firstInput.focus();
+      }, 50);
 
       // Close handlers
-      modalBackdrop.querySelector('.modal-close').addEventListener('click', closeModal);
-      modalBackdrop.querySelector('.modal-btn.cancel').addEventListener('click', closeModal);
+      const closeButtons = modalBackdrop.querySelectorAll('.modal-close, .modal-close-btn');
+      closeButtons.forEach(btn => btn.addEventListener('click', closeModal));
 
-      // Trap keyboard focus inside modal
+      // Trap focus
       trapFocus(modalBackdrop.querySelector('.modal-drawer'));
+
+      // Form submit handler
+      modalBackdrop.querySelector('#storyForm').addEventListener('submit', e => {
+        e.preventDefault();
+        const title = e.target.storyTitle.value.trim();
+        const content = e.target.storyContent.value.trim();
+
+        if (!title || !content) {
+          alert('Please fill both Title and Content fields.');
+          return;
+        }
+
+        // Add new story (simulate ID and timestamp)
+        storiesData.unshift({
+          id: Date.now(),
+          title,
+          timestamp: new Date().toLocaleString(),
+          content,
+          likes: 0,
+          liked: false,
+          comments: 0
+        });
+
+        renderStories();
+        closeModal();
+      });
     }
 
     // Close modal function
@@ -537,28 +580,27 @@
       modalBackdrop.classList.remove('active');
       modalBackdrop.setAttribute('aria-hidden', 'true');
       modalBackdrop.innerHTML = '';
-      addStoryBtn.setAttribute('aria-expanded', 'false');
       addStoryBtn.focus();
     }
 
-    // Trap focus helper for accessibility
+    // Trap focus inside modal for accessibility
     function trapFocus(container) {
-      const focusables = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
-      if (focusables.length === 0) return;
-      const first = focusables[0];
-      const last = focusables[focusables.length - 1];
+      const focusableElements = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+      if (!focusableElements.length) return;
+      const firstEl = focusableElements[0];
+      const lastEl = focusableElements[focusableElements.length - 1];
 
       container.addEventListener('keydown', e => {
         if (e.key === 'Tab') {
           if (e.shiftKey) {
-            if (document.activeElement === first) {
+            if (document.activeElement === firstEl) {
               e.preventDefault();
-              last.focus();
+              lastEl.focus();
             }
           } else {
-            if (document.activeElement === last) {
+            if (document.activeElement === lastEl) {
               e.preventDefault();
-              first.focus();
+              firstEl.focus();
             }
           }
         } else if (e.key === 'Escape') {
@@ -567,41 +609,40 @@
       });
     }
 
-    // Setup event listeners
+    // Inject dynamic navbar based on user role
+    (function() {
+      const nav = document.getElementById('navLinks');
+      const role = localStorage.getItem('userRole') || 'vendor';
+      let navHtml = '';
+      if(role === 'vendor'){
+        navHtml =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories" class="active" aria-current="page">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navHtml =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+      nav.innerHTML = navHtml;
+    })();
+
+    // Event listener for Add Story button
     addStoryBtn.addEventListener('click', () => {
       openModal();
       addStoryBtn.setAttribute('aria-expanded', 'true');
     });
 
+    // Close modal when clicking outside modal content
     modalBackdrop.addEventListener('click', e => {
-      if (e.target === modalBackdrop) {
-        closeModal();
-      }
-    });
-
-    modalBackdrop.addEventListener('submit', e => {
-      e.preventDefault();
-      if (e.target.id === 'storyForm') {
-        const titleInput = e.target.storyTitle.value.trim();
-        const contentInput = e.target.storyContent.value.trim();
-
-        if (!titleInput || !contentInput) {
-          alert('Please fill both Title and Content fields.');
-          return;
-        }
-
-        // Add new story (simulate id and timestamp)
-        const newStory = {
-          id: Date.now(),
-          title: titleInput,
-          timestamp: new Date().toLocaleString(),
-          content: contentInput,
-          likes: 0,
-          liked: false,
-          comments: 0,
-        };
-        storiesData.unshift(newStory);
-        renderStories();
+      if(e.target === modalBackdrop){
         closeModal();
       }
     });

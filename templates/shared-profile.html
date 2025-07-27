@@ -6,8 +6,7 @@
   <title>User Profile | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
@@ -307,17 +306,17 @@
 
 <body>
   <script>
-    // Grab the user role from localStorage and use for dynamic nav
+    // Get current user role from localStorage, default buyer
     const currentUserRole = localStorage.getItem('userRole') || 'buyer';
   </script>
 
   <header class="navbar" role="banner">
     <div class="navbar-inner" id="navbarInner">
-      <span
-        style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
       <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
+
   <main class="container" role="main" aria-label="User Profile Page">
     <header class="page-header" tabindex="0">My Profile</header>
     <section class="profile-info">
@@ -341,25 +340,23 @@
           <p><strong>Shop/Farm Name:</strong> Green Valley Farm</p>
           <p><strong>Location:</strong> Near Sadar Bazaar, Delhi</p>
           <p><strong>Operating Hours:</strong> Mon-Sun 7:00 AM - 8:00 PM</p>
-          <p><strong>Description:</strong> Trusted provider of fresh and organic vegetables and fruits sourced directly
-            from family-owned farmland, committed to quality and sustainability.</p>
+          <p><strong>Description:</strong> Trusted provider of fresh and organic vegetables and fruits sourced directly from family-owned farmland, committed to quality and sustainability.</p>
         </section>
         <div class="buttons-row">
           <button class="edit-btn" id="editProfileBtn" aria-label="Edit Profile">Edit Profile</button>
           <button class="save-btn" id="saveProfileBtn" aria-label="Save Profile" style="display:none;">Save</button>
-          <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile"
-            style="display:none;">Cancel</button>
+          <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile" style="display:none;">Cancel</button>
           <button class="logout-btn" id="logoutBtn" type="button" aria-label="Log Out">Logout</button>
         </div>
       </div>
     </section>
   </main>
+
   <script type="module">
-    // Firebase Modular CDN imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-    // -- Your Firebase Config --
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -371,28 +368,33 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // --------- PROFILE PAGE LOGIC ----------
-
-    // Navbar Role-based
+    // Dynamic navbar injection based on user role
     (function () {
       const nav = document.getElementById('navLinks');
-      let dashboardLink = '';
+      let navItems = '';
       if (currentUserRole === 'vendor') {
-        dashboardLink = '<a href="/vendor-dashboard">Dashboard</a>';
+        navItems =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
         document.getElementById('vendorExtraInfo').hidden = false;
       } else {
-        dashboardLink = '<a href="/buyer-dashboard">Dashboard</a>';
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
       }
-      nav.innerHTML = dashboardLink +
-        '<a href="/buyer-fresh-produce">Produce</a>' +
-        '<a href="/buyer-vendor">Favorite Vendors</a>' +
-        '<a href="/buyer-exchange">Ingredient Swap</a>' +
-        '<a href="/shared-live-map">Map</a>' +
-        '<a href="/shared-stories-feed">Stories</a>' +
-        '<a href="/shared-profile" class="active" aria-current="page" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      nav.innerHTML = navItems;
     })();
 
-    // Profile editing handlers
+    // Profile editing functions
     const editButton = document.getElementById('editProfileBtn');
     const saveButton = document.getElementById('saveProfileBtn');
     const cancelButton = document.getElementById('cancelEditBtn');
@@ -415,6 +417,7 @@
       saveButton.style.display = 'inline-block';
       cancelButton.style.display = 'inline-block';
     });
+
     cancelButton.addEventListener('click', () => {
       fullNameInput.value = originalValues.fullName;
       emailInput.value = originalValues.email;
@@ -427,6 +430,7 @@
       saveButton.style.display = 'none';
       cancelButton.style.display = 'none';
     });
+
     saveButton.addEventListener('click', () => {
       if (!fullNameInput.value.trim() || !emailInput.value.trim()) {
         alert('Full Name and Email cannot be empty.');
@@ -440,22 +444,22 @@
       saveButton.style.display = 'none';
       cancelButton.style.display = 'none';
       alert('Profile saved successfully!');
-      // TODO: Add backend save using firebase if desired
+      // TODO: Add backend save using firebase here if needed
     });
 
-    // --------- LOGOUT HANDLER (Firebase Auth sign-out) -----------
+    // Logout button handler - sign out from Firebase and redirect home
     const logoutButton = document.getElementById('logoutBtn');
     if (logoutButton) {
       logoutButton.addEventListener('click', async () => {
         try {
           await signOut(auth);
-          window.location.href = '/login'; // or '/' if you prefer
+          localStorage.removeItem('userRole'); // Clear stored role on logout
+          window.location.href = '/'; // Redirect to index page on logout
         } catch (err) {
           alert("Error logging out: " + err.message);
         }
       });
     }
-
   </script>
 
 </body>
