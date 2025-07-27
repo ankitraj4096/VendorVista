@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vendor Profile | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --button: #26c485;
+      --button-text: #fff;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0; padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Navbar at top */
+    header.navbar {
+      width: 100vw;
+      left: 0; right: 0;
+      padding: 15px 0;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
+    }
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
+      position: relative;
+    }
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    main.container {
+      max-width: 900px;
+      width: 95%;
+      margin: 44px auto 60px auto;
+      background: var(--card-bg);
+      box-shadow: var(--shadow);
+      border-radius: 1.3em;
+      padding: 36px 36px 48px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    header.page-header {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    section.vendor-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 28px;
+      align-items: center;
+    }
+    .vendor-photo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      background-color: #d1f1bd;
+      border: 3.2px solid var(--primary);
+      box-shadow: 0 8px 24px #b7e9a266;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .vendor-details {
+      flex: 1 1 250px;
+      min-width: 250px;
+    }
+    .vendor-name {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--primary-dark);
+      font-size: 1.9rem;
+      font-weight: 900;
+      margin: 0 0 6px 0;
+    }
+    .vendor-contact {
+      font-size: 1rem;
+      color: var(--text-light);
+      margin-bottom: 8px;
+      user-select: text;
+    }
+    .vendor-contact i {
+      margin-right: 6px;
+      color: var(--primary);
+    }
+    .vendor-location,
+    .vendor-hours {
+      font-size: 0.95rem;
+      color: var(--text-light);
+      margin-bottom: 6px;
+      user-select: none;
+    }
+    button.contact-btn {
+      margin-top: 16px;
+      background: var(--primary);
+      color: var(--button-text);
+      border: none;
+      padding: 12px 28px;
+      border-radius: 1.3em;
+      font-weight: 700;
+      font-size: 1.1rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      box-shadow: 0 5px 22px #afd37555;
+      transition: background 0.28s ease;
+      user-select: none;
+    }
+    button.contact-btn:hover,
+    button.contact-btn:focus-visible {
+      background: var(--accent);
+      color: var(--text-dark);
+      outline: none;
+    }
+    section.produce-list-section {
+      border-radius: 1.1em;
+      box-shadow: var(--shadow);
+      background: var(--card-bg);
+      padding: 28px 28px 32px 28px;
+    }
+    section.produce-list-section h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: var(--primary-dark);
+      margin-bottom: 18px;
+    }
+    ul.produce-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+    ul.produce-list li {
+      background: #e9f6d5;
+      border-radius: 1em;
+      box-shadow: 0 5px 20px #b7e9a270;
+      padding: 14px 20px;
+      flex: 1 1 calc(33% - 24px);
+      min-width: 160px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--primary-dark);
+      user-select: none;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    span.produce-desc {
+      font-weight: 400;
+      font-size: 0.9rem;
+      color: var(--text-light);
+    }
+
+    @media (max-width: 650px) {
+      main.container {
+        padding: 24px 20px 36px 20px;
+        width: 95%;
+        margin: 30px auto 50px auto;
+      }
+      section.vendor-info {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      .vendor-details {
+        min-width: auto;
+      }
+      ul.produce-list {
+        flex-direction: column;
+      }
+      ul.produce-list li {
+        flex: none;
+        min-width: auto;
+      }
+      button.contact-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="buyer-dashboard.html">Dashboard</a>
+        <a href="buyer-fresh-produce.html">Produce</a>
+        <a href="buyer-vendor.html" class="active" aria-current="page">Favorite Vendors</a>
+        <a href="buyer-exchange.html">Ingredient Swap</a>
+        <a href="shared-live-map.html">Map</a>
+        <a href="shared-stories-feed.html">Stories</a>
+        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main" aria-label="Vendor profile and produce offerings">
+    <header class="page-header" tabindex="0">Vendor Profile</header>
+
+    <section class="vendor-info">
+      <img
+        src="https://images.unsplash.com/photo-1504595403659-9088ce801e29?auto=format&fit=crop&w=200&q=80"
+        alt="Vendor profile picture"
+        class="vendor-photo"
+      />
+      <div class="vendor-details">
+        <h1 class="vendor-name">Green Valley Farm</h1>
+        <div class="vendor-contact"><i class="bi bi-envelope-fill"></i> greenvalley@example.com</div>
+        <div class="vendor-contact"><i class="bi bi-telephone-fill"></i> +91 98765 43210</div>
+        <div class="vendor-location"><i class="bi bi-geo-alt-fill"></i> Near Sadar Bazaar, Delhi</div>
+        <div class="vendor-hours"><i class="bi bi-clock-history"></i> Mon-Sun 7:00 AM - 8:00 PM</div>
+        <button class="contact-btn" type="button" onclick="alert('Contact vendor feature coming soon')">Contact Vendor</button>
+      </div>
+    </section>
+
+    <section class="produce-list-section" aria-label="Produce offerings by vendor">
+      <h2>Available Produce</h2>
+      <ul class="produce-list">
+        <li>
+          Tomatoes
+          <span class="produce-desc">Organic, locally grown</span>
+        </li>
+        <li>
+          Onions
+          <span class="produce-desc">Fresh from the seasonal harvest</span>
+        </li>
+        <li>
+          Carrots
+          <span class="produce-desc">Sweet, crunchy, and naturally grown</span>
+        </li>
+        <li>
+          Spinach
+          <span class="produce-desc">Rich in nutrients and freshness</span>
+        </li>
+        <!-- Add more produce as fetched from backend -->
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

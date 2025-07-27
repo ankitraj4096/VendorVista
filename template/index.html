@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>StreetSymphony - Connect Through Food</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --accent: #fbe27a;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: var(--secondary);
+      color: #232c1e;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header.banner {
+      background: linear-gradient(110deg, #63e184 60%, #fbe27a 100%);
+      color: #fff;
+      text-align: center;
+      padding: 56px 20px 38px 20px;
+      border-bottom-left-radius: 20px;
+      border-bottom-right-radius: 20px;
+      box-shadow: 0 2px 26px rgba(41, 88, 40, 0.12);
+      width: 100%;
+      max-width: 900px;
+      margin-bottom: 40px;
+    }
+
+    .banner-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 2.85rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 8px rgba(50, 90, 60, 0.09);
+    }
+
+    .banner-subtitle {
+      font-size: 1.23rem;
+      font-weight: 400;
+      letter-spacing: 0.4px;
+      text-shadow: 0 2px 14px rgba(40, 80, 40, 0.06);
+    }
+
+    main.entry-section {
+      display: flex;
+      gap: 3rem;
+      max-width: 900px;
+      width: 95%;
+      justify-content: center;
+    }
+
+    .entry-card {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 1.2em;
+      box-shadow: var(--shadow);
+      flex: 1 1 300px;
+      max-width: 350px;
+      padding: 40px 40px 32px 40px;
+      text-align: center;
+      position: relative;
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .entry-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 48px rgba(80, 180, 100, 0.11);
+      transform: translateY(-8px) scale(1.03);
+    }
+
+    .icon-circle {
+      font-size: 3rem;
+      color: var(--primary);
+      background: #edffe9;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 26px auto;
+      border: 1.5px solid var(--border);
+      box-shadow: 0 4px 18px #cff7cb33;
+    }
+
+    .card-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #226b36;
+      letter-spacing: 1.2px;
+      margin-bottom: 24px;
+    }
+
+    ul.feature-list {
+      text-align: left;
+      padding-left: 22px;
+      margin: 0 0 24px 0;
+      color: #406c35;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      list-style-type: disc;
+    }
+
+    ul.feature-list li {
+      margin-bottom: 12px;
+    }
+
+    button.cta-btn {
+      width: 100%;
+      padding: 14px 0;
+      background: linear-gradient(90deg, #30b14b 35%, var(--primary) 95%);
+      border: none;
+      border-radius: 1.3em;
+      color: #fffdf6;
+      font-weight: 700;
+      font-size: 1.12rem;
+      letter-spacing: 0.8px;
+      box-shadow: 0 3px 18px rgba(88, 192, 97, 0.10);
+      transition: all 0.3s ease-in-out;
+      cursor: pointer;
+    }
+
+    button.cta-btn:hover {
+      background: linear-gradient(90deg, var(--primary-dark) 25%, #53c940 95%);
+      box-shadow: 0 6px 22px rgba(68, 150, 40, 0.14);
+    }
+
+    /* Responsive */
+    @media (max-width: 650px) {
+      main.entry-section {
+        flex-direction: column;
+        gap: 24px;
+      }
+      .banner-title {
+        font-size: 2rem;
+      }
+      .entry-card {
+        max-width: 100%;
+        padding: 32px 28px 28px 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="banner">
+    <div class="banner-title">Connecting Communities Through Food</div>
+    <div class="banner-subtitle">Taste, Trust, and Local Goodness at Your Fingertips</div>
+  </header>
+
+  <main class="entry-section">
+    <div class="entry-card" id="buyer-card" tabindex="0" role="button" aria-label="Enter as Buyer">
+      <div class="icon-circle">
+        <i class="bi bi-bag-check-fill"></i>
+      </div>
+      <div class="card-title">I'M A BUYER</div>
+      <ul class="feature-list">
+        <li>Order Street Food</li>
+        <li>Buy Local Produce</li>
+        <li>Discover Stories</li>
+      </ul>
+      <button class="cta-btn" id="buyerBtn">ENTER AS BUYER</button>
+    </div>
+
+    <div class="entry-card" id="vendor-card" tabindex="0" role="button" aria-label="Enter as Vendor">
+      <div class="icon-circle" style="background: #fff7de;">
+        <i class="bi bi-shop-window" style="color:#e1c469;"></i>
+      </div>
+      <div class="card-title">I'M A VENDOR</div>
+      <ul class="feature-list">
+        <li>List Your Stall</li>
+        <li>Manage Orders</li>
+        <li>Share Your Story</li>
+      </ul>
+      <button class="cta-btn" id="vendorBtn">ENTER AS VENDOR</button>
+    </div>
+  </main>
+
+  <script>
+    // Update navigation buttons to go to login with role param
+    document.getElementById('buyerBtn').addEventListener('click', () => {
+      window.location.href = "login.html?role=buyer";
+    });
+
+    document.getElementById('vendorBtn').addEventListener('click', () => {
+      window.location.href = "login.html?role=vendor";
+    });
+
+    // Optional: Make entire cards clickable (UX)
+    ['buyer-card', 'vendor-card'].forEach(id => {
+      const card = document.getElementById(id);
+      card.addEventListener('click', () => {
+        const btn = card.querySelector('button.cta-btn');
+        btn.click();
+      });
+      card.addEventListener('keypress', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          card.click();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

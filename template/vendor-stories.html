@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Vendor Stories | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    :root {
+      --primary: #58c061;
+      --primary-dark: #357138;
+      --secondary: #fffef7;
+      --card-bg: #f7fdf6;
+      --border: #dbeadb;
+      --shadow: 0 6px 30px rgba(41, 88, 40, 0.12);
+      --text-dark: #232c1e;
+      --text-light: #526a3b;
+      --button: #26c485;
+      --button-hover: #1fa471;
+      --button-text: #fff;
+      --accent: #fbe27a;
+    }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text-dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    /* Navbar at top */
+    header.navbar {
+      width: 100vw;
+      left: 0;
+      right: 0;
+      padding: 15px 0;
+      background: var(--primary);
+      color: #fff;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.35rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      border-radius: 0 0 18px 18px;
+      min-width: 0;
+    }
+    .navbar-inner {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    nav.main-nav {
+      display: flex;
+      gap: 26px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    nav.main-nav a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.05rem;
+      padding-bottom: 2px;
+      border-bottom: 2.5px solid transparent;
+      transition: color 0.2s, border-bottom-color 0.2s;
+      position: relative;
+    }
+    nav.main-nav a:hover,
+    nav.main-nav a.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    main.container {
+      max-width: 900px;
+      width: 95%;
+      margin: 44px auto 60px auto;
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+    }
+    header.page-header {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2.1rem;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+    button.add-story-btn {
+      align-self: flex-start;
+      background: var(--primary);
+      color: var(--button-text);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.1rem;
+      padding: 12px 28px;
+      border-radius: 1.3em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 5px 18px #58c061bb;
+      transition: background 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+    }
+    button.add-story-btn:hover,
+    button.add-story-btn:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+
+    .stories-list {
+      display: flex;
+      flex-direction: column;
+      gap: 28px;
+      max-height: 520px;
+      overflow-y: auto;
+      padding-right: 8px; /* scrollbar space */
+    }
+    .stories-list::-webkit-scrollbar {
+      width: 9px;
+    }
+    .stories-list::-webkit-scrollbar-thumb {
+      background-color: var(--primary);
+      border-radius: 6px;
+    }
+
+    article.story-card {
+      background: var(--card-bg);
+      border-radius: 1.3em;
+      box-shadow: var(--shadow);
+      padding: 24px 28px 26px 28px;
+      position: relative;
+      user-select: text;
+      transition: box-shadow 0.25s ease;
+    }
+    article.story-card:hover,
+    article.story-card:focus-within {
+      box-shadow: 0 14px 44px #8bda88aa;
+      outline: none;
+    }
+    article.story-card header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .story-author {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      color: var(--primary-dark);
+      user-select: none;
+    }
+    .story-date {
+      font-size: 0.9rem;
+      font-style: italic;
+      color: var(--text-light);
+      white-space: nowrap;
+      user-select: none;
+    }
+    .story-content {
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--text-dark);
+      white-space: pre-wrap;
+      margin-bottom: 24px;
+      min-height: 60px;
+    }
+    .story-actions {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      font-size: 1rem;
+      color: var(--text-light);
+      user-select: none;
+    }
+    .story-actions button {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--text-light);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 1.2em;
+      transition: color 0.2s;
+    }
+    .story-actions button:hover,
+    .story-actions button.liked {
+      color: var(--primary);
+      background: #dcf5d2;
+    }
+    .story-actions button:disabled {
+      cursor: default;
+      opacity: 0.6;
+    }
+    .like-count {
+      font-weight: 700;
+    }
+    .comment-bubble {
+      position: relative;
+      cursor: pointer;
+    }
+    .comment-bubble::after {
+      content: attr(data-count);
+      position: absolute;
+      top: -8px;
+      right: -14px;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      width: 22px;
+      height: 22px;
+      line-height: 22px;
+      text-align: center;
+      border-radius: 50%;
+      user-select: none;
+    }
+    /* Modal styles */
+    #modalBackdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(41, 88, 40, 0.25);
+      z-index: 9999;
+      align-items: center;
+      justify-content: center;
+    }
+    #modalBackdrop.active {
+      display: flex;
+      animation: fadein 0.2s ease forwards;
+    }
+    @keyframes fadein {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+    .modal-drawer {
+      background: var(--secondary);
+      border-radius: 1.3em;
+      box-shadow: 0 8px 56px #5bc26140, 0 2px 20px #afd37544;
+      padding: 30px 34px 30px 34px;
+      width: 400px;
+      max-width: 95vw;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      font-family: 'Poppins', Arial, sans-serif;
+      animation: popin 0.25s ease forwards;
+    }
+    @keyframes popin {
+      0% {opacity: 0; transform: scale(0.95);}
+      100% {opacity: 1; transform: scale(1);}
+    }
+    .modal-drawer h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--primary-dark);
+      margin: 0 0 12px 0;
+    }
+    .modal-close {
+      position: absolute;
+      top: 22px;
+      right: 26px;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      color: #888;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      user-select: none;
+    }
+    .modal-close:hover,
+    .modal-close:focus-visible {
+      color: var(--primary-dark);
+      outline: none;
+    }
+    form.story-form {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    form.story-form label {
+      font-weight: 700;
+      color: var(--text-dark);
+      font-size: 1.05rem;
+    }
+    form.story-form input[type="text"],
+    form.story-form textarea {
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 0.9em;
+      border: 1.6px solid var(--border);
+      font-family: inherit;
+      color: var(--text-dark);
+      resize: vertical;
+      width: 100%;
+      box-sizing: border-box;
+      min-height: 38px;
+    }
+    form.story-form textarea {
+      min-height: 100px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 4px;
+    }
+    .modal-btn {
+      padding: 12px 30px;
+      font-weight: 700;
+      border-radius: 2em;
+      border: none;
+      font-size: 1.1rem;
+      font-family: 'Montserrat', sans-serif;
+      cursor: pointer;
+      transition: background-color 0.25s ease;
+      user-select: none;
+    }
+    .modal-btn.submit {
+      background: var(--primary);
+      color: var(--button-text);
+      box-shadow: 0 6px 20px #58c061cc;
+    }
+    .modal-btn.submit:hover,
+    .modal-btn.submit:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+    .modal-btn.cancel {
+      background: #f0f0f0;
+      color: #666;
+      box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
+    }
+    .modal-btn.cancel:hover,
+    .modal-btn.cancel:focus-visible {
+      background: #e0e0e0;
+      color: #333;
+      outline: none;
+    }
+    @media (max-width: 500px) {
+      main.container {
+        margin: 25px 14px 50px 14px;
+        width: 100%;
+        padding: 0;
+      }
+      .modal-drawer {
+        width: 98vw;
+      }
+      button.add-story-btn {
+        padding: 10px 20px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar" role="banner">
+    <div class="navbar-inner">
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
+        <a href="vendor-dashboard.html">Dashboard</a>
+        <a href="vendor-orders.html">Orders</a>
+        <a href="vendor-stories.html" class="active" aria-current="page">Stories</a>
+        <a href="vendor-produce.html">Market</a>
+        <a href="shared-live-map.html">Map</a>
+        <a href="shared-profile.html" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" role="main" aria-label="Vendor Stories Management">
+    <header class="page-header" tabindex="0">Vendor Stories</header>
+
+    <button class="add-story-btn" id="addStoryBtn" aria-haspopup="dialog" aria-controls="modalBackdrop" aria-expanded="false">
+      <i class="bi bi-plus-circle"></i> Add New Story
+    </button>
+
+    <section class="stories-list" id="storiesList" tabindex="0" aria-live="polite" aria-relevant="additions removals">
+      <!-- Stories will be rendered here -->
+    </section>
+  </main>
+
+  <!-- Modal backdrop -->
+  <div id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
+
+  <script>
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const addStoryBtn = document.getElementById('addStoryBtn');
+    const storiesList = document.getElementById('storiesList');
+
+    // Example stories data - replace with backend integration
+    let storiesData = [
+      {
+        id: 1,
+        title: 'A Busy Day at the Market',
+        timestamp: '2025-07-23 15:32',
+        content: "Great response to our organic carrots today! Thanks to all customers.",
+        likes: 26,
+        liked: false,
+        comments: 3,
+      },
+      {
+        id: 2,
+        title: 'New Store Launch',
+        timestamp: '2025-07-20 11:10',
+        content: "We are excited to open our new roadside stall on Main Street. Visit us for fresh produce!",
+        likes: 48,
+        liked: false,
+        comments: 7,
+      }
+    ];
+
+    // Utility: escape HTML
+    function escapeHtml(text) {
+      return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // Render stories in the list
+    function renderStories() {
+      storiesList.innerHTML = '';
+      if (storiesData.length === 0) {
+        storiesList.innerHTML = '<p>No stories available.</p>';
+        return;
+      }
+      storiesData.forEach(story => {
+        const el = document.createElement('article');
+        el.className = 'story-card';
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('role', 'article');
+        el.setAttribute('aria-label', `Story titled "${story.title}", posted on ${story.timestamp}`);
+
+        el.innerHTML = `
+          <header>
+            <div class="story-author">${escapeHtml(story.title)}</div>
+            <div class="story-date">${escapeHtml(story.timestamp)}</div>
+          </header>
+          <div class="story-content">${escapeHtml(story.content)}</div>
+          <div class="story-actions">
+            <button aria-pressed="${story.liked}" aria-label="${story.liked ? 'Unlike' : 'Like'} story titled ${escapeHtml(story.title)}" class="like-btn" type="button">
+              <i class="bi bi-hand-thumbs-up${story.liked ? '-fill' : ''}"></i> 
+              <span class="like-count">${story.likes}</span>
+            </button>
+            <button aria-label="View comments for story titled ${escapeHtml(story.title)}" class="comment-bubble" data-count="${story.comments}" type="button">
+              <i class="bi bi-chat-dots"></i>
+            </button>
+          </div>
+        `;
+
+        storiesList.appendChild(el);
+
+        // Like button toggle handler
+        const likeBtn = el.querySelector('.like-btn');
+        likeBtn.addEventListener('click', () => {
+          story.liked = !story.liked;
+          story.likes += story.liked ? 1 : -1;
+          renderStories();
+        });
+
+        // Comment button placeholder handler
+        const commentBtn = el.querySelector('.comment-bubble');
+        commentBtn.addEventListener('click', () => {
+          alert('Comments feature coming soon!');
+        });
+      });
+    }
+
+    // Open modal for adding new story
+    function openModal() {
+      const content = `
+        <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
+          <button class="modal-close" aria-label="Close">&times;</button>
+          <h2 id="modalTitle">Add New Vendor Story</h2>
+          <form id="storyForm" class="story-form" autocomplete="off" novalidate>
+            <label for="storyTitle">Title*</label>
+            <input type="text" id="storyTitle" name="storyTitle" maxlength="60" required placeholder="Story title" />
+            <label for="storyContent">Content*</label>
+            <textarea id="storyContent" name="storyContent" maxlength="400" required placeholder="Write your story..."></textarea>
+            <div class="modal-actions">
+              <button type="button" class="modal-btn cancel">Cancel</button>
+              <button type="submit" class="modal-btn submit">Add Story</button>
+            </div>
+          </form>
+        </div>
+      `;
+      modalBackdrop.innerHTML = content;
+      modalBackdrop.classList.add('active');
+      modalBackdrop.setAttribute('aria-hidden', 'false');
+
+      // Focus first input
+      const firstInput = modalBackdrop.querySelector('#storyTitle');
+      if(firstInput) firstInput.focus();
+
+      // Close handlers
+      modalBackdrop.querySelector('.modal-close').addEventListener('click', closeModal);
+      modalBackdrop.querySelector('.modal-btn.cancel').addEventListener('click', closeModal);
+
+      // Trap keyboard focus inside modal
+      trapFocus(modalBackdrop.querySelector('.modal-drawer'));
+    }
+
+    // Close modal function
+    function closeModal() {
+      modalBackdrop.classList.remove('active');
+      modalBackdrop.setAttribute('aria-hidden', 'true');
+      modalBackdrop.innerHTML = '';
+      addStoryBtn.setAttribute('aria-expanded', 'false');
+      addStoryBtn.focus();
+    }
+
+    // Trap focus helper for accessibility
+    function trapFocus(container) {
+      const focusables = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
+      if (focusables.length === 0) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      container.addEventListener('keydown', e => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            if (document.activeElement === first) {
+              e.preventDefault();
+              last.focus();
+            }
+          } else {
+            if (document.activeElement === last) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+        } else if (e.key === 'Escape') {
+          closeModal();
+        }
+      });
+    }
+
+    // Setup event listeners
+    addStoryBtn.addEventListener('click', () => {
+      openModal();
+      addStoryBtn.setAttribute('aria-expanded', 'true');
+    });
+
+    modalBackdrop.addEventListener('click', e => {
+      if (e.target === modalBackdrop) {
+        closeModal();
+      }
+    });
+
+    modalBackdrop.addEventListener('submit', e => {
+      e.preventDefault();
+      if (e.target.id === 'storyForm') {
+        const titleInput = e.target.storyTitle.value.trim();
+        const contentInput = e.target.storyContent.value.trim();
+
+        if (!titleInput || !contentInput) {
+          alert('Please fill both Title and Content fields.');
+          return;
+        }
+
+        // Add new story (simulate id and timestamp)
+        const newStory = {
+          id: Date.now(),
+          title: titleInput,
+          timestamp: new Date().toLocaleString(),
+          content: contentInput,
+          likes: 0,
+          liked: false,
+          comments: 0,
+        };
+        storiesData.unshift(newStory);
+        renderStories();
+        closeModal();
+      }
+    });
+
+    // Initial render
+    renderStories();
+  </script>
+</body>
+</html>

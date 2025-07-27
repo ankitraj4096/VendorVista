@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Create Account | StreetSymphony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <style>
+    body {
+      background: #fafef3;
+      font-family: 'Poppins', Arial, sans-serif;
+      color: #232c1e;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 42px;
+    }
+    .reg-container {
+      background: #fff;
+      padding: 32px 34px 22px 34px;
+      border-radius: 1.3em;
+      box-shadow: 0 6px 32px rgba(41, 88, 40, 0.09);
+      min-width: 310px;
+      max-width: 440px;
+      width: 97vw;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      animation: up 0.77s;
+    }
+    @keyframes up {0%{transform:translateY(24px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+    .reg-title {
+      font-family: "Montserrat", sans-serif;
+      font-weight: 800;
+      color: #357138;
+      font-size: 1.32rem;
+      margin-bottom: 24px;
+      letter-spacing: 1px;
+      text-align: center;
+    }
+    form {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    label {
+      font-weight: 700;
+      margin-bottom: 5px;
+      display: block;
+      font-size: 1rem;
+      color: #2b321d;
+    }
+    input[type="text"], input[type="email"], input[type="password"] {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 1em;
+      border: 1.6px solid #afd375;
+      font-size: 1rem;
+      color: #232c1e;
+      font-family: inherit;
+      transition: border-color 0.18s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #58c061;
+    }
+    .checkbox-row {
+      display: flex;
+      gap: 22px;
+      margin: 5px 0 13px 0;
+      font-size: 1rem;
+      align-items: center;
+      font-weight: 600;
+    }
+    input[type="checkbox"] {
+      accent-color: #58c061;
+      width: 18px;
+      height: 18px;
+      vertical-align: middle;
+      margin-right: 4px;
+    }
+    .category-section,
+    .produce-section {
+      margin-bottom: 8px;
+      padding-left: 8px;
+      border-left: 3px solid #afd375;
+    }
+    .reg-btn {
+      margin: 17px 0 6px 0;
+      background: linear-gradient(90deg,#30b14b 0%, #58c061 92%);
+      color: #fff;
+      border: none;
+      padding: 13px 0;
+      border-radius: 1em;
+      font-size: 1.13em;
+      font-family: 'Montserrat',sans-serif;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.21s;
+      box-shadow: 0 4px 18px #afd37533;
+    }
+    .reg-btn:hover {
+      background: linear-gradient(90deg, #357138 0%, #4dc05b 99%);
+    }
+    .switch-link {
+      margin-top: 6px;
+      text-align: center;
+      color: #29743b;
+      font-weight: 600;
+      background: none;
+      border: none;
+      font-size: 1em;
+      font-family: inherit;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .error-msg {
+      color: #e53935;
+      font-size: 0.98em;
+      margin-bottom: 7px;
+      text-align: center;
+      min-height: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="reg-container">
+    <div class="reg-title" id="regTitle">Create Account</div>
+    <div class="error-msg" id="errorRegMsg"></div>
+    <form id="regForm" autocomplete="off" novalidate>
+      <div class="input-group">
+        <label for="nameInput">Full Name</label>
+        <input type="text" id="nameInput" required />
+      </div>
+      <div class="input-group">
+        <label for="emailInput">Email</label>
+        <input type="email" id="emailInput" required />
+      </div>
+      <div class="input-group">
+        <label for="passwordInput">Password</label>
+        <input type="password" id="passwordInput" required minlength="6" />
+      </div>
+      <div class="input-group">
+        <label for="phoneInput">Phone Number</label>
+        <input type="text" id="phoneInput" required pattern="^[0-9+\- ]{8,15}$" />
+      </div>
+
+      <!-- Vendor specific fields: only for vendors -->
+      <div id="vendorFields" style="display:none;">
+        <div class="input-group checkbox-row">
+          <label>
+            <input type="checkbox" id="vegetablesBox" value="vegetables" checked disabled />
+            I sell Fresh Produce / Vegetables
+          </label>
+        </div>
+        <div class="category-section" id="produceSection">
+          <label for="businessNameVeg">Farm / Supplier Name</label>
+          <input type="text" id="businessNameVeg" placeholder="Name of your farm/shop" />
+          <label for="produceType">Types of Produce</label>
+          <input type="text" id="produceType" placeholder="E.g., Tomatoes, Carrots" />
+          <label for="farmLocation">Farm or Shop Location</label>
+          <input type="text" id="farmLocation" placeholder="Your address or area" />
+          <label for="operatingHoursVeg">Operating Hours</label>
+          <input type="text" id="operatingHoursVeg" placeholder="E.g., Mon-Sun 7:00-20:00" />
+        </div>
+      </div>
+
+      <button type="submit" class="reg-btn">Create Account</button>
+    </form>
+    <button class="switch-link" id="toLoginBtn">Already have an account? Login</button>
+  </div>
+
+  <script>
+    // Get user role from URL query parameter (lowercase)
+    function getRoleFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const role = params.get('role');
+      if (role && (role.toLowerCase() === 'vendor' || role.toLowerCase() === 'buyer')) {
+        return role.toLowerCase();
+      }
+      return null;
+    }
+
+    const userRole = getRoleFromQuery();
+
+    // Update page title
+    const regTitle = document.getElementById('regTitle');
+    if(userRole === 'vendor') {
+      regTitle.textContent = 'Create Account as Vendor';
+      document.getElementById('vendorFields').style.display = 'block';
+    } else if(userRole === 'buyer') {
+      regTitle.textContent = 'Create Account as Buyer';
+      // Buyers don't have vendor fields
+      document.getElementById('vendorFields').style.display = 'none';
+    } else {
+      regTitle.textContent = 'Create Account';
+      document.getElementById('vendorFields').style.display = 'none';
+    }
+
+    // Redirect to login page preserving role param
+    document.getElementById('toLoginBtn').onclick = () => {
+      let url = 'login.html';
+      if(userRole) url += '?role=' + userRole;
+      window.location.href = url;
+    };
+
+    // Form submission handler
+    document.getElementById('regForm').onsubmit = (e) => {
+      e.preventDefault();
+
+      // Common inputs
+      const name = document.getElementById('nameInput').value.trim();
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
+      const phone = document.getElementById('phoneInput').value.trim();
+
+      if(!name || !email || !password || !phone){
+        document.getElementById('errorRegMsg').textContent = 'Please fill all required fields.';
+        return;
+      }
+
+      if(password.length < 6){
+        document.getElementById('errorRegMsg').textContent = 'Password must be at least 6 characters.';
+        return;
+      }
+
+      // Vendor-specific validation
+      if(userRole === 'vendor'){
+        const businessName = document.getElementById('businessNameVeg').value.trim();
+        const produceType = document.getElementById('produceType').value.trim();
+        const farmLocation = document.getElementById('farmLocation').value.trim();
+        const operatingHours = document.getElementById('operatingHoursVeg').value.trim();
+
+        if(!businessName || !produceType || !farmLocation || !operatingHours) {
+          document.getElementById('errorRegMsg').textContent = 'Please fill all vendor fields.';
+          return;
+        }
+
+        // Prepare vendor data object
+        const vendorData = {
+          businessName,
+          produceType,
+          farmLocation,
+          operatingHours
+        };
+
+        // TODO: Send vendorData + common user data to your backend (e.g., Firebase)
+        alert(`Vendor account creation submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nFarm: ${businessName}\nProduce: ${produceType}`);
+      } else if(userRole === 'buyer'){
+        // TODO: Send buyer user data to backend
+        alert(`Buyer account creation submitted:\nName: ${name}\nEmail: ${email}\nPhone: ${phone}`);
+      } else {
+        document.getElementById('errorRegMsg').textContent = 'Invalid role specified.';
+        return;
+      }
+
+      document.getElementById('errorRegMsg').textContent = '';
+
+      // Optionally redirect after registration
+      // For now, redirect to login page for the same role:
+      let loginUrl = 'login.html';
+      if (userRole) loginUrl += '?role=' + userRole;
+      window.location.href = loginUrl;
+    };
+  </script>
+</body>
+</html>

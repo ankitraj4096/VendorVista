@@ -5,9 +5,15 @@
   <title>User Profile | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
+    rel="stylesheet"
+  />
   <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+  />
   <style>
     :root {
       --primary: #58c061;
@@ -136,7 +142,8 @@
       margin-bottom: 4px;
       display: block;
     }
-    input[readonly], textarea[readonly] {
+    input[readonly],
+    textarea[readonly] {
       background: #fafaf5;
       border-radius: 0.8em;
       border: 1.5px solid var(--border);
@@ -181,7 +188,8 @@
       box-shadow: 0 6px 20px #58c061cc;
       transition: background-color 0.25s ease;
     }
-    button.edit-btn, button.save-btn {
+    button.edit-btn,
+    button.save-btn {
       background: var(--primary);
       color: var(--button-text);
     }
@@ -210,7 +218,8 @@
       min-width: 120px;
       box-shadow: 0 4px 18px #5bc26122;
     }
-    button.logout-btn:hover, button.logout-btn:focus-visible {
+    button.logout-btn:hover,
+    button.logout-btn:focus-visible {
       background: #fde15d;
       color: #333;
       outline: none;
@@ -250,21 +259,36 @@
         width: 120px;
         height: 120px;
       }
-      .buttons-row { flex-direction: column; gap: 10px; }
-      button.logout-btn { margin-left: 0; }
+      .buttons-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+      button.logout-btn {
+        margin-left: 0;
+      }
     }
   </style>
 </head>
 <body>
   <script>
-    var currentUserRole = 'buyer'; // set as 'buyer' or 'vendor'
+    // Dynamically get current user role from localStorage for navbar and vendor info visibility
+    const currentUserRole = localStorage.getItem('userRole') || 'buyer';
   </script>
+
   <header class="navbar" role="banner">
     <div class="navbar-inner" id="navbarInner">
       <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"><!-- injected by JS --></nav>
+      <nav
+        class="main-nav"
+        role="navigation"
+        aria-label="Primary navigation"
+        id="navLinks"
+      >
+        <!-- Nav will be injected by JS -->
+      </nav>
     </div>
   </header>
+
   <main class="container" role="main" aria-label="User Profile Page">
     <header class="page-header" tabindex="0">My Profile</header>
     <section class="profile-info">
@@ -286,7 +310,13 @@
           <label for="phoneNumber">Phone Number</label>
           <input type="text" id="phoneNumber" readonly value="+91 98765 43210" />
         </div>
-        <section class="vendor-extra" aria-label="Vendor Info" tabindex="0" id="vendorExtraInfo" hidden>
+        <section
+          class="vendor-extra"
+          aria-label="Vendor Info"
+          tabindex="0"
+          id="vendorExtraInfo"
+          hidden
+        >
           <h3>Vendor Details</h3>
           <p><strong>Shop/Farm Name:</strong> Green Valley Farm</p>
           <p><strong>Location:</strong> Near Sadar Bazaar, Delhi</p>
@@ -294,63 +324,87 @@
           <p><strong>Description:</strong> Trusted provider of fresh and organic vegetables and fruits sourced directly from family-owned farmland, committed to quality and sustainability.</p>
         </section>
         <div class="buttons-row">
-          <button class="edit-btn" id="editProfileBtn" aria-label="Edit Profile">Edit Profile</button>
-          <button class="save-btn" id="saveProfileBtn" aria-label="Save Profile" style="display:none;">Save</button>
-          <button class="cancel-btn" id="cancelEditBtn" aria-label="Cancel Editing Profile" style="display:none;">Cancel</button>
-          <button class="logout-btn" id="logoutBtn" type="button" aria-label="Log Out">Logout</button>
+          <button class="edit-btn" id="editProfileBtn" aria-label="Edit Profile">
+            Edit Profile
+          </button>
+          <button class="save-btn" id="saveProfileBtn" aria-label="Save Profile" style="display:none;">
+            Save
+          </button>
+          <button
+            class="cancel-btn"
+            id="cancelEditBtn"
+            aria-label="Cancel Editing Profile"
+            style="display:none;"
+          >
+            Cancel
+          </button>
+          <button class="logout-btn" id="logoutBtn" type="button" aria-label="Log Out">
+            Logout
+          </button>
         </div>
       </div>
     </section>
   </main>
+
   <script>
-    // Navbar links (role-based)
+    // Dynamic nav injection based on role
     (function(){
       const nav = document.getElementById('navLinks');
-      let dashboardLink = '';
+      let navItems = '';
       if(currentUserRole === 'vendor'){
-        dashboardLink = '<a href="/vendor-dashboard">Dashboard</a>';
-        document.getElementById('vendorExtraInfo').hidden = false;
+        navItems =
+          '<a href="vendor-dashboard.html">Dashboard</a>' +
+          '<a href="vendor-orders.html">Orders</a>' +
+          '<a href="vendor-stories.html">Stories</a>' +
+          '<a href="vendor-produce.html">Market</a>' +
+          '<a href="shared-live-map.html">Map</a>' +
+          '<a href="shared-profile.html" aria-label="User Profile"  class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
       } else {
-        dashboardLink = '<a href="/buyer-dashboard">Dashboard</a>';
+        navItems =
+          '<a href="buyer-dashboard.html">Dashboard</a>' +
+          '<a href="buyer-fresh-produce.html">Produce</a>' +
+          '<a href="buyer-vendor.html">Favorite Vendors</a>' +
+          '<a href="buyer-exchange.html">Ingredient Swap</a>' +
+          '<a href="shared-live-map.html">Map</a>' +
+          '<a href="shared-stories-feed.html">Stories</a>' +
+          '<a href="shared-profile.html" aria-label="User Profile" class="active" aria-current="page"><i class="bi bi-person-circle"></i></a>';
       }
-      nav.innerHTML = dashboardLink +
-        '<a href="/buyer-fresh-produce">Produce</a>' +
-        '<a href="/buyer-vendor">Favorite Vendors</a>' +
-        '<a href="/buyer-exchange">Ingredient Swap</a>' +
-        '<a href="/shared-live-map">Map</a>' +
-        '<a href="/shared-stories-feed">Stories</a>' +
-        '<a href="/shared-profile" class="active" aria-current="page" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      nav.innerHTML = navItems;
     })();
 
-    // Profile editing and logout
+
+    // Profile editing logic
     const editButton = document.getElementById('editProfileBtn');
     const saveButton = document.getElementById('saveProfileBtn');
     const cancelButton = document.getElementById('cancelEditBtn');
     const logoutButton = document.getElementById('logoutBtn');
+
     const fullNameInput = document.getElementById('fullName');
     const emailInput = document.getElementById('emailAddress');
     const phoneInput = document.getElementById('phoneNumber');
+
     let originalValues = {};
 
     editButton.addEventListener('click', () => {
-      [fullNameInput, emailInput, phoneInput].forEach(input => {
+      [fullNameInput, emailInput, phoneInput].forEach((input) => {
         input.removeAttribute('readonly');
         input.classList.add('editable');
       });
       originalValues = {
         fullName: fullNameInput.value,
         email: emailInput.value,
-        phone: phoneInput.value
+        phone: phoneInput.value,
       };
       editButton.style.display = 'none';
       saveButton.style.display = 'inline-block';
       cancelButton.style.display = 'inline-block';
     });
+
     cancelButton.addEventListener('click', () => {
       fullNameInput.value = originalValues.fullName;
       emailInput.value = originalValues.email;
       phoneInput.value = originalValues.phone;
-      [fullNameInput, emailInput, phoneInput].forEach(input => {
+      [fullNameInput, emailInput, phoneInput].forEach((input) => {
         input.setAttribute('readonly', true);
         input.classList.remove('editable');
       });
@@ -358,25 +412,29 @@
       saveButton.style.display = 'none';
       cancelButton.style.display = 'none';
     });
+
     saveButton.addEventListener('click', () => {
       if (!fullNameInput.value.trim() || !emailInput.value.trim()) {
         alert('Full Name and Email cannot be empty.');
         return;
       }
-      [fullNameInput, emailInput, phoneInput].forEach(input => {
+      [fullNameInput, emailInput, phoneInput].forEach((input) => {
         input.setAttribute('readonly', true);
         input.classList.remove('editable');
       });
       editButton.style.display = 'inline-block';
       saveButton.style.display = 'none';
       cancelButton.style.display = 'none';
+
       alert('Profile saved successfully!');
-      // Add backend saving logic here
+      // TODO: Add backend integration to save updated profile details here!
     });
+
+    // Logout clears user role and redirects
     logoutButton.addEventListener('click', () => {
       localStorage.removeItem('userRole');
       alert('You have logged out.');
-      window.location.href = '/';
+      window.location.href = '/'; // <-- This is the correct Flask home route
     });
 
   </script>
