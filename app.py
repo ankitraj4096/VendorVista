@@ -31,9 +31,6 @@ def buyer_exchange():
 def buyer_fresh_produce():
     return render_template("buyer-fresh-produce.html")
 
-@app.route("/buyer-vendor")
-def buyer_vendor():
-    return render_template("buyer-vendor.html")
 
 @app.route("/shared-live-map")
 def shared_live_map():
