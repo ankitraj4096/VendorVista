@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <title>Ingredient Swap | StreetSymphony</title>
@@ -23,11 +24,16 @@
       --text-light: #526a3b;
       --button-hover: #1fa471;
     }
-    *, *::before, *::after {
+
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
     }
+
     body {
-      margin: 0; padding: 0;
+      margin: 0;
+      padding: 0;
       font-family: 'Poppins', Arial, sans-serif;
       background: var(--secondary);
       color: var(--text-dark);
@@ -36,10 +42,12 @@
       align-items: center;
       min-height: 100vh;
     }
+
     /* Navbar at top */
     header.navbar {
       width: 100vw;
-      left: 0; right: 0;
+      left: 0;
+      right: 0;
       padding: 15px 0;
       background: var(--primary);
       color: #fff;
@@ -52,10 +60,11 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.13);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.13);
       border-radius: 0 0 18px 18px;
       min-width: 0;
     }
+
     .navbar-inner {
       width: 100%;
       max-width: 1200px;
@@ -63,12 +72,14 @@
       justify-content: space-between;
       align-items: center;
     }
+
     nav.main-nav {
       display: flex;
       gap: 26px;
       flex-wrap: wrap;
       align-items: center;
     }
+
     nav.main-nav a {
       color: #fff;
       text-decoration: none;
@@ -79,11 +90,13 @@
       transition: color 0.2s, border-bottom-color 0.2s;
       position: relative;
     }
+
     nav.main-nav a:hover,
     nav.main-nav a.active {
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
+
     main.container {
       max-width: 900px;
       width: 95%;
@@ -92,6 +105,7 @@
       flex-direction: column;
       gap: 28px;
     }
+
     header.page-header {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
@@ -118,6 +132,7 @@
       gap: 10px;
       user-select: none;
     }
+
     button.add-swap-btn:hover,
     button.add-swap-btn:focus-visible {
       background: var(--button-hover);
@@ -130,14 +145,17 @@
       gap: 18px;
       max-height: 440px;
       overflow-y: auto;
-      padding-right: 8px; /* For scrollbar spacing */
+      padding-right: 8px;
     }
+
     section.swap-requests::-webkit-scrollbar {
       width: 9px;
     }
+
     section.swap-requests::-webkit-scrollbar-track {
       background: transparent;
     }
+
     section.swap-requests::-webkit-scrollbar-thumb {
       background-color: var(--primary);
       border-radius: 6px;
@@ -155,16 +173,59 @@
       font-size: 1rem;
       color: var(--text-dark);
       user-select: text;
+      position: relative;
     }
+
     .swap-item strong {
       color: var(--primary-dark);
       font-weight: 800;
     }
+
     .swap-item .notes {
       font-size: 0.88rem;
       color: var(--text-light);
       font-style: italic;
       margin-top: 4px;
+    }
+
+    .accept-btn,
+    .delete-btn {
+      align-self: flex-start;
+      margin-top: 6px;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.9rem;
+      padding: 8px 18px;
+      border-radius: 1.3em;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 14px #46b748cc;
+      transition: background 0.25s ease;
+      user-select: none;
+      width: fit-content;
+      color: var(--button-text);
+    }
+
+    .accept-btn {
+      background: var(--button);
+    }
+
+    .accept-btn:hover,
+    .accept-btn:focus-visible {
+      background: var(--button-hover);
+      outline: none;
+    }
+
+    .delete-btn {
+      background: #e45858;
+      box-shadow: 0 4px 14px #b74848cc;
+      margin-right: 10px;
+    }
+
+    .delete-btn:hover,
+    .delete-btn:focus-visible {
+      background: #b13a3a;
+      outline: none;
     }
 
     /* Modal styles */
@@ -177,14 +238,22 @@
       align-items: center;
       justify-content: center;
     }
+
     #modalBackdrop.active {
       display: flex;
       animation: fadein 0.2s ease forwards;
     }
+
     @keyframes fadein {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
     }
+
     .modal-drawer {
       background: var(--secondary);
       border-radius: 1.3em;
@@ -199,10 +268,19 @@
       font-family: 'Poppins', Arial, sans-serif;
       animation: popin 0.25s ease forwards;
     }
+
     @keyframes popin {
-      0% {opacity: 0; transform: scale(0.95);}
-      100% {opacity: 1; transform: scale(1);}
+      0% {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
+
     .modal-drawer h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 700;
@@ -210,6 +288,7 @@
       color: var(--primary-dark);
       margin: 0 0 12px 0;
     }
+
     .modal-close {
       position: absolute;
       top: 22px;
@@ -222,20 +301,24 @@
       transition: color 0.2s ease;
       user-select: none;
     }
+
     .modal-close:hover,
     .modal-close:focus-visible {
       color: var(--primary-dark);
       outline: none;
     }
+
     form.swap-form {
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
+
     form.swap-form label {
       font-weight: 600;
       color: var(--text-dark);
     }
+
     form.swap-form input[type="text"],
     form.swap-form textarea {
       padding: 10px 14px;
@@ -248,15 +331,18 @@
       width: 100%;
       box-sizing: border-box;
     }
+
     form.swap-form textarea {
       min-height: 80px;
     }
+
     .modal-actions {
       display: flex;
       justify-content: flex-end;
       gap: 14px;
       margin-top: 6px;
     }
+
     .modal-btn {
       padding: 10px 28px;
       font-weight: 700;
@@ -268,39 +354,46 @@
       transition: background-color 0.23s ease;
       user-select: none;
     }
+
     .modal-btn.submit {
       background: var(--primary);
       color: var(--button-text);
       box-shadow: 0 6px 20px #58c061cc;
     }
+
     .modal-btn.submit:hover,
     .modal-btn.submit:focus-visible {
       background: var(--button-hover);
       outline: none;
     }
+
     .modal-btn.cancel {
       background: #f0f0f0;
       color: #666;
       box-shadow: 0 2px 8px rgb(0 0 0 / 0.06);
     }
+
     .modal-btn.cancel:hover,
     .modal-btn.cancel:focus-visible {
       background: #e0e0e0;
       color: #333;
       outline: none;
     }
+
     @media (max-width: 480px) {
       main.container {
         margin: 20px 14px 40px 14px;
         padding: 0;
         width: 100%;
       }
+
       .modal-drawer {
         width: 98vw;
       }
     }
   </style>
 </head>
+
 <body>
   <header class="navbar" role="banner">
     <div class="navbar-inner">
@@ -317,24 +410,49 @@
     </button>
 
     <section class="swap-requests" aria-live="polite" aria-relevant="additions removals" id="swapList" tabindex="0">
-      <div class="swap-item">
-        <strong>Need:</strong> Onions (2kg) &nbsp;&nbsp; <strong>Offer:</strong> Mint Leaves (1kg)
-        <div class="notes">Looking to swap fresh onions for mint leaves this week.</div>
-      </div>
-      <div class="swap-item">
-        <strong>Need:</strong> Tomatoes (4kg) &nbsp;&nbsp; <strong>Offer:</strong> Boiled Potatoes (3kg)
-      </div>
-      <!-- Additional swaps loaded dynamically -->
+      <!-- Swaps will be inserted here -->
     </section>
   </main>
 
   <!-- Modal backdrop -->
   <div id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
 
-  <script>
-    // Dynamically inject navbar according to userRole in localStorage
-    (function () {
-      const nav = document.getElementById('navLinks');
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      query,
+      orderBy,
+      onSnapshot,
+      addDoc,
+      serverTimestamp,
+      doc,
+      deleteDoc
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+      authDomain: "vendorvista-4b958.firebaseapp.com",
+      projectId: "vendorvista-4b958",
+      storageBucket: "vendorvista-4b958.appspot.com",
+      messagingSenderId: "479694426389",
+      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const modalBackdrop = document.getElementById('modalBackdrop');
+    const addSwapBtn = document.getElementById('addSwapBtn');
+    const swapList = document.getElementById('swapList');
+    const nav = document.getElementById('navLinks');
+
+    let currentUser = null;
+
+    function buildNavigation() {
       const currentUserRole = localStorage.getItem('userRole') || 'buyer';
       let navItems = '';
       if (currentUserRole === 'vendor') {
@@ -356,14 +474,82 @@
           '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
       }
       nav.innerHTML = navItems;
-    })();
+    }
 
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const addSwapBtn = document.getElementById('addSwapBtn');
-    const swapList = document.getElementById('swapList');
+    function escapeHtml(text) {
+      if (!text) return '';
+      return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+    }
+
+    function renderSwaps(swaps) {
+      swapList.innerHTML = '';
+      if (swaps.length === 0) {
+        swapList.innerHTML = '<p>No swap requests currently available.</p>';
+        return;
+      }
+      swaps.forEach(swap => {
+        const div = document.createElement('div');
+        div.className = 'swap-item';
+        div.setAttribute('tabindex', '0');
+        div.setAttribute('role', 'region');
+        div.setAttribute('aria-label', `Ingredient swap: Need ${escapeHtml(swap.need)}, Offer ${escapeHtml(swap.offer)}, posted by ${escapeHtml(swap.posterName)}`);
+
+        // Compose action buttons html:
+        let actionsHtml = '';
+
+        // If current user is the poster, show Delete button
+        if(currentUser && swap.uid === currentUser.uid) {
+          actionsHtml += `<button class="delete-btn" aria-label="Delete swap: Need ${escapeHtml(swap.need)} Offer ${escapeHtml(swap.offer)}">Delete</button>`;
+        }
+
+        // If current user is NOT the poster, show Accept Swap button
+        if(currentUser && swap.uid !== currentUser.uid) {
+          actionsHtml += `<button class="accept-btn" aria-label="Accept swap: Need ${escapeHtml(swap.need)} Offer ${escapeHtml(swap.offer)}">Accept Swap</button>`;
+        }
+
+        div.innerHTML = `
+          <strong>Need:</strong> ${escapeHtml(swap.need)} &nbsp;&nbsp; <strong>Offer:</strong> ${escapeHtml(swap.offer)}
+          <div class="notes">${escapeHtml(swap.notes)}</div>
+          <div><em>Posted by: ${escapeHtml(swap.posterName)}</em></div>
+          <div class="actions">${actionsHtml}</div>
+        `;
+
+        swapList.appendChild(div);
+
+        // Event handler for Delete (only for poster)
+        if(currentUser && swap.uid === currentUser.uid) {
+          div.querySelector('.delete-btn').addEventListener('click', async () => {
+            if(confirm('Are you sure you want to delete this swap?')) {
+              try {
+                await deleteDoc(doc(db, 'swaps', swap.id));
+              } catch(err) {
+                console.error('Failed to delete swap:', err);
+                alert('Failed to delete the swap. Please try again.');
+              }
+            }
+          });
+        }
+
+        // Event handler for Accept Swap (only if not poster)
+        if(currentUser && swap.uid !== currentUser.uid) {
+          div.querySelector('.accept-btn').addEventListener('click', async () => {
+            if(confirm('Are you sure you want to accept this swap? This will remove the swap request.')) {
+              try {
+                await deleteDoc(doc(db, 'swaps', swap.id));
+                alert('Swap accepted and removed.');
+              } catch (error) {
+                console.error('Error deleting swap:', error);
+                alert('Failed to accept swap. Please try again.');
+              }
+            }
+          });
+        }
+      });
+    }
 
     function openModal() {
-      const modalHtml = `
+      modalBackdrop.innerHTML = `
         <div class="modal-drawer" role="document" aria-labelledby="modalTitle">
           <button class="modal-close" aria-label="Close">&times;</button>
           <h2 id="modalTitle">Add New Ingredient Swap</h2>
@@ -381,20 +567,44 @@
           </form>
         </div>
       `;
-      modalBackdrop.innerHTML = modalHtml;
       modalBackdrop.classList.add('active');
       modalBackdrop.setAttribute('aria-hidden', 'false');
 
-      // Focus first input
       const firstInput = modalBackdrop.querySelector('#swapNeed');
       if (firstInput) firstInput.focus();
 
-      // Close modal handlers
       modalBackdrop.querySelector('.modal-close').addEventListener('click', closeModal);
       modalBackdrop.querySelector('.modal-btn.cancel').addEventListener('click', closeModal);
 
-      // Trap keyboard focus inside modal
       trapFocus(modalBackdrop.querySelector('.modal-drawer'));
+
+      modalBackdrop.querySelector('#swapForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const need = form.swapNeed.value.trim();
+        const offer = form.swapOffer.value.trim();
+        const notes = form.swapNotes.value.trim();
+
+        if (!need || !offer) {
+          alert('Please fill both the Need and the Offer fields.');
+          return;
+        }
+        try {
+          await addDoc(collection(db, 'swaps'), {
+            need,
+            offer,
+            notes,
+            uid: currentUser.uid,
+            posterName: currentUser.displayName || currentUser.email || 'Anonymous',
+            createdAt: serverTimestamp()
+          });
+          closeModal();
+          alert('Your swap request has been added.');
+        } catch (error) {
+          console.error('Error adding swap:', error);
+          alert('Failed to add swap request. Please try again.');
+        }
+      });
     }
 
     function closeModal() {
@@ -405,66 +615,20 @@
       addSwapBtn.focus();
     }
 
-    addSwapBtn.addEventListener('click', () => {
-      openModal();
-      addSwapBtn.setAttribute('aria-expanded', 'true');
-    });
-
-    modalBackdrop.addEventListener('click', (e) => {
-      if (e.target === modalBackdrop) {
-        closeModal();
-      }
-    });
-
-    modalBackdrop.addEventListener('submit', e => {
-      e.preventDefault();
-      const form = e.target;
-      if (form.id === 'swapForm') {
-        const need = form.swapNeed.value.trim();
-        const offer = form.swapOffer.value.trim();
-        const notes = form.swapNotes.value.trim();
-
-        if (!need || !offer) {
-          alert('Please fill both the Need and the Offer fields.');
-          return;
-        }
-
-        // Append new swap item - replace or extend with backend integration
-        const newItem = document.createElement('div');
-        newItem.className = 'swap-item';
-        newItem.innerHTML = `<strong>Need:</strong> ${need} &nbsp;&nbsp; <strong>Offer:</strong> ${offer}`;
-        if (notes) {
-          const notesDiv = document.createElement('div');
-          notesDiv.className = 'notes';
-          notesDiv.textContent = notes;
-          newItem.appendChild(notesDiv);
-        }
-        swapList.appendChild(newItem);
-
-        alert(`New swap added:\nNeed: ${need}\nOffer: ${offer}\nNotes: ${notes}`);
-
-        closeModal();
-      }
-    });
-
-    // Focus trap helper for accessibility inside modal
     function trapFocus(container) {
       const focusableSelectors = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, object, embed, [tabindex], [contenteditable]';
       const focusableElements = container.querySelectorAll(focusableSelectors);
       if (focusableElements.length === 0) return;
       const first = focusableElements[0];
       const last = focusableElements[focusableElements.length - 1];
-
-      container.addEventListener('keydown', function(e) {
+      container.addEventListener('keydown', function (e) {
         if (e.key === 'Tab') {
           if (e.shiftKey) {
-            // Shift + Tab
             if (document.activeElement === first) {
               e.preventDefault();
               last.focus();
             }
           } else {
-            // Tab
             if (document.activeElement === last) {
               e.preventDefault();
               first.focus();
@@ -475,6 +639,43 @@
         }
       });
     }
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        window.location.href = '/login';
+        return;
+      }
+      currentUser = user;
+      buildNavigation();
+
+      const swapsQuery = query(collection(db, 'swaps'), orderBy('createdAt', 'desc'));
+      onSnapshot(swapsQuery, (querySnapshot) => {
+        const swaps = [];
+        querySnapshot.forEach(docSnap => {
+          const data = docSnap.data();
+          swaps.push({
+            id: docSnap.id,
+            need: data.need,
+            offer: data.offer,
+            notes: data.notes || '',
+            uid: data.uid,
+            posterName: data.posterName || 'Anonymous',
+            createdAt: data.createdAt ? data.createdAt.toDate().toLocaleString() : 'Unknown time'
+          });
+        });
+        renderSwaps(swaps);
+      });
+    });
+
+    addSwapBtn.addEventListener('click', () => {
+      openModal();
+      addSwapBtn.setAttribute('aria-expanded', 'true');
+    });
+
+    modalBackdrop.addEventListener('click', e => {
+      if (e.target === modalBackdrop) closeModal();
+    });
   </script>
 </body>
+
 </html>
