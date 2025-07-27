@@ -322,7 +322,7 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
     import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    // Your Firebase config (change if needed)
+    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -334,7 +334,6 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    // ----- Navbar dynamic injection -----
     (function () {
       const nav = document.getElementById('navLinks');
       let navItems = '';
@@ -358,13 +357,51 @@
       nav.innerHTML = navItems;
     })();
 
-    // Leaflet Map Initialization
-    const map = L.map('map').setView([28.6139, 77.209], 13);
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
+    // Map initialization with geolocation
+    let map;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const lat = position.coords.latitude;
+          const lng = position.coords.longitude;
+          map = L.map('map').setView([lat, lng], 14);
+          addBaseLayerAndContinue();
+          addUserMarker([lat, lng]);
+        },
+        (error) => {
+          // Denied or unavailable
+          map = L.map('map').setView([28.6139, 77.209], 13);
+          addBaseLayerAndContinue();
+        }
+      );
+    } else {
+      // Not supported
+      map = L.map('map').setView([28.6139, 77.209], 13);
+      addBaseLayerAndContinue();
+    }
 
+    function addBaseLayerAndContinue() {
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+      loadVendorsAndPlot();
+    }
+
+    function addUserMarker(latlng) {
+      L.marker(latlng, {
+        title: "You are here",
+        icon: L.divIcon({
+          className: '',
+          html: `<span style="display:inline-block;width:18px;height:18px;background:#4263eb;border:3px solid white;border-radius:50%;box-shadow:0 0 6px 3px #4263eb88;"></span>`,
+          iconSize: [22, 22],
+          iconAnchor: [11, 11],
+          popupAnchor: [0, -11],
+        })
+      }).addTo(map).bindPopup("Your Location").openPopup();
+    }
+
+    // Icon creation helpers
     function createColoredCircleIcon(color) {
       return L.divIcon({
         className: '',
@@ -380,14 +417,13 @@
       offline: createColoredCircleIcon('#cfcfcf')
     };
 
-    // Fetch live vendors from Firestore and render on map
+    // Vendor display
     async function loadVendorsAndPlot() {
-      // Optional: show a "Loading..." overlay/spinner here if you want!
       const qSnap = await getDocs(collection(db, "users"));
       const vendors = [];
       qSnap.forEach(docSnap => {
         const data = docSnap.data();
-        // Only add vendors with coordinates and role "vendor"
+        // Only vendors with coordinates and role === "vendor"
         if (
           data.role === "vendor" &&
           typeof data.lat === "number" && typeof data.lng === "number"
@@ -396,7 +432,7 @@
             name: data.name || "",
             businessName: data.businessName || "",
             produceType: data.produceType || "",
-            status: data.status || "online",  // You can update status in Firestore later
+            status: data.status || "online",
             latlng: [data.lat, data.lng],
             workingDays: data.workingDays || [],
             operatingHours: data.operatingHours && data.operatingHours.from
@@ -421,16 +457,15 @@
           popup += `<br>Days: ${vendor.workingDays.join(", ")}`;
         if (vendor.operatingHours)
           popup += `<br>Hours: <b>${vendor.operatingHours.from}–${vendor.operatingHours.to}</b>`;
-        // Status icon
         const icon = icons[vendor.status] || icons.online;
 
         const marker = L.marker(vendor.latlng, { icon }).addTo(map);
         marker.bindPopup(popup);
-        marker.vendorStatus = vendor.status; // for filter
+        marker.vendorStatus = vendor.status;
         window._vendorMapMarkers.push(marker);
       });
 
-      // Filter button logic (same as static, but uses live marker vendorStatus)
+      // Filter button logic
       document.querySelectorAll('.filter-chip').forEach(btn => {
         btn.addEventListener('click', () => {
           document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
@@ -446,9 +481,8 @@
         });
       });
     }
-
-    loadVendorsAndPlot();
   </script>
+
 </body>
 
 </html>
