@@ -195,6 +195,54 @@
         transform: rotate(360deg);
       }
     }
+
+    /* Location input and button styling */
+    #locationInput {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 1em;
+      border: 1.6px solid #afd375;
+      font-size: 1rem;
+      color: #232c1e;
+      font-family: inherit;
+      transition: border-color 0.18s;
+      margin-bottom: 8px;
+    }
+
+    #locationInput:focus {
+      outline: none;
+      border-color: #58c061;
+    }
+
+    #geoBtn {
+      background: linear-gradient(90deg, #30b14b 0%, #58c061 92%);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 1em;
+      padding: 10px 0;
+      cursor: pointer;
+      width: 100%;
+      box-shadow: 0 4px 12px #afd37588;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.21s;
+      margin-bottom: 22px;
+      user-select: none;
+    }
+
+    #geoBtn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #geoBtn:hover:not(:disabled) {
+      background: linear-gradient(90deg, #357138 0%, #4dc05b 99%);
+    }
   </style>
 </head>
 
@@ -219,6 +267,16 @@
         <label for="phoneInput">Phone Number</label>
         <input type="text" id="phoneInput" required pattern="^[0-9+\- ]{8,15}$" />
       </div>
+
+      <!-- Location input -->
+      <div class="input-group">
+        <label for="locationInput">Location (address or coordinates)</label>
+        <input type="text" id="locationInput" placeholder="Enter your location or click button below" />
+      </div>
+
+      <button type="button" id="geoBtn" class="reg-btn">
+        <i class="bi bi-geo-alt"></i> Get Current Location
+      </button>
 
       <!-- Vendor specific fields: only for vendors -->
       <div id="vendorFields" style="display:none;">
@@ -251,12 +309,19 @@
   </div>
 
   <script type="module">
-    // Firebase imports
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import {
+      getAuth,
+      createUserWithEmailAndPassword,
+      updateProfile
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import {
+      getFirestore,
+      doc,
+      setDoc,
+      serverTimestamp
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
       authDomain: "vendorvista-4b958.firebaseapp.com",
@@ -294,6 +359,34 @@
       document.getElementById('vendorFields').style.display = 'none';
     }
 
+    // Location input elements
+    const locationInput = document.getElementById('locationInput');
+    const geoBtn = document.getElementById('geoBtn');
+
+    geoBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        alert("Geolocation is not supported by your browser.");
+        return;
+      }
+
+      geoBtn.disabled = true;
+      geoBtn.textContent = "Locating…";
+
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          locationInput.value = `${latitude.toFixed(6)}, ${longitude.toFixed(6)}`;
+          geoBtn.textContent = "Get Current Location";
+          geoBtn.disabled = false;
+        },
+        (error) => {
+          alert("Unable to retrieve location: " + error.message);
+          geoBtn.textContent = "Get Current Location";
+          geoBtn.disabled = false;
+        }
+      );
+    });
+
     // Link to login (preserve role)
     document.getElementById('toLoginBtn').onclick = () => {
       let url = '/login';
@@ -318,6 +411,7 @@
       const email = document.getElementById('emailInput').value.trim();
       const password = document.getElementById('passwordInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
+      const location = locationInput.value.trim();
 
       if (!name || !email || !password || !phone) {
         errorMsg.textContent = "Please fill all required fields.";
@@ -376,6 +470,7 @@
           name,
           email,
           phone,
+          location,
           ...extraData,
           createdAt: serverTimestamp()
         });
@@ -385,7 +480,7 @@
 
         errorMsg.textContent = "Registration successful! Redirecting…";
 
-        // Hide loading overlay immediately before redirect
+        // Hide loading overlay before redirect
         loadingOverlay.style.display = 'none';
 
         // Redirect based on role
