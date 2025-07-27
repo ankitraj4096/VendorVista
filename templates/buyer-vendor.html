@@ -83,7 +83,6 @@
       color: var(--accent);
       border-bottom-color: var(--accent);
     }
-
     main.container {
       max-width: 900px;
       width: 95%;
@@ -242,15 +241,7 @@
   <header class="navbar" role="banner">
     <div class="navbar-inner">
       <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="/buyer-dashboard">Dashboard</a>
-        <a href="/buyer-fresh-produce">Produce</a>
-        <a href="/buyer-vendor" class="active" aria-current="page">Favorite Vendors</a>
-        <a href="/buyer-exchange">Ingredient Swap</a>
-        <a href="/shared-live-map">Map</a>
-        <a href="/shared-stories-feed">Stories</a>
-        <a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
@@ -296,5 +287,32 @@
       </ul>
     </section>
   </main>
+
+  <script>
+    (function () {
+      const nav = document.getElementById('navLinks');
+      const currentUserRole = localStorage.getItem('userRole') || 'buyer';
+      let navItems = '';
+      if (currentUserRole === 'vendor') {
+        navItems =
+          '<a href="/vendor-dashboard" class="active" aria-current="page">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor" class="active" aria-current="page">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+      nav.innerHTML = navItems;
+    })();
+  </script>
 </body>
 </html>

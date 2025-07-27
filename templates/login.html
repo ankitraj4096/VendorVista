@@ -32,9 +32,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      animation: up .7s;
+      animation: up 0.7s;
     }
-    @keyframes up {0%{transform:translateY(24px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+    @keyframes up { 0% { transform: translateY(24px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
     .login-title {
       font-family: "Montserrat", sans-serif;
       font-weight: 800;
@@ -119,15 +119,15 @@
 <body>
   <div class="login-container">
     <div class="login-title" id="loginTitle">Login</div>
-    <div class="error-msg" id="errorMsg"></div>
+    <div class="error-msg" id="errorMsg" role="alert" aria-live="assertive"></div>
     <form id="loginForm" autocomplete="off">
       <div class="input-group">
         <label for="emailInput">Email Address</label>
-        <input type="email" id="emailInput" required />
+        <input type="email" id="emailInput" required autocomplete="username" />
       </div>
       <div class="input-group">
         <label for="passwordInput">Password</label>
-        <input type="password" id="passwordInput" required />
+        <input type="password" id="passwordInput" required autocomplete="current-password" />
       </div>
       <button class="login-btn" type="submit">Login</button>
     </form>
@@ -136,7 +136,7 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getAuth, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -152,16 +152,33 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    // Redirect to registration page on click
-    document.getElementById('createAccountBtn').onclick = function() {
-      window.location.href = "/register";
-    };
+    // Get role from URL query param
+    function getRoleFromQuery() {
+      const params = new URLSearchParams(window.location.search);
+      const role = params.get("role");
+      return (role && (role.toLowerCase() === "buyer" || role.toLowerCase() === "vendor")) ? role.toLowerCase() : null;
+    }
+    const intendedRole = getRoleFromQuery();
 
-    document.getElementById('loginForm').onsubmit = async function(e) {
+    // Set login page title dynamically
+    const loginTitle = document.getElementById("loginTitle");
+    loginTitle.textContent = intendedRole
+      ? `Login as ${intendedRole.charAt(0).toUpperCase() + intendedRole.slice(1)}`
+      : "Login";
+
+    // Button to go to register with correct role
+    document.getElementById("createAccountBtn").addEventListener("click", () => {
+      let url = '/register';
+      if (intendedRole) url += "?role=" + intendedRole;
+      window.location.href = url;
+    });
+
+    document.getElementById("loginForm").onsubmit = async (e) => {
       e.preventDefault();
-      const email = document.getElementById('emailInput').value.trim();
-      const pwd = document.getElementById('passwordInput').value.trim();
-      const errorMsg = document.getElementById('errorMsg');
+
+      const email = document.getElementById("emailInput").value.trim();
+      const pwd = document.getElementById("passwordInput").value.trim();
+      const errorMsg = document.getElementById("errorMsg");
       errorMsg.textContent = "";
 
       if (!email || !pwd) {
@@ -170,23 +187,33 @@
       }
 
       try {
-        // Attempt sign in
+        // Sign in user via Firebase
         const userCredential = await signInWithEmailAndPassword(auth, email, pwd);
         const user = userCredential.user;
 
-        // Fetch user profile details from Firestore
-        const profileDoc = await getDoc(doc(db, "users", user.uid));
-        if (!profileDoc.exists()) {
-          errorMsg.textContent = "Profile not found. Please Register for a new account.";
+        // Fetch Firestore user profile doc
+        const profileDocSnap = await getDoc(doc(db, "users", user.uid));
+        if (!profileDocSnap.exists()) {
+          await signOut(auth); // sign out firebase in case of missing profile
+          errorMsg.textContent = "Profile not found. Please register for a new account.";
           return;
         }
-        const userDetails = profileDoc.data();
+        const userDetails = profileDocSnap.data();
 
-        // Save details to sessionStorage or localStorage for later use if needed
-        sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+        // Store user details AND role persistently for shared pages
+        localStorage.setItem("userDetails", JSON.stringify(userDetails));
+        localStorage.setItem("userRole", userDetails.role || "buyer");
 
-        // Redirect to common dashboard (change the target page as needed)
-        window.location.href = '/vendor-dashboard';
+        // Redirect to correct dashboard based on role in profile,
+        // NOT based on intended role from query param, as actual role should come from DB
+        if (userDetails.role === "vendor") {
+          window.location.href = "/vendor-dashboard";
+        } else if (userDetails.role === "buyer") {
+          window.location.href = "/buyer-dashboard";
+        } else {
+          // fallback
+          window.location.href = "/";
+        }
 
       } catch (error) {
         let msg = error.message || "Login failed.";

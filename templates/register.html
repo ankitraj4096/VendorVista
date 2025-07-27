@@ -5,8 +5,7 @@
   <meta charset="UTF-8" />
   <title>Create Account | StreetSymphony</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
   <style>
     :root {
@@ -199,10 +198,11 @@
   </style>
 </head>
 
+
 <body>
   <div class="reg-container">
     <div class="reg-title" id="regTitle">Create Account</div>
-    <div class="error-msg" id="errorRegMsg"></div>
+    <div class="error-msg" id="errorRegMsg" role="alert" aria-live="assertive"></div>
     <form id="regForm" autocomplete="off" novalidate>
       <div class="input-group">
         <label for="nameInput">Full Name</label>
@@ -257,6 +257,7 @@
     import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
     import { getFirestore, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
+
     // Firebase config
     const firebaseConfig = {
       apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
@@ -267,9 +268,11 @@
       appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
     };
 
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+
 
     // Get role from URL query
     function getRoleFromQuery() {
@@ -281,6 +284,7 @@
       return null;
     }
     const userRole = getRoleFromQuery();
+
 
     // Update headline and fields based on role
     const regTitle = document.getElementById('regTitle');
@@ -295,6 +299,7 @@
       document.getElementById('vendorFields').style.display = 'none';
     }
 
+
     // Link to login (preserve role)
     document.getElementById('toLoginBtn').onclick = () => {
       let url = '/login';
@@ -302,17 +307,21 @@
       window.location.href = url;
     };
 
+
     // Registration form submit handler
     document.getElementById('regForm').onsubmit = async (e) => {
       e.preventDefault();
+
 
       const loadingOverlay = document.getElementById('loadingOverlay');
       const errorMsg = document.getElementById('errorRegMsg');
       errorMsg.style.color = "#e53935";
       errorMsg.textContent = "";
 
+
       // Show loading animation
       loadingOverlay.style.display = 'flex';
+
 
       // Gather inputs
       const name = document.getElementById('nameInput').value.trim();
@@ -320,11 +329,13 @@
       const password = document.getElementById('passwordInput').value.trim();
       const phone = document.getElementById('phoneInput').value.trim();
 
+
       if (!name || !email || !password || !phone) {
         errorMsg.textContent = "Please fill all required fields.";
         loadingOverlay.style.display = 'none';
         return;
       }
+
 
       if (!email.match(/^[^@\s]+@[^@\s]+\.[^@\s]+$/)) {
         errorMsg.textContent = "Invalid email format.";
@@ -342,12 +353,14 @@
         return;
       }
 
+
       let extraData = {};
       if (userRole === 'vendor') {
         const businessName = document.getElementById('businessNameVeg').value.trim();
         const produceType = document.getElementById('produceType').value.trim();
         const farmLocation = document.getElementById('farmLocation').value.trim();
         const operatingHours = document.getElementById('operatingHoursVeg').value.trim();
+
 
         if (!businessName || !produceType || !farmLocation || !operatingHours) {
           errorMsg.textContent = "Please fill all vendor fields.";
@@ -363,8 +376,10 @@
         return;
       }
 
+
       errorMsg.style.color = "#357138";
       errorMsg.textContent = "Registering...";
+
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -377,13 +392,17 @@
           createdAt: serverTimestamp()
         });
 
+
         errorMsg.textContent = "Registration successful! Redirecting…";
+
 
         // Hide loading overlay immediately before redirect
         loadingOverlay.style.display = 'none';
 
+
         // Redirect immediately without delay
         window.location.href = userRole === 'vendor' ? '/vendor-dashboard' : '/buyer-dashboard';
+
 
       } catch (err) {
         loadingOverlay.style.display = 'none';

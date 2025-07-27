@@ -173,12 +173,12 @@
 </head>
 
 <body>
-  <header class="banner">
+  <header class="banner" role="banner">
     <div class="banner-title">Connecting Communities Through Food</div>
     <div class="banner-subtitle">Taste, Trust, and Local Goodness at Your Fingertips</div>
   </header>
 
-  <main class="entry-section">
+  <main class="entry-section" role="main">
     <div class="entry-card" id="buyer-card" tabindex="0" role="button" aria-label="Enter as Buyer">
       <div class="icon-circle">
         <i class="bi bi-bag-check-fill"></i>
@@ -189,7 +189,7 @@
         <li>Buy Local Produce</li>
         <li>Discover Stories</li>
       </ul>
-      <button class="cta-btn" id="buyerBtn">ENTER AS BUYER</button>
+      <button class="cta-btn" id="buyerBtn" aria-label="Enter as Buyer">ENTER AS BUYER</button>
     </div>
 
     <div class="entry-card" id="vendor-card" tabindex="0" role="button" aria-label="Enter as Vendor">
@@ -202,12 +202,12 @@
         <li>Manage Orders</li>
         <li>Share Your Story</li>
       </ul>
-      <button class="cta-btn" id="vendorBtn">ENTER AS VENDOR</button>
+      <button class="cta-btn" id="vendorBtn" aria-label="Enter as Vendor">ENTER AS VENDOR</button>
     </div>
   </main>
 
   <script>
-    // Update navigation buttons to go to login with role param
+    // Redirect to login page with role query parameter
     document.getElementById('buyerBtn').addEventListener('click', () => {
       window.location.href = "{{ url_for('login') }}?role=buyer";
     });
@@ -216,9 +216,7 @@
       window.location.href = "{{ url_for('login') }}?role=vendor";
     });
 
-
-
-    // Optional: Make entire cards clickable (UX)
+    // Make entire cards clickable (accessibility)
     ['buyer-card', 'vendor-card'].forEach(id => {
       const card = document.getElementById(id);
       card.addEventListener('click', () => {

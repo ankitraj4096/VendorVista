@@ -283,16 +283,9 @@
 <body>
   <!-- Navbar -->
   <header class="navbar" role="banner">
-    <div class="navbar-inner">
+    <div class="navbar-inner" id="navbarInner">
       <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
-      <nav class="main-nav" role="navigation" aria-label="Primary navigation">
-        <a href="/vendor-dashboard">Dashboard</a>
-        <a href="/vendor-orders">Orders</a>
-        <a href="/vendor-stories">Stories</a>
-        <a href="/produce-market" class="active" aria-current="page">Market</a>
-        <a href="/shared-live-map">Map</a>
-        <a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>
-      </nav>
+      <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
 
@@ -312,7 +305,33 @@
   <div id="produceModalBackdrop" aria-modal="true" aria-hidden="true" tabindex="-1"></div>
 
   <script>
-    // Example produce data, in real app this can come from backend/db
+    // Inject navbar dynamically based on userRole (vendor or buyer)
+    (function () {
+      const nav = document.getElementById('navLinks');
+      const currentUserRole = localStorage.getItem('userRole') || 'vendor';
+      let navItems = '';
+      if (currentUserRole === 'vendor') {
+        navItems =
+          '<a href="/vendor-dashboard">Dashboard</a>' +
+          '<a href="/vendor-orders">Orders</a>' +
+          '<a href="/vendor-stories">Stories</a>' +
+          '<a href="/vendor-produce" class="active" aria-current="page">Market</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      } else {
+        navItems =
+          '<a href="/buyer-dashboard">Dashboard</a>' +
+          '<a href="/buyer-fresh-produce">Produce</a>' +
+          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          '<a href="/buyer-exchange">Ingredient Swap</a>' +
+          '<a href="/shared-live-map">Map</a>' +
+          '<a href="/shared-stories-feed">Stories</a>' +
+          '<a href="/shared-profile" aria-label="User Profile"><i class="bi bi-person-circle"></i></a>';
+      }
+      nav.innerHTML = navItems;
+    })();
+
+    // Example produce data (replace/integrate with backend in real app)
     let produceData = [
       { id: 1, name: "Tomatoes", desc: "Fresh and juicy, grown organically.", qty: 20, price: 45 },
       { id: 2, name: "Carrots", desc: "Sweet, crunchy carrots harvested today.", qty: 10, price: 38 },
@@ -390,8 +409,7 @@
       modalBackdrop.querySelector('.modal-close').onclick = closeModal;
       modalBackdrop.querySelector('.modal-btn.cancel').onclick = closeModal;
 
-      // Focus on first input
-      setTimeout(() => { 
+      setTimeout(() => {
         const firstInput = modalBackdrop.querySelector('#produceName');
         if (firstInput) firstInput.focus();
       }, 70);
@@ -407,11 +425,9 @@
           return;
         }
         if (editingProduceId) {
-          // Edit existing
           const idx = produceData.findIndex(x => x.id === editingProduceId);
           if (idx !== -1) produceData[idx] = { id: editingProduceId, name, desc, qty, price };
         } else {
-          // Add new
           const id = Date.now();
           produceData.push({ id, name, desc, qty, price });
         }
@@ -419,7 +435,6 @@
         renderProduce();
         editingProduceId = null;
       };
-      // Trap focus (basic)
       trapFocus(modalBackdrop.querySelector('.modal-drawer'));
     }
     function closeModal() {
@@ -431,12 +446,11 @@
     }
     addProduceBtn.onclick = () => { editingProduceId = null; openModal('Add Produce'); };
 
-    // Close modal when clicking outside modal content
     modalBackdrop.onclick = (evt) => {
       if (evt.target === modalBackdrop) closeModal();
     };
 
-    // Focus trap for accessibility
+    // Focus trap for accessibility inside modal
     function trapFocus(container) {
       const focusables = container.querySelectorAll('a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])');
       if (focusables.length === 0) return;
@@ -451,8 +465,6 @@
         } else if (e.key === 'Escape') { closeModal(); }
       };
     }
-
-    // Initial render
     renderProduce();
   </script>
 </body>
