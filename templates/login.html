@@ -134,49 +134,66 @@
     <button class="switch-link" id="createAccountBtn">Don't have an account? Create one</button>
   </div>
 
-  <script>
-    // Get role from query param (lowercase)
-    function getRoleFromQuery() {
-      const params = new URLSearchParams(window.location.search);
-      const role = params.get('role');
-      if (!role) return null;
-      return role.toLowerCase();
-    }
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
-    // Set the login title dynamically
-    const role = getRoleFromQuery();
-    document.getElementById('loginTitle').textContent = "Login as " + (role ? role.charAt(0).toUpperCase() + role.slice(1) : 'User');
-
-    // Navigate to registration page with role param
-    document.getElementById('createAccountBtn').onclick = function() {
-      const params = new URLSearchParams(window.location.search);
-      window.location.href = "/register" + (params.has('role') ? "?role=" + params.get('role') : "");
+    const firebaseConfig = {
+      apiKey: "AIzaSyASmyPZsW0_o5L-OTm7es8G-WkhRDvR6OQ",
+      authDomain: "vendorvista-4b958.firebaseapp.com",
+      projectId: "vendorvista-4b958",
+      storageBucket: "vendorvista-4b958.appspot.com",
+      messagingSenderId: "479694426389",
+      appId: "1:479694426389:web:f6dbd12b2da4666ac1d91c"
     };
 
-    // Handle login form submission
-    document.getElementById('loginForm').onsubmit = function(e) {
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    // Redirect to registration page on click
+    document.getElementById('createAccountBtn').onclick = function() {
+      window.location.href = "/register";
+    };
+
+    document.getElementById('loginForm').onsubmit = async function(e) {
       e.preventDefault();
       const email = document.getElementById('emailInput').value.trim();
       const pwd = document.getElementById('passwordInput').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.textContent = "";
 
       if (!email || !pwd) {
-        document.getElementById('errorMsg').textContent = "Please provide both email and password.";
+        errorMsg.textContent = "Please provide both email and password.";
         return;
       }
 
-      document.getElementById('errorMsg').textContent = "";
+      try {
+        // Attempt sign in
+        const userCredential = await signInWithEmailAndPassword(auth, email, pwd);
+        const user = userCredential.user;
 
-      // Simulate backend login, redirect as per role
-      if (role === 'buyer') {
-        localStorage.setItem('userRole', 'buyer');
-        window.location.href = '/buyer-dashboard';
-      } else if (role === 'vendor') {
-        localStorage.setItem('userRole', 'vendor');
+        // Fetch user profile details from Firestore
+        const profileDoc = await getDoc(doc(db, "users", user.uid));
+        if (!profileDoc.exists()) {
+          errorMsg.textContent = "Profile not found. Please Register for a new account.";
+          return;
+        }
+        const userDetails = profileDoc.data();
+
+        // Save details to sessionStorage or localStorage for later use if needed
+        sessionStorage.setItem('userDetails', JSON.stringify(userDetails));
+
+        // Redirect to common dashboard (change the target page as needed)
         window.location.href = '/vendor-dashboard';
-      } else {
-        // Default fallback
-        localStorage.setItem('userRole', 'buyer');
-        window.location.href = '/buyer-dashboard';
+
+      } catch (error) {
+        let msg = error.message || "Login failed.";
+        if (msg.includes("auth/user-not-found")) msg = "No user found with this email.";
+        else if (msg.includes("auth/wrong-password")) msg = "Incorrect password. Try again!";
+        else if (msg.includes("auth/invalid-email")) msg = "Please enter a valid email address.";
+        errorMsg.textContent = msg;
       }
     };
   </script>
