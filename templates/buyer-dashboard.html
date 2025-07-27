@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
 <head>
   <meta charset="UTF-8" />
-  <title>Buyer Dashboard | StreetSymphony</title>
+  <title>Buyer Dashboard | VendorVista</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Poppins&display=swap" rel="stylesheet" />
@@ -226,23 +225,19 @@
   </style>
 </head>
 
-
 <body>
   <!-- Wide-top Navbar -->
   <header class="navbar" role="banner">
     <div class="navbar-inner">
-      <span
-        style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">StreetSymphony</span>
+      <span style="font-family:'Montserrat',sans-serif;font-size:1.4rem;font-weight:900;letter-spacing:1px;">VendorVista</span>
       <nav class="main-nav" role="navigation" aria-label="Primary navigation" id="navLinks"></nav>
     </div>
   </header>
-
 
   <main class="container" role="main" aria-label="Buyer Dashboard">
     <h1 class="welcome-header" tabindex="0">Welcome back!</h1>
     <p class="welcome-subtitle">Discover the freshest fruits and vegetables, connect with favorite vendors, swap
       ingredients, and explore inspiring community stories.</p>
-
 
     <section class="cards-grid" aria-label="Buyer Quick Access Cards">
       <article class="card" tabindex="0" role="region" aria-labelledby="card1Title" aria-describedby="card1Desc">
@@ -251,20 +246,13 @@
         <a href="/buyer-fresh-produce" class="btn-link" aria-label="Browse Fresh Produce Market">Browse</a>
       </article>
 
-
-      <article class="card" tabindex="0" role="region" aria-labelledby="card2Title" aria-describedby="card2Desc">
-        <h2 id="card2Title"><i class="bi bi-people-fill"></i> Favorite Vendors</h2>
-        <p id="card2Desc">See your favorite vendor profiles, produce offerings, and their updates.</p>
-        <a href="/buyer-vendor" class="btn-link" aria-label="View Favorite Vendors">View</a>
-      </article>
-
+      <!-- Removed Favorite Vendors card -->
 
       <article class="card" tabindex="0" role="region" aria-labelledby="card3Title" aria-describedby="card3Desc">
         <h2 id="card3Title"><i class="bi bi-arrow-repeat"></i> Ingredient Swap</h2>
         <p id="card3Desc">Swap ingredients with other sellers. Offer what you have and request what you need.</p>
         <a href="/buyer-exchange" class="btn-link" aria-label="Go to Ingredient Swap">Swap</a>
       </article>
-
 
       <article class="card" tabindex="0" role="region" aria-labelledby="card4Title" aria-describedby="card4Desc">
         <h2 id="card4Title"><i class="bi bi-journal-text"></i> Community Stories</h2>
@@ -273,7 +261,6 @@
       </article>
     </section>
   </main>
-
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
@@ -315,7 +302,7 @@
         navItems =
           '<a href="/buyer-dashboard" class="active" aria-current="page">Dashboard</a>' +
           '<a href="/buyer-fresh-produce">Produce</a>' +
-          '<a href="/buyer-vendor">Favorite Vendors</a>' +
+          // Favorite Vendors link removed
           '<a href="/buyer-exchange">Ingredient Swap</a>' +
           '<a href="/shared-live-map">Map</a>' +
           '<a href="/shared-stories-feed">Stories</a>' +
@@ -358,6 +345,5 @@
     });
   </script>
 </body>
-
 
 </html>
